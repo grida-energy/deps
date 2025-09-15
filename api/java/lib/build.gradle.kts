@@ -93,10 +93,10 @@ publishing {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/grida-energy/deps")
-            credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
-            }
+            // credentials {
+            //     username = System.getenv("USERNAME")
+            //     password = System.getenv("TOKEN")
+            // }
         }
     }
 }
