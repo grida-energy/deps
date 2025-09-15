@@ -15,12 +15,12 @@ class ChaLimit(_message.Message):
 
 class Conn(_message.Message):
     __slots__ = ("conn",)
-    class Conn(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    class ConnCmd(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
-        DISCONNECT: _ClassVar[Conn.Conn]
-        CONNECT: _ClassVar[Conn.Conn]
-    DISCONNECT: Conn.Conn
-    CONNECT: Conn.Conn
+        DISCONNECT: _ClassVar[Conn.ConnCmd]
+        CONNECT: _ClassVar[Conn.ConnCmd]
+    DISCONNECT: Conn.ConnCmd
+    CONNECT: Conn.ConnCmd
     CONN_FIELD_NUMBER: _ClassVar[int]
-    conn: Conn.Conn
-    def __init__(self, conn: _Optional[_Union[Conn.Conn, str]] = ...) -> None: ...
+    conn: Conn.ConnCmd
+    def __init__(self, conn: _Optional[_Union[Conn.ConnCmd, str]] = ...) -> None: ...

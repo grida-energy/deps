@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1d\x64\x65ps/model/esd/extra.v1.proto\x12\x11\x64\x65ps.model.esd.v1\",\n\x08\x43haLimit\x12\x0f\n\x07soc_max\x18\x01 \x01(\x02\x12\x0f\n\x07soc_min\x18\x02 \x01(\x02\"W\n\x04\x43onn\x12*\n\x04\x63onn\x18\x01 \x01(\x0e\x32\x1c.deps.model.esd.v1.Conn.Conn\"#\n\x04\x43onn\x12\x0e\n\nDISCONNECT\x10\x00\x12\x0b\n\x07\x43ONNECT\x10\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1d\x64\x65ps/model/esd/extra.v1.proto\x12\x11\x64\x65ps.model.esd.v1\",\n\x08\x43haLimit\x12\x0f\n\x07soc_max\x18\x01 \x01(\x02\x12\x0f\n\x07soc_min\x18\x02 \x01(\x02\"]\n\x04\x43onn\x12-\n\x04\x63onn\x18\x01 \x01(\x0e\x32\x1f.deps.model.esd.v1.Conn.ConnCmd\"&\n\x07\x43onnCmd\x12\x0e\n\nDISCONNECT\x10\x00\x12\x0b\n\x07\x43ONNECT\x10\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,7 +34,7 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_CHALIMIT']._serialized_start=52
   _globals['_CHALIMIT']._serialized_end=96
   _globals['_CONN']._serialized_start=98
-  _globals['_CONN']._serialized_end=185
-  _globals['_CONN_CONN']._serialized_start=150
-  _globals['_CONN_CONN']._serialized_end=185
+  _globals['_CONN']._serialized_end=191
+  _globals['_CONN_CONNCMD']._serialized_start=153
+  _globals['_CONN_CONNCMD']._serialized_end=191
 # @@protoc_insertion_point(module_scope)
