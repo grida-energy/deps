@@ -8,8 +8,12 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
+    `maven-publish`
     id("com.google.protobuf") version "0.9.4"
 }
+
+group = 'com.github.grida-energy'
+version = '1.0.0'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -73,4 +77,26 @@ protobuf {
         artifact = "com.google.protobuf:protoc:4.26.1"
     }
     // generatedFilesBaseDir = "$projectDir/src"
+}
+
+publishing {
+    publications {
+        
+        create<MavenPublication>("maven") {
+            // groupId = project.group.toString()
+            // artifactId = "chirpstack-api"
+            // version = project.version.toString()
+            from(components["java"])
+        }
+    }
+    repositories{
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/grida-energy/deps")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
+        }
+    }
 }
