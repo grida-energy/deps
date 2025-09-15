@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package deps.vnd.v1;
+
+message AlarmMeta {
+  map<uint32, string> status = 1;
+  map<uint32, string> warning = 2;
+  map<uint32, string> fault = 3;
+}
+
+message AlarmData {
+  repeated bool status = 1;
+  repeated bool warning = 2;
+  repeated bool fault = 3;
+}
+
+// TODO: remove later
+enum AlarmType {
+  ALARM_TYPE_UNSPECIFIED = 0;
+  ALARM_TYPE_STATUS = 1;
+  ALARM_TYPE_WARNING = 2;
+  ALARM_TYPE_FAULT = 3;
+}

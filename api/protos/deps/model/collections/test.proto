@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package deps.model.collections.v1;
+
+// option go_package = "github.com/chirpstack/chirpstack/api/go/v4/api";
+// option java_package = "io.chirpstack.api";
+// option java_multiple_files = true;
+// option java_outer_classname = "UserProto";
+// option csharp_namespace = "Chirpstack.Api";
+// option php_namespace = "Chirpstack\\Api";
+// option php_metadata_namespace = "GPBMetadata\\Chirpstack\\Api";
+
+// import "deps/model/esd/components.proto";
+// import "deps/model/pcs/components.proto";
+
+// message RootModel {
+//   .deps.model.esd.EsdSummary esd = 1;
+//   .deps.model.pcs.ThreePhasePcsPart pcs = 2;
+//   .deps.model.pcs.ThreePhaseGridPart off_grid = 3;
+//   .deps.model.pcs.ThreePhaseGridPart on_grid = 4;
+// }
+// message Command {
+//   oneof some {
+//     float set_voltage = 1;
+//     float set_frequency = 2;
+//   }
+// }

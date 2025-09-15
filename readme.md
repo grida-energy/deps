@@ -1,6 +1,6 @@
-# EPS (Energy Protocol System)
+# DEPS (Distributed Energy Protocol System)
 
-[데이터 모델 링크](doc/eps-protos.md)
+[데이터 모델 링크](md/deps-protos.md)
 
 ## 공통 모델
 
@@ -190,24 +190,24 @@ message Pcs... {
 - 각 모델은 리비전 정보를 포함한 특정 네임스페이스 하위에 정의한다.
 
 ```protobuf
-package eps.model.esd.v1;
+package deps.model.esd.v1;
 message EsdBank {...}
 
 ---------------------------
-package eps.model.pcs.v1;
+package deps.model.pcs.v1;
 message ThreePhasePcsPart {...}
 ```
 
 - 디바이스(PCS, 배터리 등)는 하나의 프리셋 모델로 구성하여 사용한다.
 
 ```protobuf
-package eps.preset.bess.v1;
+package deps.preset.bess.v1;
 
 message Bess {
-  .eps.model.esd.v1.EsdBank battery = 1;
-  .eps.model.pcs.v1.ThreePhasePcsPart pcs = 2;
-  .eps.model.pcs.v1.ThreePhaseGridPart off_grid = 3;
-  .eps.model.pcs.v1.ThreePhaseGridPart on_grid = 4;
+  .deps.model.esd.v1.EsdBank battery = 1;
+  .deps.model.pcs.v1.ThreePhasePcsPart pcs = 2;
+  .deps.model.pcs.v1.ThreePhaseGridPart off_grid = 3;
+  .deps.model.pcs.v1.ThreePhaseGridPart on_grid = 4;
 }
 
 message BessMeasure {
@@ -220,13 +220,13 @@ message BessMeasure {
 
 |이름|설명|
 |-|-|
-|eps.model|공통 데이터의 **조각**을 정의|
-|eps.model.eds| 배터리/에너지 저장 장치를 위한 모델들|
-|eps.model.pcs| 에너지 변환 장치를 위한 모델들|
-|eps.preset| MQTT Topic으로 교환되는 **상위 데이터** 묶음|
-|eps.preset.bess| bess 장치를 위한 공통 모델|
-|eps.rpc| MQTT 프로토콜로 윈격 호출을 위한 데이터 정의|
-|eps.vnd| 제조사 고유의 데이터를 위한 데이터 정의|
+|deps.model|공통 데이터의 **조각**을 정의|
+|deps.model.eds| 배터리/에너지 저장 장치를 위한 모델들|
+|deps.model.pcs| 에너지 변환 장치를 위한 모델들|
+|deps.preset| MQTT Topic으로 교환되는 **상위 데이터** 묶음|
+|deps.preset.bess| bess 장치를 위한 공통 모델|
+|deps.rpc| MQTT 프로토콜로 윈격 호출을 위한 데이터 정의|
+|deps.vnd| 제조사 고유의 데이터를 위한 데이터 정의|
 
 #### 3.1. 기본 데이터 템플릿
 

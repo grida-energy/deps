@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package deps.preset.upms.v1;
+import "deps/rpc/header.v1.proto";
+import "deps/model/pms/model.v1.proto";
+
+message PmsMeasure {
+  reserved 1;
+  .deps.model.pms.v1.LookupRule lookup = 2;
+  .deps.model.pms.v1.LookupInput input = 3;
+  .deps.model.pms.v1.LookupOutput output = 4;
+}
+
+message PmsCommand {
+  oneof cmd { .deps.model.pms.v1.LookupRule.Command lookup = 1; }
+}
+
+message Rpc {
+  message PmsRequest {
+    .deps.rpc.v1.Request header = 1;
+    repeated PmsCommand payload = 2;
+  }
+  message PmsResponse {
+    .deps.rpc.v1.Response header = 1;
+    uint32 n = 2;
+  }
+}

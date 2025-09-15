@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package deps.model.nameplate.v0;
+
+message CompactEsdRtg {
+  float ah_rtg = 1;
+  float wh_rtg = 2;
+  float w_cha_rte_max = 3;
+  float w_discha_rte_max = 4;
+  float discha_rte = 5;
+  float soc_max = 6;
+  float soc_min = 7;
+}
+
+message PcsControlsNameplateRatings {
+  float w_rtg = 1;
+  float va_rtg = 2;
+  float var_rtg_q1 = 3;
+  float var_rtg_q2 = 4;
+  float var_rtg_q3 = 5;
+  float var_rtg_q4 = 6;
+  float a_rtg = 7;
+  float pf_rtg_q1 = 8;
+  float pf_rtg_q2 = 9;
+  float pf_rtg_q3 = 10;
+  float pf_rtg_q4 = 11;
+  //    float wh_rtg = 12;
+  //    float ahr_rtg = 13;
+  //    float max_cha_rte = 14;
+  //    float max_dis_cha_rte = 15;
+}
+
+message ConfigurablePcs {
+  float ph_v_rtg = 1;
+  float hz_rtg = 2;
+  float a_ph_rtg = 3;
+  float w_rtg = 4;
+
+  float dca_rtg = 5;
+  float dcv_rtg = 6;
+}
+
+message ProtectionItem {
+  float level = 1;
+  float win_tms = 2;
+}
+
+message ProtectionConfigAc {
+  ProtectionItem ph_v_ph_disconn_max = 1;
+  ProtectionItem ph_v_ph_alarm_max = 2;
+  ProtectionItem ph_v_ph_disconn_min = 3;
+  ProtectionItem ph_v_ph_alarm_min = 4;
+  ProtectionItem a_disconn_max = 5;
+  ProtectionItem a_alarm_max = 6;
+  ProtectionItem hz_disconn_max = 7;
+  ProtectionItem hz_alarm_max = 8;
+  ProtectionItem hz_disconn_min = 9;
+  ProtectionItem hz_alarm_min = 10;
+}
+message ProtectionConfigDc {
+  ProtectionItem dcv_disconn_max = 1;
+  ProtectionItem dcv_alarm_max = 2;
+  ProtectionItem dcv_disconn_min = 3;
+  ProtectionItem dcv_alarm_min = 4;
+  ProtectionItem dca_disconn_max = 5;
+  ProtectionItem dca_alarm_max = 6;
+}
+message ProtectionTemperature {
+  ProtectionItem tmp_cab = 20;
+  ProtectionItem tmp_snk = 21;
+  ProtectionItem tmp_trns = 22;
+  ProtectionItem tmp_ot = 23;
+}
+
+// message ProtectionPctConfig {
+//    float ph_v_ph_disconn_max_pct = 1;
+//    float ph_v_ph_alarm_max_pct = 2;
+//    float ph_v_ph_disconn_min_pct = 3;
+//    float ph_v_ph_alarm_min_pct = 4;
+//    float a_disconn_max_pct = 5;
+//    float a_alarm_max_pct = 6;
+// }
+
+message Calibration {
+  float gain = 1;
+  float offset = 2;
+}
+
+message CalibrationAc {
+  Calibration a_ph_a = 2;
+  Calibration a_ph_b = 3;
+  Calibration a_ph_c = 4;
+
+  Calibration pp_v_ph_ab = 5;
+  Calibration pp_v_ph_bc = 6;
+  Calibration pp_v_ph_ca = 7;
+  Calibration ph_v_ph_a = 8;
+  Calibration ph_v_ph_b = 9;
+  Calibration ph_v_ph_c = 10;
+}
+message CalibrationDc {
+  Calibration dca = 17;
+  Calibration dcv = 18;
+}

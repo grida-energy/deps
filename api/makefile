@@ -1,6 +1,13 @@
-.PHONY: rust
+.PHONY: rust python
 
-all: rust
+all: rust python
 
 rust:
 	cd rust && make
+
+python:
+	cd python && make
+
+clean:
+	cd rust && make clean
+	cd python && make clean

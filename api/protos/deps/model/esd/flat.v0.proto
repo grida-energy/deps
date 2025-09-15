@@ -1,0 +1,328 @@
+syntax = "proto3";
+
+package deps.model.esd.v0;
+import "google/protobuf/timestamp.proto";
+
+message FlatEsd {
+  enum ChaSt {
+    NA_CHAST = 0;
+    OFF = 1;
+    EMPTY = 2;
+    DISCHARGING = 3;
+    CHARGING = 4;
+    FULL = 5;
+    HOLDING = 6;
+    TESTING = 7;
+  }
+  enum LocRemCtl {
+    NA_LOCREMCTL = 0;
+    LOCAL = 1;
+    REMOTE = 2;
+  }
+  enum Typ {
+    NA_TYP = 0;
+    LEAD_ACID = 1;
+    NICKEL_METAL_HYDRATE = 2;
+    NICKEL_CADMIUM = 3;
+    LITHIUM_ION = 4;
+    CARBON_ZINC = 5;
+    ZINC_CHLORIDE = 6;
+    ALKAINE = 7;
+    RECHARGEABLE_ALKAINE = 8;
+    SODIUM_SULFUR = 9;
+    FLOW = 10;
+    OTHER = 99;
+  }
+  enum State {
+    NA_STATE = 0;
+    DISCONNECTED = 1;
+    INITIALIZING = 2;
+    CONNECTED = 3;
+    STANDBY = 4;
+    SOC_PROTECTION = 5;
+    SUSPENDING = 6;
+    FAULT = 99;
+  }
+  message Evt1 {
+    bool COMMUNICATION_ERROR = 1;
+    bool OVER_TEMP_ALARM = 2;
+    bool OVER_TEMP_WARNING = 3;
+    bool UNDER_TEMP_ALARM = 4;
+    bool UNDER_TEMP_WARNING = 5;
+    bool OVER_CHARGE_CURRENT_ALARM = 6;
+    bool OVER_CHARGE_CURRENT_WARNING = 7;
+    bool OVER_DISCHARGE_CURRENT_ALARM = 8;
+    bool OVER_DISCHARGE_CURRENT_WARNING = 9;
+    bool OVER_VOLT_ALARM = 10;
+    bool OVER_VOLT_WARNING = 11;
+    bool UNDER_VOLT_ALARM = 12;
+    bool UNDER_VOLT_WARNING = 13;
+    bool UNDER_SOC_MIN_ALARM = 14;
+    bool UNDER_SOC_MIN_WARNING = 15;
+    bool OVER_SOC_MAX_ALARM = 16;
+    bool OVER_SOC_MAX_WARNING = 17;
+    bool VOLTAGE_IMBALANCE_WARNING = 18;
+    bool TEMPERATURE_IMBALANCE_ALARM = 19;
+    bool TEMPERATURE_IMBALANCE_WARNING = 20;
+    bool CONTACTOR_ERROR = 21;
+    bool FAN_ERROR = 22;
+    bool GROUND_FAULT = 23;
+    bool OPEN_DOOR_ERROR = 24;
+    bool CURRENT_IMBALANCE_WARNING = 25;
+    bool OTHER_ALARM = 26;
+    bool OTHER_WARNING = 27;
+    bool RESERVED_1 = 28;
+    bool CONFIGURATION_ALARM = 29;
+    bool CONFIGURATION_WARNING = 30;
+  }
+  enum ReqPcstate {
+    NO_REQUEST = 0;
+    START = 1;
+    STOP = 2;
+    // IMMEDIATE_CHARGE = 3;
+    // FULL_CHARGE = 3;
+  }
+  enum SetOp {
+    NA_SETOP = 0;
+    CONNECT = 1;
+    DISCONNECT = 2;
+  }
+  enum SetPcsState {
+    NA_SETPCSSTATE = 0;
+    PCS_STOPPED = 1;
+    PCS_STANDBY = 2;
+    PCS_STARTED = 3;
+  }
+
+  float soc = 1;
+  float dod = 2;
+  float soh = 3;
+  float n_cyc = 4;
+  ChaSt cha_st = 5;
+  LocRemCtl loc_rem_ctl = 6;
+  uint32 hb = 7;
+  reserved 8;
+  reserved 9;
+  Typ typ = 10;
+  State state = 11;
+  uint32 state_vnd = 12;
+  .google.protobuf.Timestamp warr_dt = 13;
+  Evt1 evt1 = 14;
+  uint32 evt2 = 15;
+  uint32 evt_vnd1 = 16;
+  uint32 evt_vnd2 = 17;
+
+  float v = 20;
+  float v_max = 21;
+  float v_min = 22;
+
+  float cell_v_max = 25;
+  uint32 cell_v_max_str = 26;
+  uint32 cell_v_max_mod = 27;
+  float cell_v_min = 28;
+  uint32 cell_v_min_str = 29;
+  uint32 cell_v_min_mod = 30;
+
+  float cell_v_avg = 31;
+
+  float a = 40;
+  float a_cha_max = 41;
+  float a_discha_max = 42;
+  float w = 43;
+  ReqPcstate state_req_pcs = 44;
+  float w_req = 45;
+  SetOp set_op = 46;
+  //    SetPcsState set_pcs_state = 47;
+}
+
+message FlatEsdCommand {
+  oneof cmd {
+    FlatEsd.SetOp set_op = 1;
+    FlatEsd.SetPcsState set_pcs_state = 2;
+  }
+}
+
+message CommpactEsdCommands { repeated FlatEsdCommand commands = 1; }
+
+message FlatEsdBank {
+  uint32 n_str = 1;
+  uint32 n_str_con = 2;
+  float mod_tmp_max = 3;
+  uint32 mod_tmp_max_str = 4;
+  uint32 mod_tmp_max_mod = 5;
+  float mod_tmp_min = 6;
+  uint32 mod_tmp_min_str = 7;
+  uint32 mod_tmp_min_mod = 8;
+  float mod_tmp_avg = 9;
+  float str_v_max = 10;
+  float str_v_max_str = 11;
+  float str_v_min = 12;
+  float str_v_min_str = 13;
+  float str_v_avg = 14;
+  float str_a_max = 15;
+  float str_a_max_str = 16;
+  float str_a_min = 17;
+  float str_a_min_str = 18;
+  float str_a_avg = 19;
+  float n_cell_bal = 20;
+  repeated FlatEsdString strs = 21;
+}
+
+message FlatEsdString {
+  message St {
+    bool STRING_ENABLED = 1;
+    bool CONTACTOR_STATUS = 2;
+  }
+  enum ConFail {
+    NO_FAILURE = 0;
+    BUTTON_PUSHED = 1;
+    STR_GROUND_FAULT = 2;
+    OUTSIDE_VOLTAGE_RANGE = 3;
+    STRING_NOT_ENABLED = 4;
+    FUSE_OPEN = 5;
+    CONTACTOR_FAILURE = 6;
+    PRECHARGE_FAILURE = 7;
+    STRING_FAULT = 8;
+  }
+  message ConSt {
+    bool CONTACTOR_0 = 1;
+    bool CONTACTOR_1 = 2;
+    bool CONTACTOR_2 = 3;
+    bool CONTACTOR_3 = 4;
+    bool CONTACTOR_4 = 5;
+    bool CONTACTOR_5 = 6;
+    bool CONTACTOR_6 = 7;
+    bool CONTACTOR_7 = 8;
+    bool CONTACTOR_8 = 9;
+    bool CONTACTOR_9 = 10;
+    bool CONTACTOR_10 = 11;
+    bool CONTACTOR_11 = 12;
+    bool CONTACTOR_12 = 13;
+    bool CONTACTOR_13 = 14;
+    bool CONTACTOR_14 = 15;
+    bool CONTACTOR_15 = 16;
+    bool CONTACTOR_16 = 17;
+    bool CONTACTOR_17 = 18;
+    bool CONTACTOR_18 = 19;
+    bool CONTACTOR_19 = 20;
+    bool CONTACTOR_20 = 21;
+    bool CONTACTOR_21 = 22;
+    bool CONTACTOR_22 = 23;
+    bool CONTACTOR_23 = 24;
+    bool CONTACTOR_24 = 25;
+    bool CONTACTOR_25 = 26;
+    bool CONTACTOR_26 = 27;
+    bool CONTACTOR_27 = 28;
+    bool CONTACTOR_28 = 29;
+    bool CONTACTOR_29 = 30;
+    bool CONTACTOR_30 = 31;
+  }
+  message Evt1 {
+    bool COMMUNICATION_ERROR = 1;
+    bool OVER_TEMP_ALARM = 2;
+    bool OVER_TEMP_WARNING = 3;
+    bool UNDER_TEMP_ALARM = 4;
+    bool UNDER_TEMP_WARNING = 5;
+    bool OVER_CHARGE_CURRENT_ALARM = 6;
+    bool OVER_CHARGE_CURRENT_WARNING = 7;
+    bool OVER_DISCHARGE_CURRENT_ALARM = 8;
+    bool OVER_DISCHARGE_CURRENT_WARNING = 9;
+    bool OVER_VOLT_ALARM = 10;
+    bool OVER_VOLT_WARNING = 11;
+    bool UNDER_VOLT_ALARM = 12;
+    bool UNDER_VOLT_WARNING = 13;
+    bool UNDER_SOC_MIN_ALARM = 14;
+    bool UNDER_SOC_MIN_WARNING = 15;
+    bool OVER_SOC_MAX_ALARM = 16;
+    bool OVER_SOC_MAX_WARNING = 17;
+    bool VOLTAGE_IMBALANCE_WARNING = 18;
+    bool TEMPERATURE_IMBALANCE_ALARM = 19;
+    bool TEMPERATURE_IMBALANCE_WARNING = 20;
+    bool CONTACTOR_ERROR = 21;
+    bool FAN_ERROR = 22;
+    bool GROUND_FAULT = 23;
+    bool OPEN_DOOR_ERROR = 24;
+    reserved 25;
+    bool OTHER_ALARM = 26;
+    bool OTHER_WARNING = 27;
+    reserved 28;
+    bool CONFIGURATION_ALARM = 29;
+  }
+  enum SetEna {
+    NA_SETENA = 0;
+    ENABLE_STRING = 1;
+    DISABLE_STRING = 2;
+  }
+  enum SetCon {
+    NA_SETCON = 0;
+    CONNECT_STRING = 1;
+    DISCONNECT_STRING = 2;
+  }
+  uint32 n_mod = 1;
+  St st = 2;
+  ConFail con_fail = 3;
+  uint32 n_cell_bal = 4;
+  float soc = 5;
+  float dod = 6;
+  float n_cyc = 7;
+  float soh = 8;
+  float a = 9;
+  float v = 10;
+  float cell_v_max = 11;
+  uint32 cell_v_max_mod = 12;
+  float cell_v_min = 13;
+  uint32 cell_v_min_mod = 14;
+  float cell_v_avg = 15;
+  float mod_tmp_max = 16;
+  uint32 mod_tmp_max_mod = 17;
+  float mod_tmp_min = 18;
+  uint32 mod_tmp_min_mod = 19;
+  float mod_tmp_avg = 20;
+  ConSt con_st = 21;
+  Evt1 evt1 = 22;
+  uint32 evt2 = 23;
+  uint32 evt_vnd1 = 24;
+  uint32 evt_vnd2 = 25;
+  SetEna set_ena = 26;
+  SetCon set_con = 27;
+  repeated FlatEsdModule mods = 30;
+}
+
+message FlatEsdStringCommand {
+  oneof cmd {
+    FlatEsdString.SetEna set_ena = 1;
+    FlatEsdString.SetCon set_con = 2;
+  }
+}
+message EsdStringCommands { repeated FlatEsdStringCommand commands = 1; }
+
+message FlatEsdModule {
+  uint32 str_idx = 1;
+  uint32 mod_idx = 2;
+  uint32 n_cell = 3;
+  float soc = 4;
+  float dod = 5;
+  float soh = 6;
+  float n_cyc = 7;
+  float v = 8;
+  float cell_v_max = 9;
+  uint32 cell_v_max_cell = 10;
+  float cell_v_min = 11;
+  uint32 cell_v_min_cell = 12;
+  float cell_v_avg = 13;
+  float cell_tmp_max = 14;
+  uint32 cell_tmp_max_cell = 15;
+  float cell_tmp_min = 16;
+  uint32 cell_tmp_min_cell = 17;
+  float cell_tmp_avg = 18;
+  uint32 n_cell_bal = 19;
+  string sn = 20;
+  repeated FlatEsdCell cells = 21;
+}
+
+message FlatEsdCell {
+  message CellSt { bool cell_is_balancing = 1; }
+  float cell_v = 1;
+  float cell_tmp = 2;
+  CellSt cell_st = 3;
+}

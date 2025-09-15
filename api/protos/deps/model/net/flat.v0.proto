@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package deps.model.net.v0;
+
+message FlatMeterSinglePhase {
+  float a = 1;
+  float v = 2;
+  float w = 3;
+  float va = 4;
+  float var = 5;
+  float pf = 6;
+  float hz = 7;
+  float tot_wh_imp = 8;
+  float tot_wh_exp = 9;
+}

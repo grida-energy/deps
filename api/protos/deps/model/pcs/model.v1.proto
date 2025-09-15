@@ -1,0 +1,273 @@
+syntax = "proto3";
+
+package deps.model.pcs.v1;
+import "deps/model/net/model.v1.proto";
+// import "deps/rpc/header.v1.proto";
+
+// 3상 선간 (전압) 값
+message ThreePhaseLine {
+  // ab phase
+  float ph_ab = 1;
+  // bc phase
+  float ph_bc = 2;
+  // ca phase
+  float ph_ca = 3;
+}
+// 3상 상 (전압) 값
+message ThreePhase {
+  // a phase
+  float ph_a = 1;
+  // b phase
+  float ph_b = 2;
+  // c phase
+  float ph_c = 3;
+}
+// 3상 상 (전압) 값 및 합
+message ThreePhaseNSum {
+  float ph_a = 1;
+  float ph_b = 2;
+  float ph_c = 3;
+  float sum = 4;
+}
+// 3상 PCS 정보
+message ThreePhasePcsPart {
+  // PCS 상태
+  enum St {
+    // 기타
+    ST_NA = 0;
+    // 기타
+    ST_OFF = 1;
+    // 슬립
+    ST_SLEEPING = 2;
+    // 시작 중
+    ST_STARTING = 3;
+    // 정지 중
+    ST_SHUTTING_DOWN = 6;
+    // 고장
+    ST_FAULT = 7;
+    // 대기
+    ST_STANDBY = 8;
+    // 동작 중
+    ST_OPERATION = 9;
+    // 바이패스 (스위칭 없이 부하를 계통에 연결)
+    ST_BYPASS = 10;
+  }
+  // 고장 상태
+  message Fault {
+    // 기타
+    bool OTHER = 1;
+    // 과전압
+    bool AC_OVER_VOLT = 2;
+    // 저전압
+    bool AC_UNDER_VOLT = 3;
+    // 과주파수
+    bool OVER_FREQUENCY = 4;
+    // 저주파수
+    bool UNDER_FREQUENCY = 5;
+    // 과전류
+    bool OVER_CURRENT = 6;
+    // 지락
+    bool GROUND_FAULT = 7;
+    // DC 과전압
+    bool DC_OVER_VOLT = 8;
+    // 과열
+    bool OVER_TEMP = 9;
+    // 저온
+    bool UNDER_TEMP = 10;
+    // 불균형 전압
+    bool AC_UNBALANCE_VOLT = 11;
+    // 불균형 전류
+    bool AC_UNBALANCE_CURRENT = 12;
+    // 하드웨어 테스트 실패
+    bool HW_TEST_FAILURE = 13;
+    // 차단기 트립
+    bool CB_TRIP = 14;
+  }
+  message Warning {
+    // 기타
+    bool OTHER = 1;
+    // 과전압
+    bool AC_OVER_VOLT = 2;
+    // 저전압
+    bool AC_UNDER_VOLT = 3;
+    // 과주파수
+    bool OVER_FREQUENCY = 4;
+    // 저주파수
+    bool UNDER_FREQUENCY = 5;
+    // 과부하
+    bool OVER_LOAD = 6;
+    // DC 과전압
+    bool DC_OVER_VOLT = 8;
+    // 과열
+    bool OVER_TEMP = 9;
+    // 저온
+    bool UNDER_TEMP = 10;
+    // 불균형 전압
+    bool AC_UNBALANCE_VOLT = 11;
+    // 불균형 전류
+    bool AC_UNBALANCE_CURRENT = 12;
+  }
+  message Status {
+    // 기타
+    bool OTHER = 1;
+    // AC측 비연결 상태
+    bool AC_DISCONNECT = 2;
+    // DC측 비연결 상태
+    bool DC_DISCONNECT = 3;
+    // 계통 비연결 상태
+    bool GRID_DISCONNECT = 4;
+    // 수동 정지
+    bool MANUAL_SHUTDOWN = 5;
+    // 캐비넷 문 열림
+    bool OPEN_DOOR = 6;
+    // 출력 제한 상태
+    bool THROTTLED = 7;
+    // MPPT 중
+    bool MPPT = 8;
+    // 저온
+    bool UNDER_COOL = 10;
+    // 서지 보호 장치 동작
+    bool SPD = 11;
+  }
+  // 명령
+  message Command {
+    // 동작
+    enum Action {
+      ACTION_NA = 0;
+      // 운전 시작
+      ACTION_CONNECT = 1;
+      // 운전 정지
+      ACTION_DISCONNECT = 2;
+      // 알람 리셋
+      ACTION_RESET_ALARM = 3;
+    }
+    // 지령치 - 장치에 따라 일부만 적용할 수 있음
+    message Reference {
+      oneof ref {
+        // 전류 지령치
+        float a = 1;
+        // 전압 지령치 - UPS 등
+        float v = 2;
+        // 유효 전력 지령치
+        float w = 3;
+        // DC 전압 지령치 - DC 시뮬레이터 등
+        float dcv = 4;
+        // DC 전류 지령치
+        float dca = 5;
+        // 유효 전력 백분율 지령치
+        float p_pct = 6;
+        // 무효 전력 백분율 지령치
+        float q_pct = 7;
+        // 역률 지령치
+        float pf = 8;
+        // 주파수 지령치
+        float hz = 9;
+      }
+    }
+
+    Action action = 1;
+    Reference ref = 2;
+  }
+  // 전력 흐름 방향
+  enum DirPwr {
+    DIR_PWR_NA = 0;
+    // 정지
+    DIR_PWR_STOP = 1;
+    // DC => AC
+    DIR_PWR_DC_TO_AC = 2;
+    // AC => DC
+    DIR_PWR_AC_TO_DC = 3;
+  }
+
+  // 상태
+  St st = 1;
+  // 상태 알람
+  Status status = 2;
+  // 고장 알람
+  Fault fault = 3;
+  // 경고 알람
+  Warning warning = 4;
+  // 전력 흐름 방향
+  DirPwr dir_pwr = 5;
+
+  // 상 전압
+  ThreePhase ph_v = 6;
+  // 선간 전압
+  ThreePhaseLine pp_v = 7;
+  // 전류
+  ThreePhaseNSum a = 8;
+
+  // 유효전력
+  float w = 9;
+  // 주파수
+  float hz = 10;
+  // 피상전력
+  float va = 11;
+  // 무효전력
+  float var = 12;
+  // 역률 - (방향 TBD)
+  float pf = 13;
+
+  // DC측 정보
+  DcPart dc = 14;
+  // 온도 정보
+  TemperaturePart tmp = 15;
+}
+
+// 3상 계통 정보
+message ThreePhaseGridPart {
+  // 3상 합
+  .deps.model.net.v1.AcLineSum sum = 1;
+  // A 상
+  .deps.model.net.v1.AcLine a = 2;
+  // B 상
+  .deps.model.net.v1.AcLine b = 3;
+  // C 상
+  .deps.model.net.v1.AcLine c = 4;
+}
+
+// DC측 정보
+message DcPart {
+  // DC 전류
+  float dca = 1;
+  // DC 전압
+  float dcv = 2;
+  // DC 전력
+  float dcw = 3;
+}
+
+// 온도 정보
+message TemperaturePart {
+  // 캐비넷 온도
+  float tmp_cab = 1;
+  // 히트싱크 온도
+  float tmp_snk = 2;
+  // 변압기 온도
+  float tmp_trns = 3;
+  // 기타 제조사 측정 온도 - 의미는 제조사에 따라 다름
+  repeated float tmp_ot = 4;
+}
+
+// DC-DC 컨버터
+message DcDcConverter {
+  enum St {
+    ST_NA = 0;
+  }
+  message Fault { bool OTHER = 1; }
+  message Warning { bool OTHER = 1; }
+  message Status { bool OTHER = 1; }
+  message Command {
+    oneof cmd { bool enable = 1; }
+  }
+}
+
+// message Rpc {
+//   message PcsCommandRequest {
+//     .deps.rpc.v1.Request head = 1;
+//     repeated ThreePhasePcsPart.Command data = 2;
+//   }
+//   message PcsCommandResponse {
+//     .deps.rpc.v1.Response head = 1;
+//     uint32 n_success = 2;
+//   }
+// }

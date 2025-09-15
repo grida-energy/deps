@@ -1,0 +1,655 @@
+syntax = "proto3";
+
+package deps.model.esd.v1;
+
+// message EsdStateIndicator {
+//   float soc = 1;
+//   float dod = 2;
+//   float soh = 3;
+//   float n_cyc = 4;
+// }
+
+// 폐지됨 - 더 이상 사용되지 않음
+message EsdSummary {
+  enum ChaSt {
+    CHA_ST_NA = 0;
+    CHA_ST_OFF = 1;
+    CHA_ST_EMPTY = 2;
+    CHA_ST_DISCHARGING = 3;
+    CHA_ST_CHARGING = 4;
+    CHA_ST_FULL = 5;
+    CHA_ST_HOLDING = 6;
+    CHA_ST_TESTING = 7;
+  }
+  enum State {
+    STATE_NA = 0;
+    STATE_DISCONNECTED = 1;
+    STATE_INITIALIZING = 2;
+    STATE_CONNECTED = 3;
+    STATE_STANDBY = 4;
+    STATE_SOC_PROTECTION = 5;
+    STATE_SUSPENDING = 6;
+    STATE_FAULT = 99;
+  }
+  message Evt1 {
+    bool COMMUNICATION_ERROR = 1;
+    bool OVER_TEMP_ALARM = 2;
+    bool OVER_TEMP_WARNING = 3;
+    bool UNDER_TEMP_ALARM = 4;
+    bool UNDER_TEMP_WARNING = 5;
+    bool OVER_CHARGE_CURRENT_ALARM = 6;
+    bool OVER_CHARGE_CURRENT_WARNING = 7;
+    bool OVER_DISCHARGE_CURRENT_ALARM = 8;
+    bool OVER_DISCHARGE_CURRENT_WARNING = 9;
+    bool OVER_VOLT_ALARM = 10;
+    bool OVER_VOLT_WARNING = 11;
+    bool UNDER_VOLT_ALARM = 12;
+    bool UNDER_VOLT_WARNING = 13;
+    bool UNDER_SOC_MIN_ALARM = 14;
+    bool UNDER_SOC_MIN_WARNING = 15;
+    bool OVER_SOC_MAX_ALARM = 16;
+    bool OVER_SOC_MAX_WARNING = 17;
+    bool VOLTAGE_IMBALANCE_WARNING = 18;
+    bool TEMPERATURE_IMBALANCE_ALARM = 19;
+    bool TEMPERATURE_IMBALANCE_WARNING = 20;
+    bool CONTACTOR_ERROR = 21;
+    bool FAN_ERROR = 22;
+    bool GROUND_FAULT = 23;
+    bool OPEN_DOOR_ERROR = 24;
+    bool CURRENT_IMBALANCE_WARNING = 25;
+    bool OTHER_ALARM = 26;
+    bool OTHER_WARNING = 27;
+    bool RESERVED_1 = 28;
+    bool CONFIGURATION_ALARM = 29;
+    bool CONFIGURATION_WARNING = 30;
+  }
+  enum SetOp {
+    SETOP_NA = 0;
+    SETOP_CONNECT = 1;
+    SETOP_DISCONNECT = 2;
+  }
+
+  message CellCount {
+    float v_max = 1;
+    uint32 v_max_str = 2;
+    uint32 v_max_mod = 3;
+    float v_min = 4;
+    uint32 v_min_str = 5;
+    uint32 v_min_mod = 6;
+
+    float v_avg = 7;
+  }
+  message Command {
+    oneof cmd { SetOp set_op = 1; }
+  }
+
+  float soc = 1;
+  float dod = 2;
+  float soh = 3;
+  uint32 n_cyc = 4;
+
+  ChaSt cha_st = 5;
+  reserved 6;
+  uint32 hb = 7;
+  reserved 8;
+  reserved 9;
+  State state = 11;
+  uint32 state_vnd = 12;
+  reserved 13;
+  Evt1 evt1 = 14;
+
+  float v = 20;
+  float v_max = 21;
+  float v_min = 22;
+  CellCount cnt_cell = 23;
+
+  float a = 30;
+  float a_cha_max = 31;
+  float a_discha_max = 32;
+  float w = 33;
+  reserved 34;
+  reserved 35;
+  SetOp set_op = 36;
+  EsdBank bank = 50;
+}
+
+// 배터리 총 합 (병렬 String으로 구성)
+message EsdBank {
+  // 배터리 충전 상태
+  enum StCha {
+    ST_CHA_NA = 0;
+    // 정지
+    ST_CHA_OFF = 1;
+    // 완전 방전됨
+    ST_CHA_EMPTY = 2;
+    // 방전 중
+    ST_CHA_DISCHARGING = 3;
+    // 충전 중
+    ST_CHA_CHARGING = 4;
+    // 완전 충전됨
+    ST_CHA_FULL = 5;
+    // 유지 중 (현재 SoC 유지)
+    ST_CHA_HOLDING = 6;
+    // 테스트 상태
+    ST_CHA_TESTING = 7;
+  }
+  // 시스템 상태
+  enum St {
+    ST_NA = 0;
+    // 연결 해제 됨
+    ST_DISCONNECTED = 1;
+    // 초기화 중
+    ST_INITIALIZING = 2;
+    // 연결 됨
+    ST_CONNECTED = 3;
+    // 대기 중
+    ST_STANDBY = 4;
+    // SoC 보호 상태
+    ST_SOC_PROTECTION = 5;
+    // 일시 중지 상태
+    ST_SUSPENDING = 6;
+    // 고장 상태
+    ST_FAULT = 99;
+  }
+  // 상태 알람
+  message Status {
+    // 기타 상태
+    bool OTHER = 1;
+    // 케비넷 문 열림
+    bool OPEN_DOOR = 2;
+  }
+  // 경고 알람
+  message Warning {
+    // 기타 경고
+    bool OTHER = 1;
+    // 과열 상태
+    bool OVER_TEMP = 2;
+    // 저온 상태
+    bool UNDER_TEMP = 3;
+    // 과충전 전류
+    bool OVER_CHARGE_CURRENT = 4;
+    // 과방전 전류
+    bool OVER_DISCHARGE_CURRENT = 5;
+    // 과잉 전압
+    bool OVER_VOLT = 6;
+    // 부족 전압
+    bool UNDER_VOLT = 7;
+    // 부족 SOC
+    bool UNDER_SOC_MIN = 8;
+    // 과잉 SOC
+    bool OVER_SOC_MAX = 9;
+    // 전압 불균형
+    bool VOLTAGE_IMBALANCE = 10;
+    // 온도 불균형
+    bool TEMPERATURE_IMBALANCE = 11;
+    // 전류 불균형
+    bool CURRENT_IMBALANCE = 12;
+    // 구성 오류
+    bool CONFIGURATION = 13;
+  }
+  // 고장 알람
+  message Fault {
+    // 기타 고장
+    bool OTHER = 1;
+    // 과열 상태
+    bool OVER_TEMP = 2;
+    // 저온 상태
+    bool UNDER_TEMP = 3;
+    // 과충전 전류
+    bool OVER_CHARGE_CURRENT = 4;
+    // 과방전 전류
+    bool OVER_DISCHARGE_CURRENT = 5;
+    // 과잉 전압
+    bool OVER_VOLT = 6;
+    // 부족 전압
+    bool UNDER_VOLT = 7;
+    // 부족 SOC
+    bool UNDER_SOC_MIN = 8;
+    // 과잉 SOC
+    bool OVER_SOC_MAX = 9;
+    // 전압 불균형
+    bool VOLTAGE_IMBALANCE = 10;
+    // 온도 불균형
+    bool TEMPERATURE_IMBALANCE = 11;
+    // 전류 불균형
+    bool CURRENT_IMBALANCE = 12;
+    // 설정 오류
+    bool CONFIGURATION = 13;
+
+    // 통신 오류
+    bool COMMUNICATION_ERROR = 14;
+    // 컨택터 오류
+    bool CONTACTOR_ERROR = 15;
+    // 팬 오류
+    bool FAN_ERROR = 16;
+    // 접지 오류
+    bool GROUND_FAULT = 17;
+  }
+
+  // 명령
+  message Command {
+    // 동작 설정
+    enum SetOp {
+      SET_OP_NA = 0;
+      // 연결
+      SET_OP_CONNECT = 1;
+      // 연결 해제
+      SET_OP_DISCONNECT = 2;
+    }
+    oneof cmd {
+      // 동작 설정
+      SetOp set_op = 1;
+    }
+  }
+
+  // Bank Cell 요약
+  message CellCount {
+    // 최대 Cell 전압
+    float v_max = 1;
+    // 최대 Cell 전압의 String 위치
+    uint32 v_max_str = 2;
+    // 최대 Cell 전압의 Module 위치
+    uint32 v_max_mod = 3;
+    // 최소 Cell 전압
+    float v_min = 4;
+    // 최소 Cell 전압의 String 위치
+    uint32 v_min_str = 5;
+    // 최소 Cell 전압의 Module 위치
+    uint32 v_min_mod = 6;
+
+    // 평균 Cell 전압
+    float v_avg = 7;
+    // Cell Balance 갯수
+    uint32 n_bal = 8;
+  }
+  // Bank Module 요약
+  message ModuleCount {
+    // 최고 온도
+    float tmp_max = 3;
+    // 최고 온도의 String 위치
+    uint32 tmp_max_str = 4;
+    // 최고 온도의 Module 위치
+    uint32 tmp_max_mod = 5;
+
+    // 최소 온도
+    float tmp_min = 6;
+    // 최소 온도의 String 위치
+    uint32 tmp_min_str = 7;
+    // 최소 온도의 Module 위치
+    uint32 tmp_min_mod = 8;
+
+    // 평균 온도
+    float tmp_avg = 9;
+  }
+  // Bank String 요약
+  message StringCount {
+    // 최대 String 전압
+    float v_max = 1;
+    // 최대 String 전압의 String 위치
+    uint32 v_max_str = 2;
+
+    // 최소 String 전압
+    float v_min = 3;
+    // 최소 String 전압의 String 위치
+    uint32 v_min_str = 4;
+
+    // 평균 String 전압
+    float v_avg = 5;
+
+    // 최대 String 전류
+    float a_max = 6;
+    // 최대 String 전류의 String 위치
+    uint32 a_max_str = 7;
+
+    // 최소 String 전류
+    float a_min = 8;
+    // 최소 String 전류의 String 위치
+    uint32 a_min_str = 9;
+
+    // 평균 String 전류
+    float a_avg = 10;
+    // 연결된 String 갯수
+    uint32 n_conn = 11;
+  }
+
+  // 상태
+  St st = 1;
+  // 충전 상태
+  StCha st_cha = 2;
+
+  // Module 요약
+  ModuleCount cnt_mod = 3;
+  // String 요약
+  StringCount cnt_str = 4;
+  // Cell 요약
+  CellCount cnt_cell = 5;
+
+  // SoC
+  float soc = 6;
+  // DoD
+  float dod = 7;
+  // SoH
+  float soh = 8;
+  // 충방전 사이클 수
+  uint32 n_cyc = 9;
+
+  // HeartBeat
+  uint32 hb = 10;
+
+  // 전압
+  float v = 11;
+  // 전류
+  float a = 12;
+  // 최대 충전 전류
+  float a_cha_max = 13;
+  // 최대 방전 전류
+  float a_discha_max = 14;
+  // 전력
+  float w = 15;
+
+  // 상태 알람
+  Status status = 16;
+  // 경고 알람
+  Warning warning = 17;
+  // 고장 알람
+  Fault fault = 18;
+
+  // 동작 설정
+  Command.SetOp set_op = 19;
+
+  // String (Rack) 정보
+  repeated EsdString strs = 20;
+}
+
+// 배터리 String (Rack)
+message EsdString {
+  // 연결 실패 여부
+  enum ConFail {
+    // 고장 없음
+    CON_FAIL_NO_FAILURE = 0;
+    // 비상 정지
+    CON_FAIL_BUTTON_PUSHED = 1;
+    // 접지 오류
+    CON_FAIL_STR_GROUND_FAULT = 2;
+    // 허용 전압 범위 초과
+    CON_FAIL_OUTSIDE_VOLTAGE_RANGE = 3;
+    // 비활성화
+    CON_FAIL_STRING_NOT_ENABLED = 4;
+    // 퓨즈 개방
+    CON_FAIL_FUSE_OPEN = 5;
+    // 컨택터 동작 실패
+    CON_FAIL_CONTACTOR_FAILURE = 6;
+    // 초기충전 실패
+    CON_FAIL_PRECHARGE_FAILURE = 7;
+    // String 고장
+    CON_FAIL_STRING_FAULT = 8;
+  }
+  // 컨택터 상태
+  message StCon {
+    bool CONTACTOR_0 = 1;
+    bool CONTACTOR_1 = 2;
+    bool CONTACTOR_2 = 3;
+    bool CONTACTOR_3 = 4;
+    bool CONTACTOR_4 = 5;
+    bool CONTACTOR_5 = 6;
+    bool CONTACTOR_6 = 7;
+    bool CONTACTOR_7 = 8;
+    bool CONTACTOR_8 = 9;
+    bool CONTACTOR_9 = 10;
+    bool CONTACTOR_10 = 11;
+    bool CONTACTOR_11 = 12;
+    bool CONTACTOR_12 = 13;
+    bool CONTACTOR_13 = 14;
+    bool CONTACTOR_14 = 15;
+    bool CONTACTOR_15 = 16;
+    bool CONTACTOR_16 = 17;
+    bool CONTACTOR_17 = 18;
+    bool CONTACTOR_18 = 19;
+    bool CONTACTOR_19 = 20;
+    bool CONTACTOR_20 = 21;
+    bool CONTACTOR_21 = 22;
+    bool CONTACTOR_22 = 23;
+    bool CONTACTOR_23 = 24;
+    bool CONTACTOR_24 = 25;
+    bool CONTACTOR_25 = 26;
+    bool CONTACTOR_26 = 27;
+    bool CONTACTOR_27 = 28;
+    bool CONTACTOR_28 = 29;
+    bool CONTACTOR_29 = 30;
+    bool CONTACTOR_30 = 31;
+  }
+  // 상태 알람
+  message Status {
+    // 기타 알람
+    bool OTHER = 1;
+    // 캐비넷 문 열림
+    bool OPEN_DOOR = 2;
+    // String 활성화
+    bool STRING_ENABLED = 3;
+    // 컨택터 상태 (?)
+    bool CONTACTOR_STATUS = 4;
+  }
+  // 경고 알람
+  message Warning {
+    // 기타 알람
+    bool OTHER = 1;
+    // 과열
+    bool OVER_TEMP = 2;
+    // 저온
+    bool UNDER_TEMP = 3;
+    // 과충전 전류
+    bool OVER_CHARGE_CURRENT = 4;
+    // 과방전 전류
+    bool OVER_DISCHARGE_CURRENT = 5;
+    // 과전압
+    bool OVER_VOLT = 6;
+    // 저전압
+    bool UNDER_VOLT = 7;
+    // 부족 SoC
+    bool UNDER_SOC_MIN = 8;
+    // 과잉 SoC
+    bool OVER_SOC_MAX = 9;
+    // 전압 불균형
+    bool VOLTAGE_IMBALANCE = 10;
+    // 온도 불균형
+    bool TEMPERATURE_IMBALANCE = 11;
+  }
+  // 고장 알람
+  message Fault {
+    // 기타 고장
+    bool OTHER = 1;
+    // 과열
+    bool OVER_TEMP = 2;
+    // 저온
+    bool UNDER_TEMP = 3;
+    // 과충전 전류
+    bool OVER_CHARGE_CURRENT = 4;
+    // 과방전 전류
+    bool OVER_DISCHARGE_CURRENT = 5;
+    // 과전압
+    bool OVER_VOLT = 6;
+    // 저전압
+    bool UNDER_VOLT = 7;
+    // 부족 SoC
+    bool UNDER_SOC_MIN = 8;
+    // 과잉 SoC
+    bool OVER_SOC_MAX = 9;
+    // 전압 불균형
+    bool VOLTAGE_IMBALANCE = 10;
+    // 온도 불균형
+    bool TEMPERATURE_IMBALANCE = 11;
+
+    // 통신 오류
+    bool COMMUNICATION_ERROR = 12;
+    // 설정 오류
+    bool CONFIGURATION = 13;
+    // 컨택터 오류
+    bool CONTACTOR_ERROR = 14;
+    // 팬 오류
+    bool FAN_ERROR = 15;
+    // 접지 오류
+    bool GROUND_FAULT = 16;
+  }
+
+  // 명령
+  message Command {
+    // 활성화 설정
+    enum SetEna {
+      SET_ENA_NA = 0;
+      // 활성화
+      SET_ENA_ENABLE_STRING = 1;
+      // 비활성화
+      SET_ENA_DISABLE_STRING = 2;
+    }
+    // 동작 설정
+    enum SetCon {
+      SET_CON_NA = 0;
+      // 연결
+      SET_CON_CONNECT_STRING = 1;
+      // 연결 해제
+      SET_CON_DISCONNECT_STRING = 2;
+    }
+    oneof cmd {
+      // 동작 설정
+      SetCon set_con = 1;
+      // 활성화 설정
+      SetEna set_ena = 2;
+    }
+  }
+
+  // Cell 요약
+  message CellCount {
+    // 최대 Cell 전압
+    float v_max = 1;
+    // 최대 Cell 전압의 Module 위치
+    uint32 v_max_mod = 2;
+    // 최소 Cell 전압
+    float v_min = 3;
+    // 최소 Cell 전압의 Module 위치
+    uint32 v_min_mod = 4;
+    // 평균 Cell 전압
+    float v_avg = 5;
+    // Cell Balance 갯수
+    uint32 n_cell_bal = 6;
+  }
+  // Module 요약
+  message ModuleCount {
+    // 최고 온도
+    float tmp_max = 16;
+    // 최고 온도의 Module 위치
+    uint32 tmp_max_mod = 17;
+    // 최소 온도
+    float tmp_min = 18;
+    // 최소 온도의 Module 위치
+    uint32 tmp_min_mod = 19;
+    // 평균 온도
+    float tmp_avg = 20;
+  }
+
+  // 컨택터 실패 여부
+  ConFail con_fail = 2;
+
+  // SoC
+  float soc = 3;
+  // DoD
+  float dod = 4;
+  // 충방전 사이클 수
+  uint32 n_cyc = 5;
+  // SoH
+  float soh = 6;
+
+  // 전류
+  float a = 7;
+  // 전압
+  float v = 8;
+
+  // Cell 요약
+  CellCount cnt_cell = 9;
+  // Module 요약
+  ModuleCount cnt_mod = 10;
+
+  // 컨택터 상태
+  StCon st_con = 11;
+  // 상태 알람
+  Status status = 12;
+  // 경고 알람
+  Warning warning = 13;
+  // 고장 알람
+  Fault fault = 14;
+
+  // 활성화 설정
+  Command.SetEna set_ena = 15;
+  // 동작 설정
+  Command.SetCon set_con = 16;
+  // 모듈 정보
+  repeated EsdModule mods = 17;
+}
+
+// Module
+message EsdModule {
+  // Cell 요약
+  message CellCount {
+    // 최대 Cell 전압
+    float v_max = 1;
+    // 최대 Cell 전압의 Module 위치
+    uint32 v_max_cell = 2;
+    // 최소 Cell 전압
+    float v_min = 3;
+    // 최소 Cell 전압의 Module 위치
+    uint32 v_min_cell = 4;
+    // 평균 Cell 전압
+    float v_avg = 5;
+    // 최고 온도
+    float tmp_max = 6;
+    // 최고 온도의 Cell 위치
+    uint32 tmp_max_cell = 7;
+    // 최저 온도
+    float tmp_min = 8;
+    // 최저 온도의 Cell 위치
+    uint32 tmp_min_cell = 9;
+    // 평균 온도
+    float tmp_avg = 10;
+    // Cell Balance 갯수
+    uint32 n_bal = 11;
+  }
+
+  // Module의 String 인덱스 (1-base, 0 = N/A)
+  uint32 str_idx = 1;
+  // Module 인덱스 (1-base, 0 = N/A)
+  uint32 mod_idx = 2;
+  // Cell 갯수
+  uint32 n_cell = 3;
+
+  // SoC
+  float soc = 4;
+  // DoD
+  float dod = 5;
+  // SoH
+  float soh = 6;
+  // 충방전 사이클 수
+  uint32 n_cyc = 7;
+
+  // 전압
+  float v = 8;
+  // Cell 요약
+  CellCount cnt_cell = 9;
+  // 시리얼 넘버
+  string sn = 10;
+  // Cell 정보
+  repeated EsdCell cells = 12;
+}
+
+// Cell 정보
+message EsdCell {
+  // Cell 상태 알람
+  message St {
+    // Cell 밸런싱 여부
+    bool is_balancing = 1;
+  }
+  // 전압
+  float v = 1;
+  // 온도
+  float tmp = 2;
+  // 상태 알람
+  St st = 3;
+}

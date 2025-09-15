@@ -2,21 +2,21 @@ use std::{env, path::PathBuf};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let packages: Vec<Package> = vec![
-        ("eps/model/esd", "v0".into(), "**/*.v0.proto", &[]),
-        ("eps/model/esd", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/model/nameplate", "v0".into(), "**/*.v0.proto", &[]),
-        ("eps/model/nameplate", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/model/net", "v0".into(), "**/*.v0.proto", &[]),
-        ("eps/model/net", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/model/pcs", "v0".into(), "**/*.v0.proto", &[]),
-        ("eps/model/pcs", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/model/pms", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/model/source", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/model/collections", None, "**/*.proto", &[]),
-        ("eps/preset/bess", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/preset/upms", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/rpc", "v1".into(), "**/*.v1.proto", &[]),
-        ("eps/vnd", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/model/esd", "v0".into(), "**/*.v0.proto", &[]),
+        ("deps/model/esd", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/model/nameplate", "v0".into(), "**/*.v0.proto", &[]),
+        ("deps/model/nameplate", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/model/net", "v0".into(), "**/*.v0.proto", &[]),
+        ("deps/model/net", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/model/pcs", "v0".into(), "**/*.v0.proto", &[]),
+        ("deps/model/pcs", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/model/pms", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/model/source", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/model/collections", None, "**/*.proto", &[]),
+        ("deps/preset/bess", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/preset/upms", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/rpc", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/vnd", "v1".into(), "**/*.v1.proto", &[]),
     ];
 
     build_protos(&packages)?;

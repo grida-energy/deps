@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package deps.model.nameplate.v1;
+
+message Id {
+  string vendor = 1;
+  string model = 2;
+  string serial = 3;
+  string sw_version = 4;
+  string hw_version = 5;
+}
+
+message NetworkConfig { map<string, string> ips = 1; }

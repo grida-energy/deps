@@ -89,7 +89,7 @@ pub use voca::PresetTopics;
 
 pub mod rpc {
     pub mod v1 {
-        crate::voca::include_proto_package!("eps/rpc/v1", "eps.rpc.v1");
+        crate::voca::include_proto_package!("deps/rpc/v1", "deps.rpc.v1");
         pub type Result<T> = core::result::Result<T, response::Error>;
 
         const _: () = {
@@ -99,7 +99,7 @@ pub mod rpc {
 }
 pub mod vnd {
     pub mod v1 {
-        crate::voca::include_proto_package!("eps/vnd/v1", "eps.vnd.v1");
+        crate::voca::include_proto_package!("deps/vnd/v1", "deps.vnd.v1");
         impl ParamIdRange {
             pub fn end(&self) -> u32 {
                 self.start + self.length
@@ -118,44 +118,50 @@ pub mod vnd {
 pub mod model {
     pub mod esd {
         pub mod v0 {
-            crate::voca::include_proto_package!("eps/model/esd/v0", "eps.model.esd.v0");
+            crate::voca::include_proto_package!("deps/model/esd/v0", "deps.model.esd.v0");
         }
         pub mod v1 {
-            crate::voca::include_proto_package!("eps/model/esd/v1", "eps.model.esd.v1");
+            crate::voca::include_proto_package!("deps/model/esd/v1", "deps.model.esd.v1");
         }
     }
     pub mod net {
         pub mod v0 {
-            crate::voca::include_proto_package!("eps/model/net/v0", "eps.model.net.v0");
+            crate::voca::include_proto_package!("deps/model/net/v0", "deps.model.net.v0");
         }
         pub mod v1 {
-            crate::voca::include_proto_package!("eps/model/net/v1", "eps.model.net.v1");
+            crate::voca::include_proto_package!("deps/model/net/v1", "deps.model.net.v1");
         }
     }
     pub mod nameplate {
         pub mod v0 {
-            crate::voca::include_proto_package!("eps/model/nameplate/v0", "eps.model.nameplate.v0");
+            crate::voca::include_proto_package!(
+                "deps/model/nameplate/v0",
+                "deps.model.nameplate.v0"
+            );
         }
         pub mod v1 {
-            crate::voca::include_proto_package!("eps/model/nameplate/v1", "eps.model.nameplate.v1");
+            crate::voca::include_proto_package!(
+                "deps/model/nameplate/v1",
+                "deps.model.nameplate.v1"
+            );
         }
     }
     pub mod pcs {
         pub mod v0 {
-            crate::voca::include_proto_package!("eps/model/pcs/v0", "eps.model.pcs.v0");
+            crate::voca::include_proto_package!("deps/model/pcs/v0", "deps.model.pcs.v0");
         }
         pub mod v1 {
-            crate::voca::include_proto_package!("eps/model/pcs/v1", "eps.model.pcs.v1");
+            crate::voca::include_proto_package!("deps/model/pcs/v1", "deps.model.pcs.v1");
         }
     }
     pub mod source {
         pub mod v1 {
-            crate::voca::include_proto_package!("eps/model/source/v1", "eps.model.source.v1");
+            crate::voca::include_proto_package!("deps/model/source/v1", "deps.model.source.v1");
         }
     }
     pub mod pms {
         pub mod v1 {
-            crate::voca::include_proto_package!("eps/model/pms/v1", "eps.model.pms.v1");
+            crate::voca::include_proto_package!("deps/model/pms/v1", "deps.model.pms.v1");
 
             const _: () = {
                 impl From<&(Option<f64>, Option<f64>)> for MinMax {
@@ -213,12 +219,12 @@ pub mod model {
 pub mod preset {
     pub mod bess {
         pub mod v1 {
-            crate::voca::include_proto_package!("eps/preset/bess/v1", "eps.preset.bess.v1");
+            crate::voca::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
         }
     }
     pub mod upms {
         pub mod v1 {
-            crate::voca::include_proto_package!("eps/preset/upms/v1", "eps.preset.upms.v1");
+            crate::voca::include_proto_package!("deps/preset/upms/v1", "deps.preset.upms.v1");
         }
     }
 }
