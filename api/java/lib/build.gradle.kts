@@ -12,8 +12,8 @@ plugins {
     id("com.google.protobuf") version "0.9.4"
 }
 
-group = 'com.github.grida-energy'
-version = '1.0.0'
+group = "com.github.grida-energy"
+version = "1.0.0"
 
 repositories {
     // Use Maven Central for resolving dependencies.
