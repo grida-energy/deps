@@ -1,6 +1,6 @@
 # DEPS (Distributed Energy Protocol System)
 
-[데이터 모델 링크](md/deps-protos.md)
+[데이터 모델 링크](api/md/deps-protos.md)
 
 ## 공통 모델
 
@@ -291,7 +291,7 @@ message Device {
 
 - Command는 장치에 보내질 수 있는 명령의 구조를 정의한다.
 - 일반적으로 다양한 명령이 전달될 수 있도록 oneof로 명령을 묶어 그룹화한다.
-- 공통 모델에서는 포괄적인 명령을 모두 정의하며, 만약 공통 모델을 구현하는 장치에서 해당 명령의 수행을 지원하지 않을 경우 [ERROR_CODE_NOT_SUPPORTED_MESSAGE](doc/eps-protos.md#eps-rpc-v1-Response-ErrorCode)로 응답한다.
+- 공통 모델에서는 포괄적인 명령을 모두 정의하며, 만약 공통 모델을 구현하는 장치에서 해당 명령의 수행을 지원하지 않을 경우 [ERROR_CODE_NOT_SUPPORTED_MESSAGE](api/md/deps-protos.md#deps-rpc-v1-Response-ErrorCode)로 응답한다.
 
 ### 4. 제조사별 고유 값 (Vender-Parameter, Vender-Alarm)
 
@@ -330,8 +330,8 @@ message Device {
 - 제조사별 고유값 별로 파라미터 번호가 할당되어야 하고, 해당 파라미터 번호로 값을 읽기/쓰기를 명시적으로 요청해야한다.
 - 요청/응답을 통해 제조사별 고유값을 읽어온다.
 
-[ParamInfo](doc/eps-protos.md#eps-vnd-v1-ParamInfo),
-[ParamMeta](doc/eps-protos.md#eps-vnd-v1-ParamMeta)
+[ParamInfo](api/md/deps-protos.md#deps-vnd-v1-ParamInfo),
+[ParamMeta](api/md/deps-protos.md#deps-vnd-v1-ParamMeta)
 
 ```protobuf
 message ParamInfo {
@@ -358,8 +358,8 @@ message ParamMeta { map<uint32, ParamInfo> param_infos = 1; }
 - 알람은 현재 발생한 모든 알람을 한번에 읽어 오는 형태로 조회한다.
 - 알람 발생 여부는 알람 번호의 위치에 있는 repeated 필드(bool)로 조회한다.
 
-[AlarmMeta](doc/eps-protos.md#eps-vnd-v1-AlarmMeta),
-[AlarmData](doc/eps-protos.md#eps-vnd-v1-AlarmData)
+[AlarmMeta](api/md/deps-protos.md#deps-vnd-v1-AlarmMeta),
+[AlarmData](api/md/deps-protos.md#deps-vnd-v1-AlarmData)
 
 ```protobuf
 message AlarmMeta {
@@ -455,7 +455,7 @@ message Response {
 }
 ```
 
-[ErrorCode](doc/eps-protos.md#eps-rpc-v1-Response-ErrorCode)
+[ErrorCode](api/md/deps-protos.md#deps-rpc-v1-Response-ErrorCode)
 
 |ErrorCode|의미|
 |-|-|
