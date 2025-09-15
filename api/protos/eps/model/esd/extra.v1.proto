@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package eps.model.esd.v1;
+
+// 충방전 제한 SoC 범위
+message ChaLimit {
+  // 최대 SoC
+  float soc_max = 1;
+  // 최소 SoC
+  float soc_min = 2;
+}
+
+// 시스템 연결 상태
+message Conn {
+  enum Conn {
+    // 연결 해제
+    DISCONNECT = 0;
+    // 연결
+    CONNECT = 1;
+  }
+  Conn conn = 1;
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package eps.model.source.v1;
+
+message PvString {
+  float v = 1;
+  float a = 2;
+  float w = 3;
+}
+
+message PvLine { repeated PvString strings = 1; }

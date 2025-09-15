@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package eps.model.system.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message SystemHead { .google.protobuf.Timestamp timestamp = 1; }

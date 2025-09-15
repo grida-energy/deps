@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package eps.model.pcs.v0;
+
+// message FlatPcs {}
+
+message FlatConn {
+  float conn_win_tms = 1;
+  float conn_rvrt_tms = 2;
+  ImmediatePcsControl.Conn conn = 3;
+}
+message FlatWMaxLimPct {
+  float w_max_lim_pct = 4;
+  float w_max_lim_pct_win_tms = 5;
+  float w_max_lim_pct_rvrt_tms = 6;
+  float w_max_lim_pct_rmp_tms = 7;
+  ImmediatePcsControl.Ena w_max_lim_ena = 8;
+}
+message FlatOutPfSet {
+  float out_pf_set = 9;
+  float out_pf_set_win_tms = 10;
+  float out_pf_set_rvrt_tms = 11;
+  float out_pf_set_rmp_tms = 12;
+  ImmediatePcsControl.Ena out_pf_set_ena = 13;
+}
+message FlatVarWMaxPct {
+  float var_w_max_pct = 14;
+  float var_max_pct = 15;
+  float var_aval_pct = 16;
+  float var_pct_win_tms = 17;
+  float var_pct_rvrt_tms = 18;
+  float var_pct_rmp_tms = 19;
+  ImmediatePcsControl.VArPctMod var_pct_mod = 20;
+  ImmediatePcsControl.Ena var_pct_ena = 21;
+}
+
+message FlatCommands {
+  oneof cmd {
+    FlatConn conn = 1;
+    FlatWMaxLimPct w_max_lim_pct = 2;
+    FlatOutPfSet out_pf_set = 3;
+    FlatVarWMaxPct var_w_max_pct = 4;
+  }
+}
+
+message ImmediatePcsControl {
+  enum Conn {
+    DISCONNECT = 0;
+    CONNECT = 1;
+  }
+  enum Ena {
+    DISABLED = 0;
+    ENABLED = 1;
+  }
+  //   enum OutPfSet {
+  //     DISABLE = 0;
+  //     ENABLE = 1;
+  //   }
+  enum VArPctMod {
+    NONE = 0;
+    W_MAX = 1;
+    VAR_MAX = 2;
+    VAR_AVAL = 3;
+  }
+  //   enum VarPctEna {
+  //     DISABLED = 0;
+  //     ENABLED = 1;
+  //   }
+  float conn_win_tms = 1;
+  float conn_rvrt_tms = 2;
+  Conn conn = 3;
+
+  float w_max_lim_pct = 4;
+  float w_max_lim_pct_win_tms = 5;
+  float w_max_lim_pct_rvrt_tms = 6;
+  float w_max_lim_pct_rmp_tms = 7;
+  Ena w_max_lim_ena = 8;
+
+  float out_pf_set = 9;
+  float out_pf_set_win_tms = 10;
+  float out_pf_set_rvrt_tms = 11;
+  float out_pf_set_rmp_tms = 12;
+  Ena out_pf_set_ena = 13;
+
+  float var_w_max_pct = 14;
+  float var_max_pct = 15;
+  float var_aval_pct = 16;
+  float var_pct_win_tms = 17;
+  float var_pct_rvrt_tms = 18;
+  float var_pct_rmp_tms = 19;
+  VArPctMod var_pct_mod = 20;
+  Ena var_pct_ena = 21;
+}
+
+// message ImmediatePcsControlCommand {
+//   oneof cmd {
+//     ImmediatePcsControl.Conn conn = 1;
+//     ImmediatePcsControl.Ena w_max_lim_ena = 2;
+//     ImmediatePcsControl.Ena out_pf_set_ena = 3;
+//     ImmediatePcsControl.VArPctMod var_pct_mod = 4;
+//     ImmediatePcsControl.Ena var_pct_ena = 5;
+//   }
+// }
+
+message PcsThreePhase {
+  enum St {
+    NA_ST = 0;
+    OFF = 1;
+    SLEEPING = 2;
+    STARTING = 3;
+    MPPT = 4;
+    THROTTLED = 5;
+    SHUTTING_DOWN = 6;
+    FAULT = 7;
+    STANDBY = 8;
+  }
+  message Evt1 {
+    bool GROUND_FAULT = 1;
+    bool DC_OVER_VOLT = 2;
+    bool AC_DISCONNECT = 3;
+    bool DC_DISCONNECT = 4;
+    bool GRID_DISCONNECT = 5;
+    bool CABINET_OPEN = 6;
+    bool MANUAL_SHUTDOWN = 7;
+    bool OVER_TEMP = 8;
+    bool OVER_FREQUENCY = 9;
+    bool UNDER_FREQUENCY = 10;
+    bool AC_OVER_VOLT = 11;
+    bool AC_UNDER_VOLT = 12;
+    bool BLOWN_STRING_FUSE = 13;
+    bool UNDER_TEMP = 14;
+    bool MEMORY_LOSS = 15;
+    bool HW_TEST_FAILURE = 16;
+  }
+  float a = 1;
+  float a_ph_a = 2;
+  float a_ph_b = 3;
+  float a_ph_c = 4;
+  float pp_v_ph_ab = 5;
+  float pp_v_ph_bc = 6;
+  float pp_v_ph_ca = 7;
+  float ph_v_ph_a = 8;
+  float ph_v_ph_b = 9;
+  float ph_v_ph_c = 10;
+  float w = 11;
+  float hz = 12;
+  float va = 13;
+  float var = 14;
+  float pf = 15;
+  float wh = 16;
+  float dca = 17;
+  float dcv = 18;
+  float dcw = 19;
+  float tmp_cab = 20;
+  float tmp_snk = 21;
+  float tmp_trns = 22;
+  float tmp_ot = 23;
+  St st = 24;
+  uint32 st_vnd = 25;
+  Evt1 evt1 = 26;
+  uint32 evt2 = 27;
+  uint32 evt_vnd1 = 28;
+  uint32 evt_vnd2 = 29;
+  uint32 evt_vnd3 = 30;
+  uint32 evt_vnd4 = 31;
+}

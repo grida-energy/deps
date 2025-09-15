@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package eps.vnd.v1;
+
+import "eps/vnd/alarm.v1.proto";
+import "eps/vnd/parameter.v1.proto";
+
+import "eps/rpc/header.v1.proto";
+import "google/protobuf/timestamp.proto";
+
+message Rpc {
+  message AlarmEvent {
+    .google.protobuf.Timestamp timestamp = 1;
+    AlarmData alarm_data = 2;
+  }
+
+  message ParamReadWriteRequest {
+    repeated ParamIdRange reads = 1;
+    ParamBlock writes = 2;
+  }
+
+  // error codes would be specified in eps.rpc.Response
+  message ParamReadWriteResponse {
+    // returns successfully read values if possible
+    ParamBlock reads = 1;
+    // returns successfully writen ids if possible
+    repeated ParamIdRange writes = 2;
+  }
+
+  message ParamRequest {
+    .eps.rpc.v1.Request head = 1;
+    // repeated ParamOps data = 3;
+    ParamReadWriteRequest data = 3;
+  }
+
+  message ParamResponse {
+    .eps.rpc.v1.Response head = 1;
+    // repeated ParamResult data = 4;
+    ParamReadWriteResponse data = 4;
+  }
+}

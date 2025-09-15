@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package eps.rpc.v1;
+
+// import "google/protobuf/descriptor.proto";
+// extend google.protobuf.FieldOptions { repeated string rust_attributes =
+// 50000; }
+
+// import "google/protobuf/struct.proto";
+
+// 요청 헤더
+// 함수 콜 형태의 모든 요청은 Request 메시지를 포함하여 전송한다.
+message Request {
+  // 요청 고유의 코드
+  string uuid = 1;
+  // 응답을 전달할 임시 토픽
+  string resp_topic = 2;
+}
+
+// 응답 헤더
+// 요청의 결과를 전달할 때 어떤 요청에 대한 응답인지와 응답의 상태 Response
+// 메시지에 포함하여 전송한다.
+message Response {
+  enum ErrorCode {
+    // 요청의 모든 항목이 성공함
+    ERROR_CODE_SUCCESS = 0;
+    // 요청 일부 혹은 모두가 구현되지 않음 (임시적)
+    ERROR_CODE_NOT_IMPLEMENTED = 1;
+    // 요청 메시지가 현재 장비에서 지원되지 않음 (영구적)
+    ERROR_CODE_NOT_SUPPORTED_MESSAGE = 2;
+    // 요청 메시지 내부의 값이 잘못됨
+    ERROR_CODE_INVALID_PARAMETER = 3;
+    // 요청의 내용을 적용할 수 없음
+    // (현재 장치의 상태에 따라 임시적으로 해당 요청을 수행할수 없는 경우 등)
+    ERROR_CODE_NOT_APPLICABLE = 4;
+    // 내부 오류로 요청을 수행할 수 없음
+    ERROR_CODE_INTERNAL_ERROR = 5;
+  }
+  message Error {
+    // 에러 코드
+    ErrorCode code = 1;
+    // 에러 상세 이유
+    string detail = 2;
+  }
+  // 요청 메시지의 UUID
+  string uuid = 1;
+  // 요청을 성공적으로 처리하였을 경우 NULL
+  Response.Error error = 2;
+}
