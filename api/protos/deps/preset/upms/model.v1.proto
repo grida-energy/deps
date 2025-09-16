@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package deps.preset.upms.v1;
+
+option java_package = "io.github.grida_energy.deps.preset.upms.v1";
+
 import "deps/rpc/header.v1.proto";
 import "deps/model/pms/model.v1.proto";
 

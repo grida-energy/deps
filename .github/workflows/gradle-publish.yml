@@ -29,6 +29,15 @@ jobs:
         # server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         # settings-path: ${{ github.workspace }} # location for the settings.xml file
 
+    - name: Setup Gradle properties
+      run: |
+        mkdir -p ~/.gradle
+        echo 'mavenCentralUsername="""${{ secrets.MAVEN_CENTRAL_USERNAME }}"""' >> ~/.gradle/gradle.properties
+        echo 'mavenCentralPassword="""${{ secrets.MAVEN_CENTRAL_PASSWORD }}"""' >> ~/.gradle/gradle.properties
+        echo 'signingKeyId="""${{ secrets.GRADLE_SIGNING_KEY_ID }}"""' >> ~/.gradle/gradle.properties
+        echo 'signingKey="""${{ secrets.GRADLE_SIGNING_KEY }}"""' >> ~/.gradle/gradle.properties
+        echo 'signingKeyPassword="""${{ secrets.GRADLE_SIGNING_KEY_PASSWORD }}"""' >> ~/.gradle/gradle.properties
+
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
@@ -41,6 +50,6 @@ jobs:
     - name: Publish to GitHub Packages
       working-directory: ./api/java
       run: ./gradlew publish
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.TOKEN }}
+      # env:
+      #   USERNAME: ${{ github.actor }}
+      #   TOKEN: ${{ secrets.TOKEN }}

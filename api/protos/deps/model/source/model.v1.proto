@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.model.source.v1;
 
+option java_package = "io.github.grida_energy.deps.model.source.v1";
+
 message PvString {
   float v = 1;
   float a = 2;

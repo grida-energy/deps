@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.vnd.v1;
 
+option java_package = "io.github.grida_energy.deps.vnd.v1";
+
 import "deps/vnd/alarm.v1.proto";
 import "deps/vnd/parameter.v1.proto";
 

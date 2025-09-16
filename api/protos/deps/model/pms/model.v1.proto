@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.model.pms.v1;
 
+option java_package = "io.github.grida_energy.deps.model.pms.v1";
+
 import "google/protobuf/timestamp.proto";
 
 message MinMax {

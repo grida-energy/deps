@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.model.nameplate.v1;
 
+option java_package = "io.github.grida_energy.deps.model.nameplate.v1";
+
 message Id {
   string vendor = 1;
   string model = 2;

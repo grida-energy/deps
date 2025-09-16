@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.model.net.v0;
 
+option java_package = "io.github.grida_energy.deps.model.net.v0";
+
 message FlatMeterSinglePhase {
   float a = 1;
   float v = 2;

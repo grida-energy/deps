@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.model.esd.v1;
 
+option java_package = "io.github.grida_energy.deps.model.esd.v1";
+
 // message EsdStateIndicator {
 //   float soc = 1;
 //   float dod = 2;

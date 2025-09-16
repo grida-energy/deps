@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 package deps.model.pcs.v1;
+
+option java_package = "io.github.grida_energy.deps.model.pcs.v1";
+
 import "deps/model/net/model.v1.proto";
 // import "deps/rpc/header.v1.proto";
 

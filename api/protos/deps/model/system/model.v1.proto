@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.model.system.v1;
 
+option java_package = "io.github.grida_energy.deps.model.system.v1";
+
 import "google/protobuf/timestamp.proto";
 
 message SystemHead { .google.protobuf.Timestamp timestamp = 1; }

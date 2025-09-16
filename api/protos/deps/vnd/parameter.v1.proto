@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.vnd.v1;
 
+option java_package = "io.github.grida_energy.deps.vnd.v1";
+
 import "google/protobuf/struct.proto";
 // import "deps/rpc/reqresp.proto";
 

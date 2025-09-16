@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.rpc.v1;
 
+option java_package = "io.github.grida_energy.deps.rpc.v1";
+
 // import "google/protobuf/descriptor.proto";
 // extend google.protobuf.FieldOptions { repeated string rust_attributes =
 // 50000; }

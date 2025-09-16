@@ -3,13 +3,13 @@
  */
 package org.example;
 
-import deps.preset.bess.v1.ModelV1.*;
-import deps.model.pcs.v1.ModelV1.*;
+import io.github.grida_energy.deps.preset.bess.v1.ModelV1.*;
+import io.github.grida_energy.deps.model.pcs.v1.ModelV1.*;
 
 public class Library {
     public boolean someLibraryMethod() {
         BessMeasure measure = BessMeasure.newBuilder().setData(
-                Bess.newBuilder().setPcs(ThreePhasePcsPart.newBuilder().build()).build()).build();
+                Bess.newBuilder().setPcs(ThreePhasePcsPart.newBuilder().setW(50).build()).build()).build();
 
         System.out.println(measure);
         return true;

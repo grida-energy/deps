@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package deps.model.esd.v1;
 
+option java_package = "io.github.grida_energy.deps.model.esd.v1";
+
 // 충방전 제한 SoC 범위
 message ChaLimit {
   // 최대 SoC

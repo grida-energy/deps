@@ -3,6 +3,8 @@ syntax = "proto3";
 package deps.model.net.v1;
 // or deps.model.bus;
 
+option java_package = "io.github.grida_energy.deps.model.net.v1";
+
 message AcLine {
   float v = 1;
   float a = 2;

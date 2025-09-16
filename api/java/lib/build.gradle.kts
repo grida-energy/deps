@@ -9,11 +9,12 @@ plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
     `maven-publish`
+    signing
     id("com.google.protobuf") version "0.9.4"
 }
 
-group = "com.github.grida-energy"
-version = "1.0.0"
+group = "io.github.grida-energy"
+version = "1.0.1"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -83,20 +84,67 @@ publishing {
     publications {
         
         create<MavenPublication>("maven") {
-            // groupId = project.group.toString()
-            // artifactId = "chirpstack-api"
-            // version = project.version.toString()
             from(components["java"])
+            groupId = project.group.toString()
+            artifactId = "deps"
+            version = project.version.toString()
+
+            pom {
+                name.set("DEPS - Distributed Energy Protocol System")
+                description.set("Common data model for distributed energy devices and systems.")
+                url.set("https://github.com/grida-energy/deps")
+
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("mark.ahn")
+                        name.set("Mark Ahn")
+                        email.set("mark.ahn@gridaenergy.com")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/grida-energy/deps")
+                    connection.set("scm:git:git://github.com/grida-energy/deps.git")
+                    developerConnection.set("scm:git:ssh://github.com/grida-energy/deps.git")
+                }
+            }
         }
     }
     repositories{
+        // maven {
+        //     name = "GitHubPackages"
+        //     url = uri("https://maven.pkg.github.com/grida-energy/deps")
+        //     credentials {
+        //         username = System.getenv("USERNAME")
+        //         password = System.getenv("TOKEN")
+        //     }
+        // }
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/grida-energy/deps")
-            // credentials {
-            //     username = System.getenv("USERNAME")
-            //     password = System.getenv("TOKEN")
-            // }
+            name = "CentralPortal"
+            url = uri("https://central.sonatype.com/api/v1/publish")
+            credentials {
+                username = (project.findProperty("mavenCentralUsername") as String?)
+                    ?: System.getenv("MAVEN_CENTRAL_USERNAME")
+                password = (project.findProperty("mavenCentralPassword") as String?)
+                    ?: System.getenv("MAVEN_CENTRAL_PASSWORD")
+            }
         }
     }
+}
+
+signing {
+    useInMemoryPgpKeys(
+        (project.findProperty("signingKeyId") as String?)
+            ?: System.getenv("SIGNING_KEY_ID"),
+        (project.findProperty("signingKey") as String?)
+            ?: System.getenv("SIGNING_KEY"),
+        (project.findProperty("signingKeyPassword") as String?)
+            ?: System.getenv("SIGNING_KEY_PASSWORD")
+    )
+    sign(publishing.publications["mavenJava"])
 }
