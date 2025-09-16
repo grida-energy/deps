@@ -1,6 +1,29 @@
 use std::{env, path::PathBuf};
 
+use std::{fs, path::Path};
+fn sync_proto_files() -> Result<(), Box<dyn std::error::Error>> {
+    let out_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let target = Path::new(&out_dir).join("protos");
+    let source = Path::new(&out_dir).join("../protos/deps");
+
+    // rm -rf protos
+    let _ = fs::remove_dir_all(&target);
+
+    // mkdir protos
+    fs::create_dir_all(&target).expect("fail to create protos directory");
+
+    // cp -r ../protos/deps protos/deps
+    let dest = target.join("deps");
+    copy_dir_all(&source, &dest).expect("fail to copy deps");
+
+    println!("cargo:rerun-if-changed={}", source.display());
+
+    Ok(())
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    sync_proto_files()?;
+
     let packages: Vec<Package> = vec![
         ("deps/model/esd", "v0".into(), "**/*.v0.proto", &[]),
         ("deps/model/esd", "v1".into(), "**/*.v1.proto", &[]),
@@ -106,5 +129,20 @@ pub fn build_protos(packages: &[Package]) -> Result<(), Box<dyn core::error::Err
     }
 
     // prost_build::compile_protos(&["protos/meter/compact.proto"], &["protos/"])?;
+    Ok(())
+}
+
+fn copy_dir_all(src: &Path, dst: &Path) -> std::io::Result<()> {
+    fs::create_dir_all(dst)?;
+    for entry in fs::read_dir(src)? {
+        let entry = entry?;
+        let file_type = entry.file_type()?;
+        let dest_path = dst.join(entry.file_name());
+        if file_type.is_dir() {
+            copy_dir_all(&entry.path(), &dest_path)?;
+        } else {
+            fs::copy(&entry.path(), &dest_path)?;
+        }
+    }
     Ok(())
 }

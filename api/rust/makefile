@@ -3,9 +3,7 @@
 all: proto test
 
 proto:
-	rm -rf protos
-	mkdir protos
-	cp -r ../protos/deps protos/deps
+	# sync proto files in build.rs
 
 test:
 	cargo test

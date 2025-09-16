@@ -3,3 +3,6 @@ build/
 .DS_Store
 .cargo
 .vscode
+
+makefile.*
+protos-out/
