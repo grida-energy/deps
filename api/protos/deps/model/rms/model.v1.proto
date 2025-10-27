@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package deps.model.rms.v1;
+
+option java_package = "io.github.grida_energy.deps.model.rms.v1";
+
+import "deps/rpc/header.v1.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+message NodeItem {
+  string node_id = 1;
+  string kind = 2;
+  optional string path_prefix = 3;
+  map<string, .google.protobuf.Value> args = 4;
+}
+
+message DeleteNode { string node_id = 1; }
+
+message MeasureRequest {}
+
+// Resource Management System
+message LocalRms {
+  message Command {
+    oneof cmd {
+      NodeItem create_node = 1;
+      DeleteNode delete_node = 2;
+      MeasureRequest measure_request = 3;
+    }
+  }
+  repeated NodeItem nodes = 1;
+}
+
+message Rpc {
+  message MeasureResponse {
+    .google.protobuf.Timestamp timestamp = 1;
+    LocalRms payload = 2;
+  }
+  message CommandRequest {
+    .deps.rpc.v1.Request header = 1;
+    repeated LocalRms.Command payload = 2;
+  }
+  message CommandResponse {
+    .deps.rpc.v1.Response header = 1;
+    uint32 payload = 2;
+  }
+}

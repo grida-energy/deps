@@ -5,15 +5,22 @@ package deps.model.net.v1;
 
 option java_package = "io.github.grida_energy.deps.model.net.v1";
 
+message Line {
+  float v = 1;
+  float a = 2;
+  float w = 4;
+  Energy wh = 8;
+}
+
 message AcLine {
   float v = 1;
   float a = 2;
-  // maby needs to be
   float hz = 3;
   float w = 4;
   float va = 5;
   float var = 6;
   float pf = 7;
+  Energy wh = 8;
 }
 
 message AcLineSum {
@@ -24,6 +31,7 @@ message AcLineSum {
   float va = 5;
   float var = 6;
   float pf = 7;
+  Energy wh = 8;
 }
 
 message Energy {

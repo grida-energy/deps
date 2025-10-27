@@ -11,11 +11,12 @@ import "deps/rpc/header.v1.proto";
 import "google/protobuf/timestamp.proto";
 
 message Rpc {
-  message AlarmEvent {
+  message AlarmResponse {
     .google.protobuf.Timestamp timestamp = 1;
-    AlarmData alarm_data = 2;
+    AlarmData payload = 2;
   }
 
+  // "writes" performs first then "reads"
   message ParamReadWriteRequest {
     repeated ParamIdRange reads = 1;
     ParamBlock writes = 2;
@@ -30,14 +31,12 @@ message Rpc {
   }
 
   message ParamRequest {
-    .deps.rpc.v1.Request head = 1;
-    // repeated ParamOps data = 3;
-    ParamReadWriteRequest data = 3;
+    .deps.rpc.v1.Request header = 1;
+    ParamReadWriteRequest payload = 3;
   }
 
   message ParamResponse {
-    .deps.rpc.v1.Response head = 1;
-    // repeated ParamResult data = 4;
-    ParamReadWriteResponse data = 4;
+    .deps.rpc.v1.Response header = 1;
+    ParamReadWriteResponse payload = 4;
   }
 }

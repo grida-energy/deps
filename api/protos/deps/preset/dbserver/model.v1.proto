@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package deps.preset.dbserver.v1;
+
+option java_package = "io.github.grida_energy.deps.preset.dbserver.v1";
+
+import "deps/rpc/header.v1.proto";
+import "deps/model/tsdb/model.v1.proto";
+// import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+message rpc {
+  // topic: .../pull-event
+  message PullLogRequest {
+    .deps.rpc.v1.Request header = 1;
+    .deps.model.tsdb.v1.LogConstraint payload = 2;
+  }
+  message PullLogResponse {
+    .deps.rpc.v1.Response header = 1;
+    repeated .deps.model.tsdb.v1.LogItem payload = 2;
+  }
+
+  // topic: .../pull-measure
+  message PullMeasureRequest {
+    .deps.rpc.v1.Request header = 1;
+    .deps.model.tsdb.v1.MeasureConstraint payload = 2;
+  }
+  message PullMeasureResponse {
+    .deps.rpc.v1.Response header = 1;
+    repeated .google.protobuf.ListValue payload = 2;
+  }
+}

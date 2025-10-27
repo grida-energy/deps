@@ -1,13 +1,14 @@
 #![cfg_attr(not(feature = "std"), no_std)]
-#![feature(try_blocks)]
+
+extern crate alloc;
 
 mod macros;
+mod payloads;
 
 #[cfg(feature = "pub-deps")]
 pub mod deps;
 
 mod voca {
-    extern crate alloc;
     use alloc::{format, string::String};
 
     #[macro_export]
@@ -27,19 +28,116 @@ mod voca {
         };
     }
 
+    #[macro_export]
+    macro_rules! impl_packet {
+        ($st:path, $hd: path, $pl:path, $mx: path) => {
+            impl $crate::rpc::v1::HasHeader for $st {
+                type Header = $hd;
+                fn get_header(&self) -> Option<&Self::Header> {
+                    self.header.as_ref()
+                }
+            }
+            impl $crate::rpc::v1::HasData for $st {
+                type Data = $pl;
+                fn get_data(&self) -> &Self::Data {
+                    &self.payload
+                }
+            }
+            impl $mx for $st {
+                fn build(header: Option<$hd>, payload: $pl) -> Self {
+                    $st {
+                        header: header,
+                        payload: payload,
+                    }
+                }
+            }
+        };
+        (@request, $st:path, $pl:ty) => {
+            $crate::voca::impl_packet!(
+                $st,
+                $crate::rpc::v1::Request,
+                $pl,
+                crate::rpc::v1::MixinRequest<$pl>
+            );
+        };
+        (@response, $st:path, $pl:ty) => {
+            $crate::voca::impl_packet!(
+                $st,
+                $crate::rpc::v1::Response,
+                $pl,
+                $crate::rpc::v1::MixinResponse<$pl>
+            );
+        };
+        (@measure, $st:path) => {
+            impl $crate::preset::StampedData for $st {
+                fn timestamp(&self) -> pbs::wkt::Timestamp {
+                    (self.timestamp).unwrap_or_default()
+                }
+            }
+        };
+    }
+
+    pub use impl_packet;
     pub use include_proto_package;
+
+    #[derive(Debug, Clone, PartialEq, Eq, Hash)]
+    pub enum TopicKind {
+        Measure,
+        Command,
+        VndParam,
+        VndParamMeta,
+        VndAlarm,
+        VndAlarmMeta,
+    }
+    const _: () = {
+        impl TopicKind {
+            pub const fn as_str(&self) -> &str {
+                match self {
+                    TopicKind::Measure => "measure",
+                    TopicKind::Command => "command",
+                    TopicKind::VndParam => "vnd/param",
+                    TopicKind::VndParamMeta => "vnd/param-meta",
+                    TopicKind::VndAlarm => "vnd/alarm",
+                    TopicKind::VndAlarmMeta => "vnd/alarm-meta",
+                }
+            }
+        }
+    };
 
     #[derive(Debug, Clone)]
     pub struct PresetTopics<T>(pub T);
     impl<T> PresetTopics<T> {
-        pub const MEASURE: &str = "measure";
-        pub const COMMAND: &str = "command";
-        pub const VND_PARAM: &str = "vnd/param";
-        pub const VND_PARAM_META: &str = "vnd/param-meta";
-        pub const VND_ALARM: &str = "vnd/alarm";
-        pub const VND_ALARM_META: &str = "vnd/alarm-meta";
+        pub const MEASURE: &str = TopicKind::Measure.as_str();
+        pub const COMMAND: &str = TopicKind::Command.as_str();
+        pub const VND_PARAM: &str = TopicKind::VndParam.as_str();
+        pub const VND_PARAM_META: &str = TopicKind::VndParamMeta.as_str();
+        pub const VND_ALARM: &str = TopicKind::VndAlarm.as_str();
+        pub const VND_ALARM_META: &str = TopicKind::VndAlarmMeta.as_str();
     }
     impl<T: core::ops::Deref<Target = str>> PresetTopics<T> {
+        pub fn subtopic_of<'t>(&self, topic: &'t str) -> Option<&'t str> {
+            // if !topic.starts_with(&*self.0) {
+            //     return None;
+            // }
+            // let subtopic = &topic[self.0.len()..];
+            // Some(subtopic.strip_prefix('/').unwrap_or(subtopic))
+            topic
+                .strip_prefix(&*self.0)
+                .map(|s| s.strip_prefix('/').unwrap_or(s))
+        }
+        pub fn subtopic_kind_of<'t>(&self, topic: &'t str) -> Option<TopicKind> {
+            self.subtopic_of(topic)
+                .and_then(|d| match d.to_lowercase().as_str() {
+                    Self::MEASURE => Some(TopicKind::Measure),
+                    Self::COMMAND => Some(TopicKind::Command),
+                    Self::VND_PARAM => Some(TopicKind::VndParam),
+                    Self::VND_PARAM_META => Some(TopicKind::VndParamMeta),
+                    Self::VND_ALARM => Some(TopicKind::VndAlarm),
+                    Self::VND_ALARM_META => Some(TopicKind::VndAlarmMeta),
+                    _ => None,
+                })
+        }
+
         pub fn any(&self) -> String {
             format!("{}/{}", &*self.0, "#")
         }
@@ -85,15 +183,100 @@ mod voca {
         }
     }
 }
-pub use voca::PresetTopics;
+pub use voca::{PresetTopics, TopicKind};
 
 pub mod rpc {
     pub mod v1 {
         crate::voca::include_proto_package!("deps/rpc/v1", "deps.rpc.v1");
         pub type Result<T> = core::result::Result<T, response::Error>;
+        pub trait HasHeader {
+            type Header;
+            fn get_header(&self) -> Option<&Self::Header>;
+        }
+        pub trait HasData {
+            type Data;
+            fn get_data(&self) -> &Self::Data;
+        }
+        pub trait MixinRequest<T>: HasHeader<Header = Request> + HasData<Data = T> {
+            fn build(header: Option<Self::Header>, data: Self::Data) -> Self;
+            // fn get_header(&self) -> Option<&Request>;
+            // fn get_data(&self) -> &T;
+        }
+        pub trait MixinResponse<T>: HasHeader<Header = Response> + HasData<Data = T> {
+            fn build(header: Option<Self::Header>, data: Self::Data) -> Self;
+            // fn get_header(&self) -> Option<&Response>;
+            // fn get_data(&self) -> &T;
+        }
+
+        pub trait MixinPacket<T> {
+            fn ok(uuid: impl Into<alloc::string::String>, data: T) -> Self;
+            fn error(
+                uuid: impl Into<alloc::string::String>,
+                error: (
+                    crate::rpc::v1::response::ErrorCode,
+                    impl Into<alloc::string::String>,
+                ),
+                data: T,
+            ) -> Self;
+        }
+        const _: () = {
+            impl<T, RQ> MixinPacket<T> for RQ
+            where
+                RQ: MixinResponse<T>,
+            {
+                fn ok(uuid: impl Into<alloc::string::String>, data: T) -> Self {
+                    Self::build(Response::ok(uuid).into(), data)
+                }
+                fn error(
+                    uuid: impl Into<alloc::string::String>,
+                    error: (
+                        crate::rpc::v1::response::ErrorCode,
+                        impl Into<alloc::string::String>,
+                    ),
+                    data: T,
+                ) -> Self {
+                    Self::build(Response::error(uuid, error).into(), data)
+                }
+            }
+        };
 
         const _: () = {
             impl Request {}
+            impl Response {
+                pub fn new(
+                    uuid: impl Into<alloc::string::String>,
+                    error: Option<(response::ErrorCode, impl Into<alloc::string::String>)>,
+                ) -> Self {
+                    Response {
+                        uuid: uuid.into(),
+                        error: error.map(|(code, detail)| response::Error::new(code, detail)),
+                    }
+                }
+                pub fn error(
+                    uuid: impl Into<alloc::string::String>,
+                    error: (response::ErrorCode, impl Into<alloc::string::String>),
+                ) -> Self {
+                    Response::new(uuid, error.into())
+                }
+                pub fn ok(uuid: impl Into<alloc::string::String>) -> Self {
+                    Response::new(
+                        uuid,
+                        Option::<(response::ErrorCode, alloc::string::String)>::None,
+                    )
+                }
+            }
+
+            impl response::Error {
+                pub fn new(
+                    code: response::ErrorCode,
+                    detail: impl Into<alloc::string::String>,
+                ) -> Self {
+                    response::Error {
+                        code: code as i32,
+                        detail: detail.into(),
+                    }
+                }
+            }
         };
     }
 }
@@ -113,6 +296,11 @@ pub mod vnd {
                 self.start..self.end()
             }
         }
+        const _: () = {
+            crate::voca::impl_packet!(@request, rpc::ParamRequest, Option<rpc::ParamReadWriteRequest>);
+            crate::voca::impl_packet!(@response, rpc::ParamResponse, Option<rpc::ParamReadWriteResponse>);
+            crate::voca::impl_packet!(@measure, rpc::AlarmResponse);
+        };
     }
 }
 pub mod model {
@@ -127,6 +315,9 @@ pub mod model {
         }
         pub mod v1 {
             crate::voca::include_proto_package!("deps/model/esd/v1", "deps.model.esd.v1");
+            crate::voca::impl_packet!(@request, rpc::bank::CommandRequest, alloc::vec::Vec<esd_bank::Command>);
+            crate::voca::impl_packet!(@response, rpc::bank::CommandResponse, u32);
+            crate::voca::impl_packet!(@measure, rpc::bank::MeasureResponse);
         }
     }
     pub mod net {
@@ -157,11 +348,23 @@ pub mod model {
         }
         pub mod v1 {
             crate::voca::include_proto_package!("deps/model/pcs/v1", "deps.model.pcs.v1");
+            crate::voca::impl_packet!(@request, rpc::pcs::CommandRequest, alloc::vec::Vec<three_phase_pcs_part::Command>);
+            crate::voca::impl_packet!(@response, rpc::pcs::CommandResponse, u32);
+            crate::voca::impl_packet!(@measure, rpc::pcs::MeasureResponse);
+            crate::voca::impl_packet!(@request, rpc::dc_dc::CommandRequest, alloc::vec::Vec<dc_dc_converter::Command>);
+            crate::voca::impl_packet!(@response, rpc::dc_dc::CommandResponse, u32);
+            crate::voca::impl_packet!(@measure, rpc::dc_dc::MeasureResponse);
+            crate::voca::impl_packet!(@measure, rpc::grid::MeasureResponse);
         }
     }
     pub mod source {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/model/source/v1", "deps.model.source.v1");
+        }
+    }
+    pub mod tsdb {
+        pub mod v1 {
+            crate::voca::include_proto_package!("deps/model/tsdb/v1", "deps.model.tsdb.v1");
         }
     }
     pub mod pms {
@@ -219,12 +422,29 @@ pub mod model {
             };
         }
     }
+    pub mod rms {
+        pub mod v1 {
+            crate::voca::include_proto_package!("deps/model/rms/v1", "deps.model.rms.v1");
+            crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<local_rms::Command>);
+            crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
+            crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
+        }
+    }
 }
 
 pub mod preset {
+    pub trait StampedData {
+        fn timestamp(&self) -> pbs::wkt::Timestamp;
+    }
+
     pub mod bess {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
+            const _: () = {
+                crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<BessCommand>);
+                crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
+                crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
+            };
         }
     }
     pub mod station_cast {
@@ -238,6 +458,26 @@ pub mod preset {
     pub mod upms {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/preset/upms/v1", "deps.preset.upms.v1");
+            const _: () = {
+                extern crate alloc;
+                // use alloc::vec::Vec;
+
+                crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<PmsCommand>);
+                crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
+                crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
+            };
+        }
+    }
+    pub mod dbserver {
+        pub mod v1 {
+            crate::voca::include_proto_package!(
+                "deps/preset/dbserver/v1",
+                "deps.preset.dbserver.v1"
+            );
+            crate::voca::impl_packet!(@request, rpc::PullLogRequest, Option<crate::model::tsdb::v1::LogConstraint>);
+            crate::voca::impl_packet!(@response, rpc::PullLogResponse, alloc::vec::Vec<crate::model::tsdb::v1::LogItem>);
+            crate::voca::impl_packet!(@request, rpc::PullMeasureRequest, Option<crate::model::tsdb::v1::MeasureConstraint>);
+            crate::voca::impl_packet!(@response, rpc::PullMeasureResponse, alloc::vec::Vec<pbs::wkt::ListValue>);
         }
     }
 }
@@ -318,21 +558,20 @@ const _: () = {
                 status: string.status.map(Into::into),
 
                 hb: 0,
-                set_op: {
-                    use esd::v1::esd_bank::command::SetOp;
-                    use esd::v1::esd_string::command::SetCon;
-                    use esd::v1::esd_string::command::SetEna;
-                    let ena = TryInto::<SetEna>::try_into(string.set_ena).unwrap_or(SetEna::Na);
-                    let con = TryInto::<SetCon>::try_into(string.set_con).unwrap_or(SetCon::Na);
-                    let op = match (ena, con) {
-                        (SetEna::EnableString, SetCon::ConnectString) => SetOp::Connect,
-                        (SetEna::Na, _) => SetOp::Na,
-                        (_, SetCon::Na) => SetOp::Na,
-                        _ => SetOp::Disconnect,
-                    };
-                    op as i32
-                },
-
+                // set_op: {
+                //     use esd::v1::esd_bank::command::SetOp;
+                //     use esd::v1::esd_string::command::SetCon;
+                //     use esd::v1::esd_string::command::SetEna;
+                //     let ena = TryInto::<SetEna>::try_into(string.set_ena).unwrap_or(SetEna::Na);
+                //     let con = TryInto::<SetCon>::try_into(string.set_con).unwrap_or(SetCon::Na);
+                //     let op = match (ena, con) {
+                //         (SetEna::EnableString, SetCon::ConnectString) => SetOp::Connect,
+                //         (SetEna::Na, _) => SetOp::Na,
+                //         (_, SetCon::Na) => SetOp::Na,
+                //         _ => SetOp::Disconnect,
+                //     };
+                //     op as i32
+                // },
                 cnt_mod: string
                     .cnt_mod
                     .map(|cm| model::esd::v1::esd_bank::ModuleCount {
@@ -391,6 +630,8 @@ const _: () = {
 
 #[cfg(test)]
 mod test {
+    // use alloc::collections::BTreeMap;
+
     use prost::Message;
 
     #[test]
@@ -436,12 +677,12 @@ mod test {
         // pbjson_types::Value
 
         let req = vnd::v1::rpc::ParamRequest {
-            head: rpc::v1::Request {
+            header: rpc::v1::Request {
                 uuid: "test-uuid".to_string(),
                 resp_topic: "test/response".to_string(),
             }
             .into(),
-            data: vnd::v1::rpc::ParamReadWriteRequest {
+            payload: vnd::v1::rpc::ParamReadWriteRequest {
                 reads: vec![(1..2).into()],
                 writes: vnd::v1::ParamBlock {
                     ranges: vec![(1..2).into()],
@@ -495,9 +736,38 @@ mod test {
             ],
         ];
         for cmd in cmds {
-            let req = crate::preset::bess::v1::rpc::BessRequest::decode(&*cmd)?;
+            let req = crate::preset::bess::v1::rpc::CommandRequest::decode(&*cmd)?;
             tracing::info!("Decoded Request: {req:?}");
         }
+        Ok(())
+    }
+
+    #[test]
+    fn test_mixin_error() -> anyhow::Result<()> {
+        extern crate alloc;
+        use crate::rpc::v1::MixinPacket;
+        use crate::rpc::v1::response::ErrorCode;
+
+        // use crate::model::pcs::v1::dc_dc_converter::St;
+
+        {
+            let resp = crate::vnd::v1::rpc::ParamResponse::error(
+                "test-uuid",
+                (ErrorCode::NotSupportedMessage, "Not supported"),
+                None,
+            );
+
+            tracing::info!("Error Response: {:?}", resp);
+        }
+        {
+            let resp = crate::preset::bess::v1::rpc::CommandResponse::error(
+                "test-uuid",
+                (ErrorCode::InvalidParameter, "Internal error"),
+                0,
+            );
+            tracing::info!("Error Response: {:?}", resp);
+        }
+
         Ok(())
     }
 }
