@@ -14,6 +14,7 @@ plugins {
 }
 
 group = "io.github.grida-energy"
+var artifactId = "deps"
 version = "1.0.1"
 
 repositories {
@@ -32,11 +33,13 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(libs.guava)
-    implementation("com.google.protobuf:protobuf-java:4.26.1")
+    api("com.google.protobuf:protobuf-java:4.26.1")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
+    withSourcesJar()
+    withJavadocJar()
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
@@ -77,13 +80,12 @@ protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:4.26.1"
     }
-    // generatedFilesBaseDir = "$projectDir/src"
 }
 
 publishing {
     publications {
         
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("mavenJava") {
             from(components["java"])
             groupId = project.group.toString()
             artifactId = "deps"
@@ -112,26 +114,6 @@ publishing {
                     connection.set("scm:git:git://github.com/grida-energy/deps.git")
                     developerConnection.set("scm:git:ssh://github.com/grida-energy/deps.git")
                 }
-            }
-        }
-    }
-    repositories{
-        // maven {
-        //     name = "GitHubPackages"
-        //     url = uri("https://maven.pkg.github.com/grida-energy/deps")
-        //     credentials {
-        //         username = System.getenv("USERNAME")
-        //         password = System.getenv("TOKEN")
-        //     }
-        // }
-        maven {
-            name = "CentralPortal"
-            url = uri("https://central.sonatype.com/api/v1/publish")
-            credentials {
-                username = (project.findProperty("mavenCentralUsername") as String?)
-                    ?: System.getenv("MAVEN_CENTRAL_USERNAME")
-                password = (project.findProperty("mavenCentralPassword") as String?)
-                    ?: System.getenv("MAVEN_CENTRAL_PASSWORD")
             }
         }
     }

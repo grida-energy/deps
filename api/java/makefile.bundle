@@ -1,0 +1,16 @@
+BUNDLE_DIR := lib/build/distributions/io/github/grida-energy/deps/1.0.1
+TO_HASH_FILES = $(foreach ext,jar pom,$(wildcard $(BUNDLE_DIR)/*.$(ext)))
+MD5_FILES = $(TO_HASH_FILES:%=%.md5)
+SHA1_FILES = $(TO_HASH_FILES:%=%.sha1)
+
+all: make-hash
+	mkdir -p $(BUNDLE_DIR)
+	cd lib/build/distributions && zip -r central-bundle.zip io
+
+make-hash: $(MD5_FILES) $(SHA1_FILES)
+
+%.md5: %
+	md5sum $< | awk '{print $$1}' > $@
+
+%.sha1: %
+	sha1sum $< | awk '{print $$1}' > $@

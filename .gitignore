@@ -4,5 +4,6 @@ build/
 .cargo
 .vscode
 
-makefile.*
+docs/*.test.txt
+makefile.ext
 protos-out/

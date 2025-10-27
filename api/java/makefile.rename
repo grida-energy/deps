@@ -1,0 +1,9 @@
+BUNDLE_DIR := lib/build/distributions/io/github/grida-energy/deps/1.0.1
+
+JAR_SRC = $(wildcard $(BUNDLE_DIR)/lib-*)
+JAR_DST = $(patsubst $(BUNDLE_DIR)/lib-%, $(BUNDLE_DIR)/deps-%, $(JAR_SRC))
+
+all: $(JAR_DST)
+
+$(BUNDLE_DIR)/deps-%: $(BUNDLE_DIR)/lib-%
+	mv $< $@
