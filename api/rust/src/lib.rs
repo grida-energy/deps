@@ -29,15 +29,39 @@ mod voca {
 
     pub use include_proto_package;
 
+    #[derive(Debug, Clone, PartialEq, Eq, Hash)]
+    pub enum TopicKind {
+        Measure,
+        Command,
+        VndParam,
+        VndParamMeta,
+        VndAlarm,
+        VndAlarmMeta,
+    }
+    const _: () = {
+        impl TopicKind {
+            pub const fn as_str(&self) -> &str {
+                match self {
+                    TopicKind::Measure => "measure",
+                    TopicKind::Command => "command",
+                    TopicKind::VndParam => "vnd/param",
+                    TopicKind::VndParamMeta => "vnd/param-meta",
+                    TopicKind::VndAlarm => "vnd/alarm",
+                    TopicKind::VndAlarmMeta => "vnd/alarm-meta",
+                }
+            }
+        }
+    };
+
     #[derive(Debug, Clone)]
     pub struct PresetTopics<T>(pub T);
     impl<T> PresetTopics<T> {
-        pub const MEASURE: &str = "measure";
-        pub const COMMAND: &str = "command";
-        pub const VND_PARAM: &str = "vnd/param";
-        pub const VND_PARAM_META: &str = "vnd/param-meta";
-        pub const VND_ALARM: &str = "vnd/alarm";
-        pub const VND_ALARM_META: &str = "vnd/alarm-meta";
+        pub const MEASURE: &str = TopicKind::Measure.as_str();
+        pub const COMMAND: &str = TopicKind::Command.as_str();
+        pub const VND_PARAM: &str = TopicKind::VndParam.as_str();
+        pub const VND_PARAM_META: &str = TopicKind::VndParamMeta.as_str();
+        pub const VND_ALARM: &str = TopicKind::VndAlarm.as_str();
+        pub const VND_ALARM_META: &str = TopicKind::VndAlarmMeta.as_str();
     }
     impl<T: core::ops::Deref<Target = str>> PresetTopics<T> {
         pub fn any(&self) -> String {
@@ -85,7 +109,7 @@ mod voca {
         }
     }
 }
-pub use voca::PresetTopics;
+pub use voca::{PresetTopics, TopicKind};
 
 pub mod rpc {
     pub mod v1 {
@@ -102,7 +126,8 @@ pub mod rpc {
             fn get_data(&self) -> &T;
         }
 
-        pub trait MixinError<T> {
+        pub trait MixinPacket<T> {
+            fn ok(uuid: impl Into<alloc::string::String>, data: T) -> Self;
             fn error(
                 uuid: impl Into<alloc::string::String>,
                 error: (
@@ -113,10 +138,13 @@ pub mod rpc {
             ) -> Self;
         }
         const _: () = {
-            impl<T, RQ> MixinError<T> for RQ
+            impl<T, RQ> MixinPacket<T> for RQ
             where
                 RQ: MixinResponse<T>,
             {
+                fn ok(uuid: impl Into<alloc::string::String>, data: T) -> Self {
+                    Self::build(Response::ok(uuid).into(), data)
+                }
                 fn error(
                     uuid: impl Into<alloc::string::String>,
                     error: (
@@ -663,7 +691,7 @@ mod test {
     #[test]
     fn test_mixin_error() -> anyhow::Result<()> {
         extern crate alloc;
-        use crate::rpc::v1::MixinError;
+        use crate::rpc::v1::MixinPacket;
         use crate::rpc::v1::response::ErrorCode;
 
         {
