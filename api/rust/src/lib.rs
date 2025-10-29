@@ -1,5 +1,6 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![feature(try_blocks)]
+extern crate alloc;
 
 mod macros;
 
@@ -7,7 +8,6 @@ mod macros;
 pub mod deps;
 
 mod voca {
-    extern crate alloc;
     use alloc::{format, string::String};
 
     #[macro_export]
@@ -104,6 +104,29 @@ pub mod rpc {
 
         const _: () = {
             impl Request {}
+            impl Response {
+                pub fn new(
+                    uuid: impl Into<alloc::string::String>,
+                    error: Option<(response::ErrorCode, impl Into<alloc::string::String>)>,
+                ) -> Self {
+                    Response {
+                        uuid: uuid.into(),
+                        error: error.map(|(code, detail)| response::Error::new(code, detail)),
+                    }
+                }
+            }
+
+            impl response::Error {
+                pub fn new(
+                    code: response::ErrorCode,
+                    detail: impl Into<alloc::string::String>,
+                ) -> Self {
+                    response::Error {
+                        code: code as i32,
+                        detail: detail.into(),
+                    }
+                }
+            }
         };
     }
 }
