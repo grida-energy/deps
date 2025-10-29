@@ -102,6 +102,34 @@ pub mod rpc {
             fn get_data(&self) -> &T;
         }
 
+        pub trait MixinError<T> {
+            fn error(
+                uuid: impl Into<alloc::string::String>,
+                error: (
+                    crate::rpc::v1::response::ErrorCode,
+                    impl Into<alloc::string::String>,
+                ),
+                data: T,
+            ) -> Self;
+        }
+        const _: () = {
+            impl<T, RQ> MixinError<T> for RQ
+            where
+                RQ: MixinResponse<T>,
+            {
+                fn error(
+                    uuid: impl Into<alloc::string::String>,
+                    error: (
+                        crate::rpc::v1::response::ErrorCode,
+                        impl Into<alloc::string::String>,
+                    ),
+                    data: T,
+                ) -> Self {
+                    Self::build(Response::error(uuid, error).into(), data)
+                }
+            }
+        };
+
         const _: () = {
             impl Request {}
             impl Response {
@@ -113,6 +141,18 @@ pub mod rpc {
                         uuid: uuid.into(),
                         error: error.map(|(code, detail)| response::Error::new(code, detail)),
                     }
+                }
+                pub fn error(
+                    uuid: impl Into<alloc::string::String>,
+                    error: (response::ErrorCode, impl Into<alloc::string::String>),
+                ) -> Self {
+                    Response::new(uuid, error.into())
+                }
+                pub fn ok(uuid: impl Into<alloc::string::String>) -> Self {
+                    Response::new(
+                        uuid,
+                        Option::<(response::ErrorCode, alloc::string::String)>::None,
+                    )
                 }
             }
 
@@ -617,6 +657,33 @@ mod test {
             let req = crate::preset::bess::v1::rpc::BessRequest::decode(&*cmd)?;
             tracing::info!("Decoded Request: {req:?}");
         }
+        Ok(())
+    }
+
+    #[test]
+    fn test_mixin_error() -> anyhow::Result<()> {
+        extern crate alloc;
+        use crate::rpc::v1::MixinError;
+        use crate::rpc::v1::response::ErrorCode;
+
+        {
+            let resp = crate::vnd::v1::rpc::ParamResponse::error(
+                "test-uuid",
+                (ErrorCode::NotSupportedMessage, "Not supported"),
+                None,
+            );
+
+            tracing::info!("Error Response: {:?}", resp);
+        }
+        {
+            let resp = crate::preset::bess::v1::rpc::BessResponse::error(
+                "test-uuid",
+                (ErrorCode::InvalidParameter, "Internal error"),
+                (),
+            );
+            tracing::info!("Error Response: {:?}", resp);
+        }
+
         Ok(())
     }
 }
