@@ -295,16 +295,23 @@ message Device {
 
 ### 4. 제조사별 고유 값 (Vender-Parameter, Vender-Alarm)
 
-공통 모델에 포함되지 않은 제조사별 고유 상태(파라미터 및 알람)를 표현하기 위해 다음의 구조를 통해 동적으로 고유 상태를 표현한다.
+공통 모델에 포함되지 않은 제조사별 고유 상태를 표현하기 위해 다음의 구조를 통해 동적으로 고유 상태를 표현한다.
+제조사별 고유 상태는 아래를 포함한다.
 
-#### 4.1. 숫자 번호와 파라미터 값 혹은 알람 값을 매칭
+- Parameter: 읽거나 쓰기 가능한 제조사 고유의 항목 (예) 과전압, 저전압 보호 레벨 설정, 장치 시간 설정 등
+- Alarm: 고장, 경고, 상태를 나타내는 Boolean 값의 집합
+
+제조사 고유의 값은 각 항목에 대해 번호가 매겨지며 각 항목에 대해서는 해당 번호로 접근되어 읽기/쓰기가 수행된다.
+제조사 고유의 값에 대해서는 사람이 인식 가능한 부가(Meta) 정보가 존재하며 이는 값에 대한 접근과 별도로 조회할 수 있다.
+
+#### 4.1. 파라미터 값 혹은 알람 값에 대한 번호 부여 (Meta 정보)
 
 개념적 예시
 
 ```json
 // 제조사별 고유 값 정의
 {
-  1: {
+  1: { // 1번 파라미터는 전압 값에 대응
     "param_name": "특정 전압 값",
     "description": "제조사 고유한 특정 측정 전압",
     "unit": "V",
@@ -313,7 +320,7 @@ message Device {
 }
 ```
 
-#### 4.2. 번호의 의미 및 이름은 Meta 모델(ParamMeta, AlarmMeta)을 통해 동적 조회한다
+#### 4.2. 파라미터의 정보는 번호를 통해 동적 조회한다
 
 ```json
 // 읽기 요청 (1번, 5번 파라미터 읽기)
@@ -330,6 +337,7 @@ message Device {
 - 제조사별 고유값 별로 파라미터 번호가 할당되어야 하고, 해당 파라미터 번호로 값을 읽기/쓰기를 명시적으로 요청해야한다.
 - 요청/응답을 통해 제조사별 고유값을 읽어온다.
 
+각 파라미터 정보는 ParamInfo에 저장된다.\
 [ParamInfo](api/md/deps-protos.md#deps-vnd-v1-ParamInfo),
 [ParamMeta](api/md/deps-protos.md#deps-vnd-v1-ParamMeta)
 
@@ -351,6 +359,24 @@ message ParamInfo {
 }
 
 message ParamMeta { map<uint32, ParamInfo> param_infos = 1; }
+```
+
+파라미터 읽기 쓰기는 ParamReadWriteRequest를 통해 요청한다. 하나의 요청을 통해 읽기 및 쓰기 모두를 요청할 수 있으며, 쓰기가 먼저 수행된 다음 읽기가 수행되어야 한다.\
+[ParamReadWriteRequest](api/md/deps-protos.md#deps-vnd-v1-Rpc-ParamReadWriteRequest)
+[ParamReadWriteResponse](api/md/deps-protos.md#deps-vnd-v1-Rpc-ParamReadWriteResponse)
+
+```protobuf
+message ParamReadWriteRequest {
+  repeated ParamIdRange reads = 1;
+  ParamBlock writes = 2;
+}
+// error codes would be specified in deps.rpc.Response
+message ParamReadWriteResponse {
+  // returns successfully read values if possible
+  ParamBlock reads = 1;
+  // returns successfully writen ids if possible
+  repeated ParamIdRange writes = 2;
+}
 ```
 
 #### 4.2. 알람
@@ -416,11 +442,13 @@ message AlarmData {
 |접미어|의미 (장치 관점)|retained|
 |-|-|-|
 |vnd/param*|제조사 고유의 읽기/쓰기 데이터 **요청**을 구독하고 처리한다|no|
-|vnd/param-meta|제조사 고유의 읽기/쓰기 데이터에 대한 [인덱스-설명] 메타 데이터|yes|
+|~~vnd/param-meta~~|제조사 고유의 읽기/쓰기 데이터에 대한 [인덱스-설명] 메타 데이터|yes|
 |vnd/alarm*|제조사 고유의 알람 데이터 **요청**을 구독하고 처리한다|no|
-|vnd/alarm-meta|제조사 고유의 알라 데이터에 대한 [인덱스-이름] 메타 데이터|yes|
+|~~vnd/alarm-meta~~|제조사 고유의 알라 데이터에 대한 [인덱스-이름] 메타 데이터|yes|
+|vnd/meta**| 제조사 고유 항목 (Parameter, Alarm) 에 대한 부가 정보|yes|
 
-\* 장치에서 구독하는 토픽은 요청(Request) 형태로 전달되며, 경우에 따라 처리 결과를 특정 토픽으로 발행해야할 필요가 있음 ([MQTT RPC](#52-mqtt-rpc))
+\* 장치에서 구독하는 토픽은 요청(Request) 형태로 전달되며, 경우에 따라 처리 결과를 특정 토픽으로 발행해야할 필요가 있다. ([MQTT RPC](#52-mqtt-rpc))\
+\** 제조사 고유의 정보는 retained 형태로 전송되므로 장치는 접속 시 MQTT LastWill 메시지에 vnd/meta 토픽을 ratained 메시지로 해제(clear)하여야 한다.
 
 #### 5.2. MQTT RPC
 

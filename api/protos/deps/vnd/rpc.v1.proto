@@ -16,6 +16,7 @@ message Rpc {
     AlarmData alarm_data = 2;
   }
 
+  // "writes" performs first then "reads"
   message ParamReadWriteRequest {
     repeated ParamIdRange reads = 1;
     ParamBlock writes = 2;

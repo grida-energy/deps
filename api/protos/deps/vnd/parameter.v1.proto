@@ -9,6 +9,14 @@ import "google/protobuf/struct.proto";
 
 // 제조사 고유 파라미터 메타 정보
 message ParamInfo {
+  enum ParamKind {
+    PARAM_TYPE_NA = 0;
+    PARAM_TYPE_NUMBER = 1;
+    PARAM_TYPE_STRING = 2;
+    PARAM_TYPE_BOOL = 3;
+    PARAM_TYPE_STRUCT = 4;
+    PARAM_TYPE_LIST = 5;
+  }
   message MinMax {
     float min = 1;
     float max = 2;
@@ -22,6 +30,7 @@ message ParamInfo {
     MinMax min_max = 4;
     Enum pick = 5;
   }
+  repeated ParamKind accepts = 10;
 }
 
 message ParamMeta { map<uint32, ParamInfo> param_infos = 1; }

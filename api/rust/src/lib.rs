@@ -115,15 +115,23 @@ pub mod rpc {
     pub mod v1 {
         crate::voca::include_proto_package!("deps/rpc/v1", "deps.rpc.v1");
         pub type Result<T> = core::result::Result<T, response::Error>;
-        pub trait MixinRequest<T> {
-            fn build(header: Option<Request>, data: T) -> Self;
-            fn get_header(&self) -> Option<&Request>;
-            fn get_data(&self) -> &T;
+        pub trait HasHeader {
+            type Header;
+            fn get_header(&self) -> Option<&Self::Header>;
         }
-        pub trait MixinResponse<T> {
-            fn build(header: Option<Response>, data: T) -> Self;
-            fn get_header(&self) -> Option<&Response>;
-            fn get_data(&self) -> &T;
+        pub trait HasData {
+            type Data;
+            fn get_data(&self) -> &Self::Data;
+        }
+        pub trait MixinRequest<T>: HasHeader<Header = Request> + HasData<Data = T> {
+            fn build(header: Option<Self::Header>, data: Self::Data) -> Self;
+            // fn get_header(&self) -> Option<&Request>;
+            // fn get_data(&self) -> &T;
+        }
+        pub trait MixinResponse<T>: HasHeader<Header = Response> + HasData<Data = T> {
+            fn build(header: Option<Self::Header>, data: Self::Data) -> Self;
+            // fn get_header(&self) -> Option<&Response>;
+            // fn get_data(&self) -> &T;
         }
 
         pub trait MixinPacket<T> {
@@ -215,6 +223,18 @@ pub mod vnd {
             }
         }
         const _: () = {
+            impl crate::rpc::v1::HasHeader for rpc::ParamRequest {
+                type Header = crate::rpc::v1::Request;
+                fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
+                    self.head.as_ref()
+                }
+            }
+            impl crate::rpc::v1::HasData for rpc::ParamRequest {
+                type Data = Option<rpc::ParamReadWriteRequest>;
+                fn get_data(&self) -> &Option<rpc::ParamReadWriteRequest> {
+                    &self.data
+                }
+            }
             impl crate::rpc::v1::MixinRequest<Option<rpc::ParamReadWriteRequest>> for rpc::ParamRequest {
                 fn build(
                     header: Option<crate::rpc::v1::Request>,
@@ -225,10 +245,16 @@ pub mod vnd {
                         data: data.into(),
                     }
                 }
-                fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
+            }
+            impl crate::rpc::v1::HasHeader for rpc::ParamResponse {
+                type Header = crate::rpc::v1::Response;
+                fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
                     self.head.as_ref()
                 }
-                fn get_data(&self) -> &Option<rpc::ParamReadWriteRequest> {
+            }
+            impl crate::rpc::v1::HasData for rpc::ParamResponse {
+                type Data = Option<rpc::ParamReadWriteResponse>;
+                fn get_data(&self) -> &Option<rpc::ParamReadWriteResponse> {
                     &self.data
                 }
             }
@@ -241,12 +267,6 @@ pub mod vnd {
                         head: header,
                         data: data.into(),
                     }
-                }
-                fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-                    self.head.as_ref()
-                }
-                fn get_data(&self) -> &Option<rpc::ParamReadWriteResponse> {
-                    &self.data
                 }
             }
         };
@@ -358,6 +378,18 @@ pub mod preset {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
             const _: () = {
+                impl crate::rpc::v1::HasHeader for rpc::BessRequest {
+                    type Header = crate::rpc::v1::Request;
+                    fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
+                        self.head.as_ref()
+                    }
+                }
+                impl crate::rpc::v1::HasData for rpc::BessRequest {
+                    type Data = Option<BessCommand>;
+                    fn get_data(&self) -> &Option<BessCommand> {
+                        &self.data
+                    }
+                }
                 impl crate::rpc::v1::MixinRequest<Option<BessCommand>> for rpc::BessRequest {
                     fn build(
                         header: Option<crate::rpc::v1::Request>,
@@ -368,22 +400,22 @@ pub mod preset {
                             data: data,
                         }
                     }
-                    fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
+                }
+                impl crate::rpc::v1::HasHeader for rpc::BessResponse {
+                    type Header = crate::rpc::v1::Response;
+                    fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
                         self.head.as_ref()
                     }
-                    fn get_data(&self) -> &Option<BessCommand> {
-                        &self.data
+                }
+                impl crate::rpc::v1::HasData for rpc::BessResponse {
+                    type Data = ();
+                    fn get_data(&self) -> &() {
+                        &()
                     }
                 }
                 impl crate::rpc::v1::MixinResponse<()> for rpc::BessResponse {
                     fn build(header: Option<crate::rpc::v1::Response>, _data: ()) -> Self {
                         rpc::BessResponse { head: header }
-                    }
-                    fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-                        self.head.as_ref()
-                    }
-                    fn get_data(&self) -> &() {
-                        &()
                     }
                 }
             };
@@ -395,7 +427,20 @@ pub mod preset {
             const _: () = {
                 extern crate alloc;
                 use alloc::vec::Vec;
-                // use crate::model::pms;
+
+                impl crate::rpc::v1::HasHeader for rpc::PmsRequest {
+                    type Header = crate::rpc::v1::Request;
+                    fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
+                        self.header.as_ref()
+                    }
+                }
+                impl crate::rpc::v1::HasData for rpc::PmsRequest {
+                    type Data = Vec<PmsCommand>;
+                    fn get_data(&self) -> &Vec<PmsCommand> {
+                        self.payload.as_ref()
+                    }
+                }
+
                 impl crate::rpc::v1::MixinRequest<Vec<PmsCommand>> for rpc::PmsRequest {
                     fn build(
                         header: Option<crate::rpc::v1::Request>,
@@ -406,22 +451,23 @@ pub mod preset {
                             payload: data,
                         }
                     }
-                    fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
+                }
+
+                impl crate::rpc::v1::HasHeader for rpc::PmsResponse {
+                    type Header = crate::rpc::v1::Response;
+                    fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
                         self.header.as_ref()
                     }
-                    fn get_data(&self) -> &Vec<PmsCommand> {
-                        self.payload.as_ref()
+                }
+                impl crate::rpc::v1::HasData for rpc::PmsResponse {
+                    type Data = u32;
+                    fn get_data(&self) -> &u32 {
+                        &self.n
                     }
                 }
                 impl crate::rpc::v1::MixinResponse<u32> for rpc::PmsResponse {
                     fn build(header: Option<crate::rpc::v1::Response>, n: u32) -> Self {
                         rpc::PmsResponse { header: header, n }
-                    }
-                    fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-                        self.header.as_ref()
-                    }
-                    fn get_data(&self) -> &u32 {
-                        &self.n
                     }
                 }
             };
