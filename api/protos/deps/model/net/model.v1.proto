@@ -14,6 +14,7 @@ message AcLine {
   float va = 5;
   float var = 6;
   float pf = 7;
+  Energy wh = 8;
 }
 
 message AcLineSum {
@@ -24,6 +25,7 @@ message AcLineSum {
   float va = 5;
   float var = 6;
   float pf = 7;
+  Energy wh = 8;
 }
 
 message Energy {
