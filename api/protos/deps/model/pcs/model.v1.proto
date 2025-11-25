@@ -260,17 +260,18 @@ message DcDcConverter {
   message Warning { bool OTHER = 1; }
   message Status { bool OTHER = 1; }
   message Command {
-    oneof cmd { bool enable = 1; }
+    oneof cmd { bool conn = 1; }
   }
-}
 
-// message Rpc {
-//   message PcsCommandRequest {
-//     .deps.rpc.v1.Request head = 1;
-//     repeated ThreePhasePcsPart.Command data = 2;
-//   }
-//   message PcsCommandResponse {
-//     .deps.rpc.v1.Response head = 1;
-//     uint32 n_success = 2;
-//   }
-// }
+  // 상태
+  St st = 1;
+  // 상태 알람
+  Status status = 2;
+  // 고장 알람
+  Fault fault = 3;
+  // 경고 알람
+  Warning warning = 4;
+
+  .deps.model.net.v1.Line input = 6;
+  .deps.model.net.v1.Line output = 7;
+}
