@@ -60,6 +60,7 @@ message Rpc {
   message BessResponse {
     // 응답 헤더
     .deps.rpc.v1.Response head = 1;
+    uint32 n_done = 2;
   }
 }
 

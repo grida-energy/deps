@@ -408,14 +408,17 @@ pub mod preset {
                     }
                 }
                 impl crate::rpc::v1::HasData for rpc::BessResponse {
-                    type Data = ();
-                    fn get_data(&self) -> &() {
-                        &()
+                    type Data = u32;
+                    fn get_data(&self) -> &u32 {
+                        &self.n_done
                     }
                 }
-                impl crate::rpc::v1::MixinResponse<()> for rpc::BessResponse {
-                    fn build(header: Option<crate::rpc::v1::Response>, _data: ()) -> Self {
-                        rpc::BessResponse { head: header }
+                impl crate::rpc::v1::MixinResponse<u32> for rpc::BessResponse {
+                    fn build(header: Option<crate::rpc::v1::Response>, n_done: u32) -> Self {
+                        rpc::BessResponse {
+                            head: header,
+                            n_done,
+                        }
                     }
                 }
             };
@@ -753,7 +756,7 @@ mod test {
             let resp = crate::preset::bess::v1::rpc::BessResponse::error(
                 "test-uuid",
                 (ErrorCode::InvalidParameter, "Internal error"),
-                (),
+                0,
             );
             tracing::info!("Error Response: {:?}", resp);
         }
