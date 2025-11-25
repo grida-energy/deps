@@ -42,6 +42,8 @@ message BessCommand {
     .deps.model.esd.v1.EsdBank.Command battery = 1;
     // PCS 명령
     .deps.model.pcs.v1.ThreePhasePcsPart.Command pcs = 2;
+    // DcDc 명령
+    .deps.model.pcs.v1.DcDcConverter.Command dcdc = 3;
   }
 }
 
@@ -52,7 +54,7 @@ message Rpc {
     // 요청 헤더
     .deps.rpc.v1.Request head = 1;
     // BESS 명령
-    BessCommand data = 2;
+    repeated BessCommand data = 2;
   }
   // BESS RPC 응답
   message BessResponse {

@@ -385,15 +385,15 @@ pub mod preset {
                     }
                 }
                 impl crate::rpc::v1::HasData for rpc::BessRequest {
-                    type Data = Option<BessCommand>;
-                    fn get_data(&self) -> &Option<BessCommand> {
+                    type Data = alloc::vec::Vec<BessCommand>;
+                    fn get_data(&self) -> &alloc::vec::Vec<BessCommand> {
                         &self.data
                     }
                 }
-                impl crate::rpc::v1::MixinRequest<Option<BessCommand>> for rpc::BessRequest {
+                impl crate::rpc::v1::MixinRequest<alloc::vec::Vec<BessCommand>> for rpc::BessRequest {
                     fn build(
                         header: Option<crate::rpc::v1::Request>,
-                        data: Option<BessCommand>,
+                        data: alloc::vec::Vec<BessCommand>,
                     ) -> Self {
                         rpc::BessRequest {
                             head: header,

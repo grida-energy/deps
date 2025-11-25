@@ -132,45 +132,69 @@ message ThreePhasePcsPart {
     // 서지 보호 장치 동작
     bool SPD = 11;
   }
-  // 명령
   message Command {
-    // 동작
-    enum Action {
-      ACTION_NA = 0;
-      // 운전 시작
-      ACTION_CONNECT = 1;
-      // 운전 정지
-      ACTION_DISCONNECT = 2;
-      // 알람 리셋
-      ACTION_RESET_ALARM = 3;
+    oneof cmd {
+      bool conn = 1;
+      bool reset = 2;
+      // 전류 지령치
+      float a = 5;
+      // 전압 지령치 - UPS 등
+      float v = 6;
+      // 유효 전력 지령치
+      float w = 7;
+      // DC 전압 지령치 - DC 시뮬레이터 등
+      float dcv = 8;
+      // DC 전류 지령치
+      float dca = 9;
+      // 유효 전력 백분율 지령치
+      float p_pct = 10;
+      // 무효 전력 백분율 지령치
+      float q_pct = 11;
+      // 역률 지령치
+      float pf = 12;
+      // 주파수 지령치
+      float hz = 13;
     }
-    // 지령치 - 장치에 따라 일부만 적용할 수 있음
-    message Reference {
-      oneof ref {
-        // 전류 지령치
-        float a = 1;
-        // 전압 지령치 - UPS 등
-        float v = 2;
-        // 유효 전력 지령치
-        float w = 3;
-        // DC 전압 지령치 - DC 시뮬레이터 등
-        float dcv = 4;
-        // DC 전류 지령치
-        float dca = 5;
-        // 유효 전력 백분율 지령치
-        float p_pct = 6;
-        // 무효 전력 백분율 지령치
-        float q_pct = 7;
-        // 역률 지령치
-        float pf = 8;
-        // 주파수 지령치
-        float hz = 9;
-      }
-    }
-
-    Action action = 1;
-    Reference ref = 2;
   }
+  // 명령
+  // message Command {
+  //   // 동작
+  //   enum Action {
+  //     ACTION_NA = 0;
+  //     // 운전 시작
+  //     ACTION_CONNECT = 1;
+  //     // 운전 정지
+  //     ACTION_DISCONNECT = 2;
+  //     // 알람 리셋
+  //     ACTION_RESET_ALARM = 3;
+  //   }
+  //   // 지령치 - 장치에 따라 일부만 적용할 수 있음
+  //   message Reference {
+  //     oneof ref {
+  //       // 전류 지령치
+  //       float a = 1;
+  //       // 전압 지령치 - UPS 등
+  //       float v = 2;
+  //       // 유효 전력 지령치
+  //       float w = 3;
+  //       // DC 전압 지령치 - DC 시뮬레이터 등
+  //       float dcv = 4;
+  //       // DC 전류 지령치
+  //       float dca = 5;
+  //       // 유효 전력 백분율 지령치
+  //       float p_pct = 6;
+  //       // 무효 전력 백분율 지령치
+  //       float q_pct = 7;
+  //       // 역률 지령치
+  //       float pf = 8;
+  //       // 주파수 지령치
+  //       float hz = 9;
+  //     }
+  //   }
+
+  //   Action action = 1;
+  //   Reference ref = 2;
+  // }
   // 전력 흐름 방향
   enum DirPwr {
     DIR_PWR_NA = 0;
@@ -260,7 +284,11 @@ message DcDcConverter {
   message Warning { bool OTHER = 1; }
   message Status { bool OTHER = 1; }
   message Command {
-    oneof cmd { bool conn = 1; }
+    oneof cmd {
+      // run/stop
+      bool conn = 1;
+      bool reset = 2;
+    }
   }
 
   // 상태
