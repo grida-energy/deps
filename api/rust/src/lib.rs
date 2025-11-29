@@ -316,6 +316,11 @@ pub mod model {
             crate::voca::include_proto_package!("deps/model/source/v1", "deps.model.source.v1");
         }
     }
+    pub mod tsdb {
+        pub mod v1 {
+            crate::voca::include_proto_package!("deps/model/tsdb/v1", "deps.model.tsdb.v1");
+        }
+    }
     pub mod pms {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/model/pms/v1", "deps.model.pms.v1");
@@ -474,6 +479,14 @@ pub mod preset {
                     }
                 }
             };
+        }
+    }
+    pub mod dbserver {
+        pub mod v1 {
+            crate::voca::include_proto_package!(
+                "deps/preset/dbserver/v1",
+                "deps.preset.dbserver.v1"
+            );
         }
     }
 }
