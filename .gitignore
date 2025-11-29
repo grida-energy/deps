@@ -5,5 +5,5 @@ build/
 .vscode
 
 docs/*.test.txt
-makefile.ext
+makefile.pb
 protos-out/

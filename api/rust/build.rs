@@ -35,9 +35,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ("deps/model/pcs", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/pms", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/source", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/model/tsdb", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/collections", None, "**/*.proto", &[]),
         ("deps/preset/bess", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/preset/upms", "v1".into(), "**/*.v1.proto", &[]),
+        ("deps/preset/dbserver", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/rpc", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/vnd", "v1".into(), "**/*.v1.proto", &[]),
     ];

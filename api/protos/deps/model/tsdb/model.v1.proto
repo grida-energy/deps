@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package deps.model.tsdb.v1;
+
+option java_package = "io.github.grida_energy.deps.model.tsdb.v1";
+
+import "deps/rpc/header.v1.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+enum Order {
+  ORDER_ASC = 0;
+  ORDER_DESC = 1;
+}
+
+enum EventKind {
+  EVENT_KIND_NA = 0;
+  EVENT_KIND_STATUS = 1;
+  EVENT_KIND_WARNING = 2;
+  EVENT_KIND_FAULT = 3;
+}
+
+message EventFilter {
+  oneof matcher {
+    EventKind kind = 1;
+    string source = 2;
+    string name_like = 3;
+  }
+}
+
+message EventConstraint {
+  .google.protobuf.Timestamp start = 1;
+  .google.protobuf.Timestamp end = 2;
+  repeated EventFilter filters = 3;
+  uint32 limit = 4;
+  Order order = 5;
+}
+
+message Event {
+  .google.protobuf.Timestamp timestamp = 1;
+  EventKind kind = 2;
+  string source = 3;
+  string name = 4;
+}
+
+message MeasureId {
+  string source = 1;
+  repeated string path = 2;
+}
+
+message MeasureConstraint {
+  .google.protobuf.Timestamp start = 1;
+  .google.protobuf.Timestamp end = 2;
+  repeated MeasureId measures = 3;
+  uint32 limit = 4;
+  Order order = 5;
+}
