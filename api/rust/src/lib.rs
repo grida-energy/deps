@@ -379,6 +379,10 @@ pub mod model {
 }
 
 pub mod preset {
+    pub trait StampedData {
+        fn timestamp(&self) -> pbs::wkt::Timestamp;
+    }
+
     pub mod bess {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
@@ -424,6 +428,13 @@ pub mod preset {
                             head: header,
                             n_done,
                         }
+                    }
+                }
+            };
+            const _: () = {
+                impl crate::preset::StampedData for BessMeasure {
+                    fn timestamp(&self) -> pbs::wkt::Timestamp {
+                        self.timestamp.unwrap_or_default()
                     }
                 }
             };
@@ -476,6 +487,13 @@ pub mod preset {
                 impl crate::rpc::v1::MixinResponse<u32> for rpc::PmsResponse {
                     fn build(header: Option<crate::rpc::v1::Response>, n: u32) -> Self {
                         rpc::PmsResponse { header: header, n }
+                    }
+                }
+            };
+            const _: () = {
+                impl crate::preset::StampedData for PmsMeasure {
+                    fn timestamp(&self) -> pbs::wkt::Timestamp {
+                        self.timestamp.unwrap_or_default()
                     }
                 }
             };

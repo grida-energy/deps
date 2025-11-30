@@ -6,6 +6,7 @@ option java_package = "io.github.grida_energy.deps.preset.dbserver.v1";
 
 import "deps/rpc/header.v1.proto";
 import "deps/model/tsdb/model.v1.proto";
+// import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
 
 message rpc {
