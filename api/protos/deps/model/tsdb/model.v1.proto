@@ -13,62 +13,67 @@ enum Order {
   ORDER_DESC = 1;
 }
 
-enum EventKind {
-  EVENT_KIND_NA = 0;
-  EVENT_KIND_STATUS = 1;
-  EVENT_KIND_WARNING = 2;
-  EVENT_KIND_FAULT = 3;
+enum LogKind {
+  LOG_KIND_EVENT = 0;
+  LOG_KIND_ALARM = 1;
+  LOG_KIND_COMMAND = 2;
 }
 
-message EventFilter {
+enum AlarmKind {
+  EVENT_KIND_STATUS = 0;
+  EVENT_KIND_WARNING = 1;
+  EVENT_KIND_FAULT = 2;
+}
+enum AlarmStatus {
+  ALARM_STATUS_CLEAR = 0;
+  ALARM_STATUS_TRIGGER = 1;
+}
+
+message EventMatch {
   oneof matcher {
-    EventKind kind = 1;
-    string source = 2;
-    string name_like = 3;
+    LogKind log_kind = 1;
+    AlarmKind alarm_kind = 2;
+    string source_like = 3;
+    string name_like = 4;
+    string target_like = 5;
+    AlarmStatus alarm_status = 6;
   }
 }
 
 message EventConstraint {
   .google.protobuf.Timestamp start = 1;
   .google.protobuf.Timestamp end = 2;
-  repeated EventFilter filters = 3;
+  repeated EventMatch matches = 3;
   uint32 limit = 4;
   Order order = 5;
 }
 
-enum AlarmStatus {
-  ALARM_STATUS_CLEAR = 0;
-  ALARM_STATUS_TRIGGER = 1;
-}
-
 message EventLog {
-  .google.protobuf.Timestamp timestamp = 1;
   string source = 2;
   string name = 3;
-  .google.protobuf.Struct meta = 4;
+  .google.protobuf.Struct meta = 5;
 }
 
 message AlarmLog {
-  .google.protobuf.Timestamp timestamp = 1;
-  EventKind kind = 2;
-  AlarmStatus status = 3;
-  string source = 4;
-  string name = 5;
+  string source = 2;
+  string name = 3;
+  AlarmKind kind = 4;
+  AlarmStatus status = 5;
 }
 
 message CommandLog {
-  .google.protobuf.Timestamp timestamp = 1;
   string source = 2;
-  string target = 3;
-  string name = 4;
+  string name = 3;
+  string target = 4;
   .google.protobuf.Struct parameters = 5;
 }
 
 message LogItem {
-  oneof log {
-    EventLog event = 1;
-    AlarmLog alarm = 2;
-    CommandLog command = 3;
+  .google.protobuf.Timestamp timestamp = 1;
+  oneof item {
+    EventLog event = 2;
+    AlarmLog alarm = 3;
+    CommandLog command = 4;
   }
 }
 
