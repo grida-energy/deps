@@ -32,9 +32,9 @@ enum AlarmStatus {
 message LogMatch {
   oneof matcher {
     LogKind log_kind = 1;
-    AlarmKind alarm_kind = 2;
-    string source_like = 3;
-    string name_like = 4;
+    string source_like = 2;
+    string name_like = 3;
+    AlarmKind alarm_kind = 4;
     string target_like = 5;
     AlarmStatus alarm_status = 6;
   }
@@ -48,32 +48,26 @@ message LogConstraint {
   Order order = 5;
 }
 
-message EventLog {
-  string source = 2;
-  string name = 3;
-  .google.protobuf.Struct meta = 5;
-}
+message EventExtra { .google.protobuf.Struct tags = 5; }
 
-message AlarmLog {
-  string source = 2;
-  string name = 3;
+message AlarmExtra {
   AlarmKind kind = 4;
   AlarmStatus status = 5;
 }
 
-message CommandLog {
-  string source = 2;
-  string name = 3;
+message CommandExtra {
   string target = 4;
   .google.protobuf.Struct parameters = 5;
 }
 
 message LogItem {
   .google.protobuf.Timestamp timestamp = 1;
-  oneof item {
-    EventLog event = 2;
-    AlarmLog alarm = 3;
-    CommandLog command = 4;
+  string source = 2;
+  string name = 3;
+  oneof extra {
+    EventExtra event = 5;
+    AlarmExtra alarm = 6;
+    CommandExtra command = 7;
   }
 }
 
