@@ -29,7 +29,7 @@ enum AlarmStatus {
   ALARM_STATUS_TRIGGER = 1;
 }
 
-message EventMatch {
+message LogMatch {
   oneof matcher {
     LogKind log_kind = 1;
     AlarmKind alarm_kind = 2;
@@ -40,10 +40,10 @@ message EventMatch {
   }
 }
 
-message EventConstraint {
+message LogConstraint {
   .google.protobuf.Timestamp start = 1;
   .google.protobuf.Timestamp end = 2;
-  repeated EventMatch matches = 3;
+  repeated LogMatch matches = 3;
   uint32 limit = 4;
   Order order = 5;
 }

@@ -11,11 +11,11 @@ import "google/protobuf/struct.proto";
 
 message rpc {
   // topic: .../pull-event
-  message PullEventRequest {
+  message PullLogRequest {
     .deps.rpc.v1.Request header = 1;
-    .deps.model.tsdb.v1.EventConstraint payload = 2;
+    .deps.model.tsdb.v1.LogConstraint payload = 2;
   }
-  message PullEventResponse {
+  message PullLogResponse {
     .deps.rpc.v1.Response header = 1;
     repeated .deps.model.tsdb.v1.LogItem payload = 2;
   }
