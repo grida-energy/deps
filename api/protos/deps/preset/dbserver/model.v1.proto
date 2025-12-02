@@ -17,7 +17,7 @@ message rpc {
   }
   message PullEventResponse {
     .deps.rpc.v1.Response header = 1;
-    repeated .deps.model.tsdb.v1.Event payload = 2;
+    repeated .deps.model.tsdb.v1.LogItem payload = 2;
   }
 
   // topic: .../pull-measure

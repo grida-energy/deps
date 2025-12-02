@@ -11,7 +11,7 @@ option java_package = "io.github.grida_energy.deps.model.esd.v1";
 //   float n_cyc = 4;
 // }
 
-// 폐지됨 - 더 이상 사용되지 않음
+// 폐기됨 - 더 이상 사용되지 않음
 message EsdSummary {
   enum ChaSt {
     CHA_ST_NA = 0;
@@ -160,6 +160,7 @@ message EsdBank {
     // 케비넷 문 열림
     bool OPEN_DOOR = 2;
   }
+  // TODO: CELL_OV, CELL_UV 필요할 수도
   // 경고 알람
   message Warning {
     // 기타 경고
@@ -248,15 +249,15 @@ message EsdBank {
   message CellCount {
     // 최대 Cell 전압
     float v_max = 1;
-    // 최대 Cell 전압의 String 위치
+    // 최대 Cell 전압의 String 위치 (1-base, 0 = N/A)
     uint32 v_max_str = 2;
-    // 최대 Cell 전압의 Module 위치
+    // 최대 Cell 전압의 Module 위치 (1-base, 0 = N/A)
     uint32 v_max_mod = 3;
     // 최소 Cell 전압
     float v_min = 4;
-    // 최소 Cell 전압의 String 위치
+    // 최소 Cell 전압의 String 위치 (1-base, 0 = N/A)
     uint32 v_min_str = 5;
-    // 최소 Cell 전압의 Module 위치
+    // 최소 Cell 전압의 Module 위치 (1-base, 0 = N/A)
     uint32 v_min_mod = 6;
 
     // 평균 Cell 전압
@@ -268,16 +269,16 @@ message EsdBank {
   message ModuleCount {
     // 최고 온도
     float tmp_max = 3;
-    // 최고 온도의 String 위치
+    // 최고 온도의 String 위치 (1-base, 0 = N/A)
     uint32 tmp_max_str = 4;
-    // 최고 온도의 Module 위치
+    // 최고 온도의 Module 위치 (1-base, 0 = N/A)
     uint32 tmp_max_mod = 5;
 
     // 최소 온도
     float tmp_min = 6;
-    // 최소 온도의 String 위치
+    // 최소 온도의 String 위치 (1-base, 0 = N/A)
     uint32 tmp_min_str = 7;
-    // 최소 온도의 Module 위치
+    // 최소 온도의 Module 위치 (1-base, 0 = N/A)
     uint32 tmp_min_mod = 8;
 
     // 평균 온도
@@ -287,12 +288,12 @@ message EsdBank {
   message StringCount {
     // 최대 String 전압
     float v_max = 1;
-    // 최대 String 전압의 String 위치
+    // 최대 String 전압의 String 위치 (1-base, 0 = N/A)
     uint32 v_max_str = 2;
 
     // 최소 String 전압
     float v_min = 3;
-    // 최소 String 전압의 String 위치
+    // 최소 String 전압의 String 위치 (1-base, 0 = N/A)
     uint32 v_min_str = 4;
 
     // 평균 String 전압
@@ -300,12 +301,12 @@ message EsdBank {
 
     // 최대 String 전류
     float a_max = 6;
-    // 최대 String 전류의 String 위치
+    // 최대 String 전류의 String 위치 (1-base, 0 = N/A)
     uint32 a_max_str = 7;
 
     // 최소 String 전류
     float a_min = 8;
-    // 최소 String 전류의 String 위치
+    // 최소 String 전류의 String 위치 (1-base, 0 = N/A)
     uint32 a_min_str = 9;
 
     // 평균 String 전류
@@ -386,6 +387,7 @@ message EsdString {
     // String 고장
     CON_FAIL_STRING_FAULT = 8;
   }
+  // TODO: 필요 여부 재확인 - String에 대한 하나의 상태만 있어도 될 듯
   // 컨택터 상태
   message StCon {
     bool CONTACTOR_0 = 1;
@@ -456,6 +458,7 @@ message EsdString {
     // 온도 불균형
     bool TEMPERATURE_IMBALANCE = 11;
   }
+  // TODO: CURRENT_IMBALANCE 필요할지 체크
   // 고장 알람
   message Fault {
     // 기타 고장
