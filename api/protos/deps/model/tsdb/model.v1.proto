@@ -20,9 +20,9 @@ enum LogKind {
 }
 
 enum AlarmKind {
-  EVENT_KIND_STATUS = 0;
-  EVENT_KIND_WARNING = 1;
-  EVENT_KIND_FAULT = 2;
+  ALARM_KIND_STATUS = 0;
+  ALARM_KIND_WARNING = 1;
+  ALARM_KIND_FAULT = 2;
 }
 enum AlarmStatus {
   ALARM_STATUS_CLEAR = 0;
