@@ -1,8 +1,11 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![feature(try_blocks)]
+#![feature(trim_prefix_suffix)]
+
 extern crate alloc;
 
 mod macros;
+mod payloads;
 
 #[cfg(feature = "pub-deps")]
 pub mod deps;
@@ -64,6 +67,25 @@ mod voca {
         pub const VND_ALARM_META: &str = TopicKind::VndAlarmMeta.as_str();
     }
     impl<T: core::ops::Deref<Target = str>> PresetTopics<T> {
+        pub fn subtopic_of<'t>(&self, topic: &'t str) -> Option<&'t str> {
+            if !topic.starts_with(&*self.0) {
+                return None;
+            }
+            Some(topic[self.0.len()..].trim_prefix('/'))
+        }
+        pub fn subtopic_kind_of<'t>(&self, topic: &'t str) -> Option<&'t str> {
+            self.subtopic_of(topic)
+                .and_then(|d| match d.to_lowercase().as_str() {
+                    Self::MEASURE => Some(Self::MEASURE),
+                    Self::COMMAND => Some(Self::COMMAND),
+                    Self::VND_PARAM => Some(Self::VND_PARAM),
+                    Self::VND_PARAM_META => Some(Self::VND_PARAM_META),
+                    Self::VND_ALARM => Some(Self::VND_ALARM),
+                    Self::VND_ALARM_META => Some(Self::VND_ALARM_META),
+                    _ => None,
+                })
+        }
+
         pub fn any(&self) -> String {
             format!("{}/{}", &*self.0, "#")
         }
