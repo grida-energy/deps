@@ -73,15 +73,15 @@ mod voca {
             }
             Some(topic[self.0.len()..].trim_prefix('/'))
         }
-        pub fn subtopic_kind_of<'t>(&self, topic: &'t str) -> Option<&'t str> {
+        pub fn subtopic_kind_of<'t>(&self, topic: &'t str) -> Option<TopicKind> {
             self.subtopic_of(topic)
                 .and_then(|d| match d.to_lowercase().as_str() {
-                    Self::MEASURE => Some(Self::MEASURE),
-                    Self::COMMAND => Some(Self::COMMAND),
-                    Self::VND_PARAM => Some(Self::VND_PARAM),
-                    Self::VND_PARAM_META => Some(Self::VND_PARAM_META),
-                    Self::VND_ALARM => Some(Self::VND_ALARM),
-                    Self::VND_ALARM_META => Some(Self::VND_ALARM_META),
+                    Self::MEASURE => Some(TopicKind::Measure),
+                    Self::COMMAND => Some(TopicKind::Command),
+                    Self::VND_PARAM => Some(TopicKind::VndParam),
+                    Self::VND_PARAM_META => Some(TopicKind::VndParamMeta),
+                    Self::VND_ALARM => Some(TopicKind::VndAlarm),
+                    Self::VND_ALARM_META => Some(TopicKind::VndAlarmMeta),
                     _ => None,
                 })
         }
