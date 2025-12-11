@@ -398,6 +398,58 @@ pub mod model {
             };
         }
     }
+    pub mod rms {
+        pub mod v1 {
+            crate::voca::include_proto_package!("deps/model/rms/v1", "deps.model.rms.v1");
+            impl crate::rpc::v1::HasHeader for rpc::CommandRequest {
+                type Header = crate::rpc::v1::Request;
+                fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
+                    self.header.as_ref()
+                }
+            }
+            impl crate::rpc::v1::HasData for rpc::CommandRequest {
+                type Data = alloc::vec::Vec<local_rms::Command>;
+                fn get_data(&self) -> &alloc::vec::Vec<local_rms::Command> {
+                    &self.payload
+                }
+            }
+            impl crate::rpc::v1::MixinRequest<alloc::vec::Vec<local_rms::Command>> for rpc::CommandRequest {
+                fn build(header: Option<Self::Header>, data: Self::Data) -> Self {
+                    rpc::CommandRequest {
+                        header: header,
+                        payload: data,
+                    }
+                }
+            }
+            impl crate::rpc::v1::HasHeader for rpc::CommandResponse {
+                type Header = crate::rpc::v1::Response;
+                fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
+                    self.header.as_ref()
+                }
+            }
+            impl crate::rpc::v1::HasData for rpc::CommandResponse {
+                type Data = u32;
+                fn get_data(&self) -> &u32 {
+                    &self.payload
+                }
+            }
+            impl crate::rpc::v1::MixinResponse<u32> for rpc::CommandResponse {
+                fn build(header: Option<Self::Header>, data: Self::Data) -> Self {
+                    rpc::CommandResponse {
+                        header: header,
+                        payload: data,
+                    }
+                }
+            }
+            const _: () = {
+                impl crate::preset::StampedData for rpc::MeasureResponse {
+                    fn timestamp(&self) -> pbs::wkt::Timestamp {
+                        self.timestamp.unwrap_or_default()
+                    }
+                }
+            };
+        }
+    }
 }
 
 pub mod preset {

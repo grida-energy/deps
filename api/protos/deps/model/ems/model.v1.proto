@@ -4,19 +4,19 @@ package deps.model.ems.v1;
 
 option java_package = "io.github.grida_energy.deps.model.ems.v1";
 
-import "deps/rpc/header.v1.proto";
+// import "deps/rpc/header.v1.proto";
 
-message ConnectRequest {
-  string device_id = 1;
-  optional string mount_path = 2;
-}
-message ConnectionInfo { repeated string connected = 1; }
+// message ConnectRequest {
+//   string device_id = 1;
+//   optional string mount_path = 2;
+// }
+// message ConnectionInfo { repeated string connected = 1; }
 
-// TOOD: move to preset
-message rpc {
-  message Request {
-    .deps.rpc.v1.Request header = 1;
-    ConnectRequest payload = 2;
-  }
-  message Response { .deps.rpc.v1.Response header = 1; }
-}
+// // TOOD: move to preset
+// message rpc {
+//   message Request {
+//     .deps.rpc.v1.Request header = 1;
+//     ConnectRequest payload = 2;
+//   }
+//   message Response { .deps.rpc.v1.Response header = 1; }
+// }
