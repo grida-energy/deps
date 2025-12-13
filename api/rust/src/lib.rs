@@ -30,6 +30,56 @@ mod voca {
         };
     }
 
+    #[macro_export]
+    macro_rules! impl_packet {
+        ($st:path, $hd: path, $pl:path, $mx: path) => {
+            impl crate::rpc::v1::HasHeader for $st {
+                type Header = $hd;
+                fn get_header(&self) -> Option<&Self::Header> {
+                    self.header.as_ref()
+                }
+            }
+            impl crate::rpc::v1::HasData for $st {
+                type Data = $pl;
+                fn get_data(&self) -> &Self::Data {
+                    &self.payload
+                }
+            }
+            impl $mx for $st {
+                fn build(header: Option<$hd>, payload: $pl) -> Self {
+                    $st {
+                        header: header,
+                        payload: payload,
+                    }
+                }
+            }
+        };
+        (@request, $st:path, $pl:ty) => {
+            $crate::voca::impl_packet!(
+                $st,
+                crate::rpc::v1::Request,
+                $pl,
+                crate::rpc::v1::MixinRequest<$pl>
+            );
+        };
+        (@response, $st:path, $pl:ty) => {
+            $crate::voca::impl_packet!(
+                $st,
+                crate::rpc::v1::Response,
+                $pl,
+                crate::rpc::v1::MixinResponse<$pl>
+            );
+        };
+        (@measure, $st:path) => {
+            impl crate::preset::StampedData for $st {
+                fn timestamp(&self) -> pbs::wkt::Timestamp {
+                    (self.timestamp).unwrap_or_default()
+                }
+            }
+        };
+    }
+
+    pub use impl_packet;
     pub use include_proto_package;
 
     #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -245,52 +295,55 @@ pub mod vnd {
             }
         }
         const _: () = {
-            impl crate::rpc::v1::HasHeader for rpc::ParamRequest {
-                type Header = crate::rpc::v1::Request;
-                fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
-                    self.head.as_ref()
-                }
-            }
-            impl crate::rpc::v1::HasData for rpc::ParamRequest {
-                type Data = Option<rpc::ParamReadWriteRequest>;
-                fn get_data(&self) -> &Option<rpc::ParamReadWriteRequest> {
-                    &self.data
-                }
-            }
-            impl crate::rpc::v1::MixinRequest<Option<rpc::ParamReadWriteRequest>> for rpc::ParamRequest {
-                fn build(
-                    header: Option<crate::rpc::v1::Request>,
-                    data: Option<rpc::ParamReadWriteRequest>,
-                ) -> Self {
-                    rpc::ParamRequest {
-                        head: header,
-                        data: data.into(),
-                    }
-                }
-            }
-            impl crate::rpc::v1::HasHeader for rpc::ParamResponse {
-                type Header = crate::rpc::v1::Response;
-                fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-                    self.head.as_ref()
-                }
-            }
-            impl crate::rpc::v1::HasData for rpc::ParamResponse {
-                type Data = Option<rpc::ParamReadWriteResponse>;
-                fn get_data(&self) -> &Option<rpc::ParamReadWriteResponse> {
-                    &self.data
-                }
-            }
-            impl crate::rpc::v1::MixinResponse<Option<rpc::ParamReadWriteResponse>> for rpc::ParamResponse {
-                fn build(
-                    header: Option<crate::rpc::v1::Response>,
-                    data: Option<rpc::ParamReadWriteResponse>,
-                ) -> Self {
-                    rpc::ParamResponse {
-                        head: header,
-                        data: data.into(),
-                    }
-                }
-            }
+            crate::voca::impl_packet!(@request, rpc::ParamRequest, Option<rpc::ParamReadWriteRequest>);
+            crate::voca::impl_packet!(@response, rpc::ParamResponse, Option<rpc::ParamReadWriteResponse>);
+            crate::voca::impl_packet!(@measure, rpc::AlarmResponse);
+            // impl crate::rpc::v1::HasHeader for rpc::ParamRequest {
+            //     type Header = crate::rpc::v1::Request;
+            //     fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
+            //         self.head.as_ref()
+            //     }
+            // }
+            // impl crate::rpc::v1::HasData for rpc::ParamRequest {
+            //     type Data = Option<rpc::ParamReadWriteRequest>;
+            //     fn get_data(&self) -> &Option<rpc::ParamReadWriteRequest> {
+            //         &self.data
+            //     }
+            // }
+            // impl crate::rpc::v1::MixinRequest<Option<rpc::ParamReadWriteRequest>> for rpc::ParamRequest {
+            //     fn build(
+            //         header: Option<crate::rpc::v1::Request>,
+            //         data: Option<rpc::ParamReadWriteRequest>,
+            //     ) -> Self {
+            //         rpc::ParamRequest {
+            //             head: header,
+            //             data: data.into(),
+            //         }
+            //     }
+            // }
+            // impl crate::rpc::v1::HasHeader for rpc::ParamResponse {
+            //     type Header = crate::rpc::v1::Response;
+            //     fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
+            //         self.head.as_ref()
+            //     }
+            // }
+            // impl crate::rpc::v1::HasData for rpc::ParamResponse {
+            //     type Data = Option<rpc::ParamReadWriteResponse>;
+            //     fn get_data(&self) -> &Option<rpc::ParamReadWriteResponse> {
+            //         &self.data
+            //     }
+            // }
+            // impl crate::rpc::v1::MixinResponse<Option<rpc::ParamReadWriteResponse>> for rpc::ParamResponse {
+            //     fn build(
+            //         header: Option<crate::rpc::v1::Response>,
+            //         data: Option<rpc::ParamReadWriteResponse>,
+            //     ) -> Self {
+            //         rpc::ParamResponse {
+            //             head: header,
+            //             data: data.into(),
+            //         }
+            //     }
+            // }
         };
     }
 }
@@ -331,6 +384,12 @@ pub mod model {
         }
         pub mod v1 {
             crate::voca::include_proto_package!("deps/model/pcs/v1", "deps.model.pcs.v1");
+            crate::voca::impl_packet!(@request, rpc::pcs::CommandRequest, alloc::vec::Vec<three_phase_pcs_part::Command>);
+            crate::voca::impl_packet!(@response, rpc::pcs::CommandResponse, u32);
+            crate::voca::impl_packet!(@measure, rpc::pcs::MeasureResponse);
+            crate::voca::impl_packet!(@request, rpc::dc_dc::CommandRequest, alloc::vec::Vec<dc_dc_converter::Command>);
+            crate::voca::impl_packet!(@response, rpc::dc_dc::CommandResponse, u32);
+            crate::voca::impl_packet!(@measure, rpc::dc_dc::MeasureResponse);
         }
     }
     pub mod source {
@@ -401,53 +460,9 @@ pub mod model {
     pub mod rms {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/model/rms/v1", "deps.model.rms.v1");
-            impl crate::rpc::v1::HasHeader for rpc::CommandRequest {
-                type Header = crate::rpc::v1::Request;
-                fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
-                    self.header.as_ref()
-                }
-            }
-            impl crate::rpc::v1::HasData for rpc::CommandRequest {
-                type Data = alloc::vec::Vec<local_rms::Command>;
-                fn get_data(&self) -> &alloc::vec::Vec<local_rms::Command> {
-                    &self.payload
-                }
-            }
-            impl crate::rpc::v1::MixinRequest<alloc::vec::Vec<local_rms::Command>> for rpc::CommandRequest {
-                fn build(header: Option<Self::Header>, data: Self::Data) -> Self {
-                    rpc::CommandRequest {
-                        header: header,
-                        payload: data,
-                    }
-                }
-            }
-            impl crate::rpc::v1::HasHeader for rpc::CommandResponse {
-                type Header = crate::rpc::v1::Response;
-                fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-                    self.header.as_ref()
-                }
-            }
-            impl crate::rpc::v1::HasData for rpc::CommandResponse {
-                type Data = u32;
-                fn get_data(&self) -> &u32 {
-                    &self.payload
-                }
-            }
-            impl crate::rpc::v1::MixinResponse<u32> for rpc::CommandResponse {
-                fn build(header: Option<Self::Header>, data: Self::Data) -> Self {
-                    rpc::CommandResponse {
-                        header: header,
-                        payload: data,
-                    }
-                }
-            }
-            const _: () = {
-                impl crate::preset::StampedData for rpc::MeasureResponse {
-                    fn timestamp(&self) -> pbs::wkt::Timestamp {
-                        self.timestamp.unwrap_or_default()
-                    }
-                }
-            };
+            crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<local_rms::Command>);
+            crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
+            crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
         }
     }
 }
@@ -461,56 +476,9 @@ pub mod preset {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
             const _: () = {
-                impl crate::rpc::v1::HasHeader for rpc::CommandRequest {
-                    type Header = crate::rpc::v1::Request;
-                    fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
-                        self.header.as_ref()
-                    }
-                }
-                impl crate::rpc::v1::HasData for rpc::CommandRequest {
-                    type Data = alloc::vec::Vec<BessCommand>;
-                    fn get_data(&self) -> &alloc::vec::Vec<BessCommand> {
-                        &self.payload
-                    }
-                }
-                impl crate::rpc::v1::MixinRequest<alloc::vec::Vec<BessCommand>> for rpc::CommandRequest {
-                    fn build(
-                        header: Option<crate::rpc::v1::Request>,
-                        payload: alloc::vec::Vec<BessCommand>,
-                    ) -> Self {
-                        rpc::CommandRequest {
-                            header: header,
-                            payload: payload,
-                        }
-                    }
-                }
-                impl crate::rpc::v1::HasHeader for rpc::CommandResponse {
-                    type Header = crate::rpc::v1::Response;
-                    fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-                        self.header.as_ref()
-                    }
-                }
-                impl crate::rpc::v1::HasData for rpc::CommandResponse {
-                    type Data = u32;
-                    fn get_data(&self) -> &u32 {
-                        &self.payload
-                    }
-                }
-                impl crate::rpc::v1::MixinResponse<u32> for rpc::CommandResponse {
-                    fn build(header: Option<crate::rpc::v1::Response>, n_done: u32) -> Self {
-                        rpc::CommandResponse {
-                            header: header,
-                            payload: n_done,
-                        }
-                    }
-                }
-            };
-            const _: () = {
-                impl crate::preset::StampedData for rpc::MeasureResponse {
-                    fn timestamp(&self) -> pbs::wkt::Timestamp {
-                        self.timestamp.unwrap_or_default()
-                    }
-                }
+                crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<BessCommand>);
+                crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
+                crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
             };
         }
     }
@@ -519,57 +487,11 @@ pub mod preset {
             crate::voca::include_proto_package!("deps/preset/upms/v1", "deps.preset.upms.v1");
             const _: () = {
                 extern crate alloc;
-                use alloc::vec::Vec;
+                // use alloc::vec::Vec;
 
-                impl crate::rpc::v1::HasHeader for rpc::PmsRequest {
-                    type Header = crate::rpc::v1::Request;
-                    fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
-                        self.header.as_ref()
-                    }
-                }
-                impl crate::rpc::v1::HasData for rpc::PmsRequest {
-                    type Data = Vec<PmsCommand>;
-                    fn get_data(&self) -> &Vec<PmsCommand> {
-                        self.payload.as_ref()
-                    }
-                }
-
-                impl crate::rpc::v1::MixinRequest<Vec<PmsCommand>> for rpc::PmsRequest {
-                    fn build(
-                        header: Option<crate::rpc::v1::Request>,
-                        data: Vec<PmsCommand>,
-                    ) -> Self {
-                        rpc::PmsRequest {
-                            header: header,
-                            payload: data,
-                        }
-                    }
-                }
-
-                impl crate::rpc::v1::HasHeader for rpc::PmsResponse {
-                    type Header = crate::rpc::v1::Response;
-                    fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-                        self.header.as_ref()
-                    }
-                }
-                impl crate::rpc::v1::HasData for rpc::PmsResponse {
-                    type Data = u32;
-                    fn get_data(&self) -> &u32 {
-                        &self.n
-                    }
-                }
-                impl crate::rpc::v1::MixinResponse<u32> for rpc::PmsResponse {
-                    fn build(header: Option<crate::rpc::v1::Response>, n: u32) -> Self {
-                        rpc::PmsResponse { header: header, n }
-                    }
-                }
-            };
-            const _: () = {
-                impl crate::preset::StampedData for PmsMeasure {
-                    fn timestamp(&self) -> pbs::wkt::Timestamp {
-                        self.timestamp.unwrap_or_default()
-                    }
-                }
+                crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<PmsCommand>);
+                crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
+                crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
             };
         }
     }
@@ -579,6 +501,10 @@ pub mod preset {
                 "deps/preset/dbserver/v1",
                 "deps.preset.dbserver.v1"
             );
+            crate::voca::impl_packet!(@request, rpc::PullLogRequest, Option<crate::model::tsdb::v1::LogConstraint>);
+            crate::voca::impl_packet!(@response, rpc::PullLogResponse, alloc::vec::Vec<crate::model::tsdb::v1::LogItem>);
+            crate::voca::impl_packet!(@request, rpc::PullMeasureRequest, Option<crate::model::tsdb::v1::MeasureConstraint>);
+            crate::voca::impl_packet!(@response, rpc::PullMeasureResponse, alloc::vec::Vec<pbs::wkt::ListValue>);
         }
     }
 }
@@ -776,12 +702,12 @@ mod test {
         // pbjson_types::Value
 
         let req = vnd::v1::rpc::ParamRequest {
-            head: rpc::v1::Request {
+            header: rpc::v1::Request {
                 uuid: "test-uuid".to_string(),
                 resp_topic: "test/response".to_string(),
             }
             .into(),
-            data: vnd::v1::rpc::ParamReadWriteRequest {
+            payload: vnd::v1::rpc::ParamReadWriteRequest {
                 reads: vec![(1..2).into()],
                 writes: vnd::v1::ParamBlock {
                     ranges: vec![(1..2).into()],

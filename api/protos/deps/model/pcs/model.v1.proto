@@ -5,6 +5,7 @@ package deps.model.pcs.v1;
 option java_package = "io.github.grida_energy.deps.model.pcs.v1";
 
 import "deps/model/net/model.v1.proto";
+import "google/protobuf/timestamp.proto";
 import "deps/rpc/header.v1.proto";
 
 // 3상 선간 (전압) 값
@@ -269,6 +270,34 @@ message DcDcConverter {
 
 
 message Rpc {
+  message Pcs {
+    message MeasureResponse {
+      .google.protobuf.Timestamp timestamp = 1;
+      ThreePhasePcsPart payload = 2;
+    }
+    message CommandRequest {
+      .deps.rpc.v1.Request header = 1;
+      repeated ThreePhasePcsPart.Command payload = 2;
+    }
+    message CommandResponse {
+      .deps.rpc.v1.Response header = 1;
+      uint32 payload = 2;
+    }
+  }
+  message DcDc {
+    message MeasureResponse {
+      .google.protobuf.Timestamp timestamp = 1;
+      DcDcConverter payload = 2;
+    }
+    message CommandRequest {
+      .deps.rpc.v1.Request header = 1;
+      repeated DcDcConverter.Command payload = 2;
+    }
+    message CommandResponse {
+      .deps.rpc.v1.Response header = 1;
+      uint32 payload = 2;
+    }
+  }
   message Grid {
     message MeasureResponse {
       .deps.rpc.v1.Request header = 1;
