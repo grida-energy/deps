@@ -354,6 +354,9 @@ pub mod model {
         }
         pub mod v1 {
             crate::voca::include_proto_package!("deps/model/esd/v1", "deps.model.esd.v1");
+            crate::voca::impl_packet!(@request, rpc::bank::CommandRequest, alloc::vec::Vec<esd_bank::Command>);
+            crate::voca::impl_packet!(@response, rpc::bank::CommandResponse, u32);
+            crate::voca::impl_packet!(@measure, rpc::bank::MeasureResponse);
         }
     }
     pub mod net {
