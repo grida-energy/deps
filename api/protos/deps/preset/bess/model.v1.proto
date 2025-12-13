@@ -27,13 +27,6 @@ message Bess {
   .deps.model.source.v1.PvLine pv = 6;
 }
 
-// BESS 계측 정보
-message BessMeasure {
-  // 타임 스탬프
-  .google.protobuf.Timestamp timestamp = 1;
-  // BESS 데이터
-  Bess data = 2;
-}
 
 // BESS 명령
 message BessCommand {
@@ -49,18 +42,25 @@ message BessCommand {
 
 // RPC 메시지
 message Rpc {
+  // BESS 계측 정보
+  message MeasureResponse {
+    // 타임 스탬프
+    .google.protobuf.Timestamp timestamp = 1;
+    // BESS 데이터
+    Bess payload = 2;
+  }
   // BESS RPC 요청
-  message BessRequest {
+  message CommandRequest {
     // 요청 헤더
-    .deps.rpc.v1.Request head = 1;
+    .deps.rpc.v1.Request header = 1;
     // BESS 명령
-    repeated BessCommand data = 2;
+    repeated BessCommand payload = 2;
   }
   // BESS RPC 응답
-  message BessResponse {
+  message CommandResponse {
     // 응답 헤더
-    .deps.rpc.v1.Response head = 1;
-    uint32 n_done = 2;
+    .deps.rpc.v1.Response header = 1;
+    uint32 payload = 2;
   }
 }
 

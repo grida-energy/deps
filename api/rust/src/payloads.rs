@@ -99,7 +99,6 @@ mod tests {
                 ground_fault: true,
             }
             .into(),
-            set_op: i32::MAX,
             strs: vec![],
         };
         bank

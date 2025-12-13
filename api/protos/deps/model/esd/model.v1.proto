@@ -4,6 +4,9 @@ package deps.model.esd.v1;
 
 option java_package = "io.github.grida_energy.deps.model.esd.v1";
 
+import "google/protobuf/timestamp.proto";
+import "deps/rpc/header.v1.proto";
+
 // message EsdStateIndicator {
 //   float soc = 1;
 //   float dod = 2;
@@ -11,108 +14,21 @@ option java_package = "io.github.grida_energy.deps.model.esd.v1";
 //   float n_cyc = 4;
 // }
 
-// 폐기됨 - 더 이상 사용되지 않음
-message EsdSummary {
-  enum ChaSt {
-    CHA_ST_NA = 0;
-    CHA_ST_OFF = 1;
-    CHA_ST_EMPTY = 2;
-    CHA_ST_DISCHARGING = 3;
-    CHA_ST_CHARGING = 4;
-    CHA_ST_FULL = 5;
-    CHA_ST_HOLDING = 6;
-    CHA_ST_TESTING = 7;
+message Rpc {
+  message Bank {
+    message MeasureResponse {
+      .google.protobuf.Timestamp timestamp = 1;
+      EsdBank bank = 2;
+    }
+    message CommandRequest {
+      .deps.rpc.v1.Request header = 1;
+      repeated EsdBank.Command payload = 2;
+    }
+    message CommandResponse {
+      .deps.rpc.v1.Response header = 1;
+      uint32 payload = 2; 
+    }
   }
-  enum State {
-    STATE_NA = 0;
-    STATE_DISCONNECTED = 1;
-    STATE_INITIALIZING = 2;
-    STATE_CONNECTED = 3;
-    STATE_STANDBY = 4;
-    STATE_SOC_PROTECTION = 5;
-    STATE_SUSPENDING = 6;
-    STATE_FAULT = 99;
-  }
-  message Evt1 {
-    bool COMMUNICATION_ERROR = 1;
-    bool OVER_TEMP_ALARM = 2;
-    bool OVER_TEMP_WARNING = 3;
-    bool UNDER_TEMP_ALARM = 4;
-    bool UNDER_TEMP_WARNING = 5;
-    bool OVER_CHARGE_CURRENT_ALARM = 6;
-    bool OVER_CHARGE_CURRENT_WARNING = 7;
-    bool OVER_DISCHARGE_CURRENT_ALARM = 8;
-    bool OVER_DISCHARGE_CURRENT_WARNING = 9;
-    bool OVER_VOLT_ALARM = 10;
-    bool OVER_VOLT_WARNING = 11;
-    bool UNDER_VOLT_ALARM = 12;
-    bool UNDER_VOLT_WARNING = 13;
-    bool UNDER_SOC_MIN_ALARM = 14;
-    bool UNDER_SOC_MIN_WARNING = 15;
-    bool OVER_SOC_MAX_ALARM = 16;
-    bool OVER_SOC_MAX_WARNING = 17;
-    bool VOLTAGE_IMBALANCE_WARNING = 18;
-    bool TEMPERATURE_IMBALANCE_ALARM = 19;
-    bool TEMPERATURE_IMBALANCE_WARNING = 20;
-    bool CONTACTOR_ERROR = 21;
-    bool FAN_ERROR = 22;
-    bool GROUND_FAULT = 23;
-    bool OPEN_DOOR_ERROR = 24;
-    bool CURRENT_IMBALANCE_WARNING = 25;
-    bool OTHER_ALARM = 26;
-    bool OTHER_WARNING = 27;
-    bool RESERVED_1 = 28;
-    bool CONFIGURATION_ALARM = 29;
-    bool CONFIGURATION_WARNING = 30;
-  }
-  enum SetOp {
-    SETOP_NA = 0;
-    SETOP_CONNECT = 1;
-    SETOP_DISCONNECT = 2;
-  }
-
-  message CellCount {
-    float v_max = 1;
-    uint32 v_max_str = 2;
-    uint32 v_max_mod = 3;
-    float v_min = 4;
-    uint32 v_min_str = 5;
-    uint32 v_min_mod = 6;
-
-    float v_avg = 7;
-  }
-  message Command {
-    oneof cmd { SetOp set_op = 1; }
-  }
-
-  float soc = 1;
-  float dod = 2;
-  float soh = 3;
-  uint32 n_cyc = 4;
-
-  ChaSt cha_st = 5;
-  reserved 6;
-  uint32 hb = 7;
-  reserved 8;
-  reserved 9;
-  State state = 11;
-  uint32 state_vnd = 12;
-  reserved 13;
-  Evt1 evt1 = 14;
-
-  float v = 20;
-  float v_max = 21;
-  float v_min = 22;
-  CellCount cnt_cell = 23;
-
-  float a = 30;
-  float a_cha_max = 31;
-  float a_discha_max = 32;
-  float w = 33;
-  reserved 34;
-  reserved 35;
-  SetOp set_op = 36;
-  EsdBank bank = 50;
 }
 
 // 배터리 총 합 (병렬 String으로 구성)
@@ -231,17 +147,18 @@ message EsdBank {
 
   // 명령
   message Command {
-    // 동작 설정
-    enum SetOp {
-      SET_OP_NA = 0;
-      // 연결
-      SET_OP_CONNECT = 1;
-      // 연결 해제
-      SET_OP_DISCONNECT = 2;
-    }
+    // // 동작 설정
+    // enum SetOp {
+    //   SET_OP_NA = 0;
+    //   // 연결
+    //   SET_OP_CONNECT = 1;
+    //   // 연결 해제
+    //   SET_OP_DISCONNECT = 2;
+    // }
     oneof cmd {
       // 동작 설정
-      SetOp set_op = 1;
+      bool conn = 1;
+      bool reset = 2;
     }
   }
 
@@ -356,9 +273,6 @@ message EsdBank {
   Warning warning = 17;
   // 고장 알람
   Fault fault = 18;
-
-  // 동작 설정
-  Command.SetOp set_op = 19;
 
   // String (Rack) 정보
   repeated EsdString strs = 20;

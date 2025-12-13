@@ -461,52 +461,52 @@ pub mod preset {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
             const _: () = {
-                impl crate::rpc::v1::HasHeader for rpc::BessRequest {
+                impl crate::rpc::v1::HasHeader for rpc::CommandRequest {
                     type Header = crate::rpc::v1::Request;
                     fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
-                        self.head.as_ref()
+                        self.header.as_ref()
                     }
                 }
-                impl crate::rpc::v1::HasData for rpc::BessRequest {
+                impl crate::rpc::v1::HasData for rpc::CommandRequest {
                     type Data = alloc::vec::Vec<BessCommand>;
                     fn get_data(&self) -> &alloc::vec::Vec<BessCommand> {
-                        &self.data
+                        &self.payload
                     }
                 }
-                impl crate::rpc::v1::MixinRequest<alloc::vec::Vec<BessCommand>> for rpc::BessRequest {
+                impl crate::rpc::v1::MixinRequest<alloc::vec::Vec<BessCommand>> for rpc::CommandRequest {
                     fn build(
                         header: Option<crate::rpc::v1::Request>,
-                        data: alloc::vec::Vec<BessCommand>,
+                        payload: alloc::vec::Vec<BessCommand>,
                     ) -> Self {
-                        rpc::BessRequest {
-                            head: header,
-                            data: data,
+                        rpc::CommandRequest {
+                            header: header,
+                            payload: payload,
                         }
                     }
                 }
-                impl crate::rpc::v1::HasHeader for rpc::BessResponse {
+                impl crate::rpc::v1::HasHeader for rpc::CommandResponse {
                     type Header = crate::rpc::v1::Response;
                     fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-                        self.head.as_ref()
+                        self.header.as_ref()
                     }
                 }
-                impl crate::rpc::v1::HasData for rpc::BessResponse {
+                impl crate::rpc::v1::HasData for rpc::CommandResponse {
                     type Data = u32;
                     fn get_data(&self) -> &u32 {
-                        &self.n_done
+                        &self.payload
                     }
                 }
-                impl crate::rpc::v1::MixinResponse<u32> for rpc::BessResponse {
+                impl crate::rpc::v1::MixinResponse<u32> for rpc::CommandResponse {
                     fn build(header: Option<crate::rpc::v1::Response>, n_done: u32) -> Self {
-                        rpc::BessResponse {
-                            head: header,
-                            n_done,
+                        rpc::CommandResponse {
+                            header: header,
+                            payload: n_done,
                         }
                     }
                 }
             };
             const _: () = {
-                impl crate::preset::StampedData for BessMeasure {
+                impl crate::preset::StampedData for rpc::MeasureResponse {
                     fn timestamp(&self) -> pbs::wkt::Timestamp {
                         self.timestamp.unwrap_or_default()
                     }
@@ -659,21 +659,20 @@ const _: () = {
                 status: string.status.map(Into::into),
 
                 hb: 0,
-                set_op: {
-                    use esd::v1::esd_bank::command::SetOp;
-                    use esd::v1::esd_string::command::SetCon;
-                    use esd::v1::esd_string::command::SetEna;
-                    let ena = TryInto::<SetEna>::try_into(string.set_ena).unwrap_or(SetEna::Na);
-                    let con = TryInto::<SetCon>::try_into(string.set_con).unwrap_or(SetCon::Na);
-                    let op = match (ena, con) {
-                        (SetEna::EnableString, SetCon::ConnectString) => SetOp::Connect,
-                        (SetEna::Na, _) => SetOp::Na,
-                        (_, SetCon::Na) => SetOp::Na,
-                        _ => SetOp::Disconnect,
-                    };
-                    op as i32
-                },
-
+                // set_op: {
+                //     use esd::v1::esd_bank::command::SetOp;
+                //     use esd::v1::esd_string::command::SetCon;
+                //     use esd::v1::esd_string::command::SetEna;
+                //     let ena = TryInto::<SetEna>::try_into(string.set_ena).unwrap_or(SetEna::Na);
+                //     let con = TryInto::<SetCon>::try_into(string.set_con).unwrap_or(SetCon::Na);
+                //     let op = match (ena, con) {
+                //         (SetEna::EnableString, SetCon::ConnectString) => SetOp::Connect,
+                //         (SetEna::Na, _) => SetOp::Na,
+                //         (_, SetCon::Na) => SetOp::Na,
+                //         _ => SetOp::Disconnect,
+                //     };
+                //     op as i32
+                // },
                 cnt_mod: string
                     .cnt_mod
                     .map(|cm| model::esd::v1::esd_bank::ModuleCount {
@@ -836,7 +835,7 @@ mod test {
             ],
         ];
         for cmd in cmds {
-            let req = crate::preset::bess::v1::rpc::BessRequest::decode(&*cmd)?;
+            let req = crate::preset::bess::v1::rpc::CommandRequest::decode(&*cmd)?;
             tracing::info!("Decoded Request: {req:?}");
         }
         Ok(())
@@ -858,7 +857,7 @@ mod test {
             tracing::info!("Error Response: {:?}", resp);
         }
         {
-            let resp = crate::preset::bess::v1::rpc::BessResponse::error(
+            let resp = crate::preset::bess::v1::rpc::CommandResponse::error(
                 "test-uuid",
                 (ErrorCode::InvalidParameter, "Internal error"),
                 0,
