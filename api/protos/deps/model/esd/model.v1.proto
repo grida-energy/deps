@@ -18,7 +18,7 @@ message Rpc {
   message Bank {
     message MeasureResponse {
       .google.protobuf.Timestamp timestamp = 1;
-      EsdBank bank = 2;
+      EsdBank payload = 2;
     }
     message CommandRequest {
       .deps.rpc.v1.Request header = 1;
