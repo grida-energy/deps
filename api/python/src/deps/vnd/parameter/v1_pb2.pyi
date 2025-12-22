@@ -8,18 +8,18 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class ParamInfo(_message.Message):
-    __slots__ = ("param_name", "description", "unit", "min_max", "pick")
+    __slots__ = ()
     class MinMax(_message.Message):
-        __slots__ = ("min", "max")
+        __slots__ = ()
         MIN_FIELD_NUMBER: _ClassVar[int]
         MAX_FIELD_NUMBER: _ClassVar[int]
         min: float
         max: float
         def __init__(self, min: _Optional[float] = ..., max: _Optional[float] = ...) -> None: ...
     class Enum(_message.Message):
-        __slots__ = ("collections",)
+        __slots__ = ()
         class CollectionsEntry(_message.Message):
-            __slots__ = ("key", "value")
+            __slots__ = ()
             KEY_FIELD_NUMBER: _ClassVar[int]
             VALUE_FIELD_NUMBER: _ClassVar[int]
             key: int
@@ -41,9 +41,9 @@ class ParamInfo(_message.Message):
     def __init__(self, param_name: _Optional[str] = ..., description: _Optional[str] = ..., unit: _Optional[str] = ..., min_max: _Optional[_Union[ParamInfo.MinMax, _Mapping]] = ..., pick: _Optional[_Union[ParamInfo.Enum, _Mapping]] = ...) -> None: ...
 
 class ParamMeta(_message.Message):
-    __slots__ = ("param_infos",)
+    __slots__ = ()
     class ParamInfosEntry(_message.Message):
-        __slots__ = ("key", "value")
+        __slots__ = ()
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: int
@@ -54,7 +54,7 @@ class ParamMeta(_message.Message):
     def __init__(self, param_infos: _Optional[_Mapping[int, ParamInfo]] = ...) -> None: ...
 
 class ParamIdRange(_message.Message):
-    __slots__ = ("start", "length")
+    __slots__ = ()
     START_FIELD_NUMBER: _ClassVar[int]
     LENGTH_FIELD_NUMBER: _ClassVar[int]
     start: int
@@ -62,7 +62,7 @@ class ParamIdRange(_message.Message):
     def __init__(self, start: _Optional[int] = ..., length: _Optional[int] = ...) -> None: ...
 
 class ParamBlock(_message.Message):
-    __slots__ = ("ranges", "values")
+    __slots__ = ()
     RANGES_FIELD_NUMBER: _ClassVar[int]
     VALUES_FIELD_NUMBER: _ClassVar[int]
     ranges: _containers.RepeatedCompositeFieldContainer[ParamIdRange]

@@ -19,23 +19,23 @@ ALARM_TYPE_WARNING: AlarmType
 ALARM_TYPE_FAULT: AlarmType
 
 class AlarmMeta(_message.Message):
-    __slots__ = ("status", "warning", "fault")
+    __slots__ = ()
     class StatusEntry(_message.Message):
-        __slots__ = ("key", "value")
+        __slots__ = ()
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: int
         value: str
         def __init__(self, key: _Optional[int] = ..., value: _Optional[str] = ...) -> None: ...
     class WarningEntry(_message.Message):
-        __slots__ = ("key", "value")
+        __slots__ = ()
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: int
         value: str
         def __init__(self, key: _Optional[int] = ..., value: _Optional[str] = ...) -> None: ...
     class FaultEntry(_message.Message):
-        __slots__ = ("key", "value")
+        __slots__ = ()
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: int
@@ -50,7 +50,7 @@ class AlarmMeta(_message.Message):
     def __init__(self, status: _Optional[_Mapping[int, str]] = ..., warning: _Optional[_Mapping[int, str]] = ..., fault: _Optional[_Mapping[int, str]] = ...) -> None: ...
 
 class AlarmData(_message.Message):
-    __slots__ = ("status", "warning", "fault")
+    __slots__ = ()
     STATUS_FIELD_NUMBER: _ClassVar[int]
     WARNING_FIELD_NUMBER: _ClassVar[int]
     FAULT_FIELD_NUMBER: _ClassVar[int]
