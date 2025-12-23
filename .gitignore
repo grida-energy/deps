@@ -5,5 +5,8 @@ build/
 .vscode
 
 docs/*.test.txt
-makefile.ext
+docs/olds
+makefile.*
 protos-out/
+
+*.egg-info/

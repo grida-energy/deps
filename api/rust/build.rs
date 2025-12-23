@@ -25,6 +25,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     sync_proto_files()?;
 
     let packages: Vec<Package> = vec![
+        ("deps/model/cast", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/esd", "v0".into(), "**/*.v0.proto", &[]),
         ("deps/model/esd", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/nameplate", "v0".into(), "**/*.v0.proto", &[]),
@@ -37,6 +38,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ("deps/model/source", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/collections", None, "**/*.proto", &[]),
         ("deps/preset/bess", "v1".into(), "**/*.v1.proto", &[]),
+        (
+            "deps/preset/station-cast",
+            "v1".into(),
+            "**/*.v1.proto",
+            &[],
+        ),
         ("deps/preset/upms", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/rpc", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/vnd", "v1".into(), "**/*.v1.proto", &[]),
@@ -109,7 +116,7 @@ pub fn build_protos(packages: &[Package]) -> Result<(), Box<dyn core::error::Err
         #[cfg(feature = "serde-json")]
         {
             // let package_ext = format!(".eps.{}", package_dir.replace("/", "."));
-            let pb_package = pivot_dir.replace("/", ".");
+            let pb_package = pivot_dir.replace("/", ".").replace("-", "_");
             let package_ext = format!(".{}", pb_package);
             let descriptor_set = std::fs::read(descriptor_path)?;
             let mut pbjson_conf = pbjson_build::Builder::new();

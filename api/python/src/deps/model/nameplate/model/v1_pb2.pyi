@@ -7,7 +7,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Id(_message.Message):
-    __slots__ = ("vendor", "model", "serial", "sw_version", "hw_version")
+    __slots__ = ()
     VENDOR_FIELD_NUMBER: _ClassVar[int]
     MODEL_FIELD_NUMBER: _ClassVar[int]
     SERIAL_FIELD_NUMBER: _ClassVar[int]
@@ -21,9 +21,9 @@ class Id(_message.Message):
     def __init__(self, vendor: _Optional[str] = ..., model: _Optional[str] = ..., serial: _Optional[str] = ..., sw_version: _Optional[str] = ..., hw_version: _Optional[str] = ...) -> None: ...
 
 class NetworkConfig(_message.Message):
-    __slots__ = ("ips",)
+    __slots__ = ()
     class IpsEntry(_message.Message):
-        __slots__ = ("key", "value")
+        __slots__ = ()
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: str

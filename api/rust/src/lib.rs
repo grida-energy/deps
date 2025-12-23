@@ -116,6 +116,11 @@ pub mod vnd {
     }
 }
 pub mod model {
+    pub mod cast {
+        pub mod v1 {
+            crate::voca::include_proto_package!("deps/model/cast/v1", "deps.model.cast.v1");
+        }
+    }
     pub mod esd {
         pub mod v0 {
             crate::voca::include_proto_package!("deps/model/esd/v0", "deps.model.esd.v0");
@@ -220,6 +225,14 @@ pub mod preset {
     pub mod bess {
         pub mod v1 {
             crate::voca::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
+        }
+    }
+    pub mod station_cast {
+        pub mod v1 {
+            crate::voca::include_proto_package!(
+                "deps/preset/station-cast/v1",
+                "deps.preset.station_cast.v1"
+            );
         }
     }
     pub mod upms {

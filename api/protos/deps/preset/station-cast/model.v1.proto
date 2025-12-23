@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_package = "io.github.grida_energy.deps.preset.station_cast.v1";
+
+package deps.preset.station_cast.v1;
+
+import "google/protobuf/timestamp.proto";
+import "deps/model/cast/model.v1.proto";
+
+// 그룹별 수소 발전단지 데이터
+message CastSet {
+  // 발전소 예측 정보
+  .deps.model.cast.v1.StationCast cst_stn = 1;
+  // 수소 발전 단지 계측 값
+  .deps.model.cast.v1.H2StationMeasure h2 = 2;
+  // 기상 예측 정보
+  .deps.model.cast.v1.WeatherCast forecast = 3;
+}
+
+message StationCastPreset {
+  // 그룹별 수소 발전단지 데이터
+  map<string, CastSet> group = 1;
+  // 계통 운영 정보
+  .deps.model.cast.v1.GridOperation ops_grid = 2;
+  // 예측 출력 제어 데이터
+  .deps.model.cast.v1.GridOutputControl ctl_grid = 3;
+  // 일간 수요 예측 데이터
+  .deps.model.cast.v1.EnergyCast cst_dmnd = 4;
+  // 일간 신재생 예측 발전 데이터
+  .deps.model.cast.v1.EnergyCast cst_re = 5;
+}
+
+message Rpc {
+  message CastMeasure {
+    .google.protobuf.Timestamp timestamp = 1;
+    StationCastPreset data = 2;
+  }
+}

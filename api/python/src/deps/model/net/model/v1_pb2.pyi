@@ -5,7 +5,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class AcLine(_message.Message):
-    __slots__ = ("v", "a", "hz", "w", "va", "var", "pf")
+    __slots__ = ()
     V_FIELD_NUMBER: _ClassVar[int]
     A_FIELD_NUMBER: _ClassVar[int]
     HZ_FIELD_NUMBER: _ClassVar[int]
@@ -23,7 +23,7 @@ class AcLine(_message.Message):
     def __init__(self, v: _Optional[float] = ..., a: _Optional[float] = ..., hz: _Optional[float] = ..., w: _Optional[float] = ..., va: _Optional[float] = ..., var: _Optional[float] = ..., pf: _Optional[float] = ...) -> None: ...
 
 class AcLineSum(_message.Message):
-    __slots__ = ("a", "hz", "w", "va", "var", "pf")
+    __slots__ = ()
     A_FIELD_NUMBER: _ClassVar[int]
     HZ_FIELD_NUMBER: _ClassVar[int]
     W_FIELD_NUMBER: _ClassVar[int]
@@ -39,7 +39,7 @@ class AcLineSum(_message.Message):
     def __init__(self, a: _Optional[float] = ..., hz: _Optional[float] = ..., w: _Optional[float] = ..., va: _Optional[float] = ..., var: _Optional[float] = ..., pf: _Optional[float] = ...) -> None: ...
 
 class Energy(_message.Message):
-    __slots__ = ("exported", "imported")
+    __slots__ = ()
     EXPORTED_FIELD_NUMBER: _ClassVar[int]
     IMPORTED_FIELD_NUMBER: _ClassVar[int]
     exported: float

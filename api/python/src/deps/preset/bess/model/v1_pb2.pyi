@@ -13,7 +13,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Bess(_message.Message):
-    __slots__ = ("battery", "pcs", "off_grid", "on_grid")
+    __slots__ = ()
     BATTERY_FIELD_NUMBER: _ClassVar[int]
     PCS_FIELD_NUMBER: _ClassVar[int]
     OFF_GRID_FIELD_NUMBER: _ClassVar[int]
@@ -25,7 +25,7 @@ class Bess(_message.Message):
     def __init__(self, battery: _Optional[_Union[_v1_pb2.EsdBank, _Mapping]] = ..., pcs: _Optional[_Union[_v1_pb2_1.ThreePhasePcsPart, _Mapping]] = ..., off_grid: _Optional[_Union[_v1_pb2_1.ThreePhaseGridPart, _Mapping]] = ..., on_grid: _Optional[_Union[_v1_pb2_1.ThreePhaseGridPart, _Mapping]] = ...) -> None: ...
 
 class BessMeasure(_message.Message):
-    __slots__ = ("timestamp", "data")
+    __slots__ = ()
     TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
     DATA_FIELD_NUMBER: _ClassVar[int]
     timestamp: _timestamp_pb2.Timestamp
@@ -33,7 +33,7 @@ class BessMeasure(_message.Message):
     def __init__(self, timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., data: _Optional[_Union[Bess, _Mapping]] = ...) -> None: ...
 
 class BessCommand(_message.Message):
-    __slots__ = ("battery", "pcs")
+    __slots__ = ()
     BATTERY_FIELD_NUMBER: _ClassVar[int]
     PCS_FIELD_NUMBER: _ClassVar[int]
     battery: _v1_pb2.EsdBank.Command
@@ -43,21 +43,21 @@ class BessCommand(_message.Message):
 class Rpc(_message.Message):
     __slots__ = ()
     class BessRequest(_message.Message):
-        __slots__ = ("head", "data")
+        __slots__ = ()
         HEAD_FIELD_NUMBER: _ClassVar[int]
         DATA_FIELD_NUMBER: _ClassVar[int]
         head: _v1_pb2_1_1_1.Request
         data: BessCommand
         def __init__(self, head: _Optional[_Union[_v1_pb2_1_1_1.Request, _Mapping]] = ..., data: _Optional[_Union[BessCommand, _Mapping]] = ...) -> None: ...
     class BessResponse(_message.Message):
-        __slots__ = ("head",)
+        __slots__ = ()
         HEAD_FIELD_NUMBER: _ClassVar[int]
         head: _v1_pb2_1_1_1.Response
         def __init__(self, head: _Optional[_Union[_v1_pb2_1_1_1.Response, _Mapping]] = ...) -> None: ...
     def __init__(self) -> None: ...
 
 class HybridBess(_message.Message):
-    __slots__ = ("battery", "pcs", "off_grid", "on_grid", "pv")
+    __slots__ = ()
     BATTERY_FIELD_NUMBER: _ClassVar[int]
     PCS_FIELD_NUMBER: _ClassVar[int]
     OFF_GRID_FIELD_NUMBER: _ClassVar[int]
@@ -71,7 +71,7 @@ class HybridBess(_message.Message):
     def __init__(self, battery: _Optional[_Union[_v1_pb2.EsdBank, _Mapping]] = ..., pcs: _Optional[_Union[_v1_pb2_1.ThreePhasePcsPart, _Mapping]] = ..., off_grid: _Optional[_Union[_v1_pb2_1.ThreePhaseGridPart, _Mapping]] = ..., on_grid: _Optional[_Union[_v1_pb2_1.ThreePhaseGridPart, _Mapping]] = ..., pv: _Optional[_Union[_v1_pb2_1_1.PvLine, _Mapping]] = ...) -> None: ...
 
 class HybridBessMeasure(_message.Message):
-    __slots__ = ("timestamp", "data")
+    __slots__ = ()
     TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
     DATA_FIELD_NUMBER: _ClassVar[int]
     timestamp: _timestamp_pb2.Timestamp

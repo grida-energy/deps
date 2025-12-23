@@ -8,7 +8,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class EsdSummary(_message.Message):
-    __slots__ = ("soc", "dod", "soh", "n_cyc", "cha_st", "hb", "state", "state_vnd", "evt1", "v", "v_max", "v_min", "cnt_cell", "a", "a_cha_max", "a_discha_max", "w", "set_op", "bank")
+    __slots__ = ()
     class ChaSt(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         CHA_ST_NA: _ClassVar[EsdSummary.ChaSt]
@@ -54,7 +54,7 @@ class EsdSummary(_message.Message):
     SETOP_CONNECT: EsdSummary.SetOp
     SETOP_DISCONNECT: EsdSummary.SetOp
     class Evt1(_message.Message):
-        __slots__ = ("COMMUNICATION_ERROR", "OVER_TEMP_ALARM", "OVER_TEMP_WARNING", "UNDER_TEMP_ALARM", "UNDER_TEMP_WARNING", "OVER_CHARGE_CURRENT_ALARM", "OVER_CHARGE_CURRENT_WARNING", "OVER_DISCHARGE_CURRENT_ALARM", "OVER_DISCHARGE_CURRENT_WARNING", "OVER_VOLT_ALARM", "OVER_VOLT_WARNING", "UNDER_VOLT_ALARM", "UNDER_VOLT_WARNING", "UNDER_SOC_MIN_ALARM", "UNDER_SOC_MIN_WARNING", "OVER_SOC_MAX_ALARM", "OVER_SOC_MAX_WARNING", "VOLTAGE_IMBALANCE_WARNING", "TEMPERATURE_IMBALANCE_ALARM", "TEMPERATURE_IMBALANCE_WARNING", "CONTACTOR_ERROR", "FAN_ERROR", "GROUND_FAULT", "OPEN_DOOR_ERROR", "CURRENT_IMBALANCE_WARNING", "OTHER_ALARM", "OTHER_WARNING", "RESERVED_1", "CONFIGURATION_ALARM", "CONFIGURATION_WARNING")
+        __slots__ = ()
         COMMUNICATION_ERROR_FIELD_NUMBER: _ClassVar[int]
         OVER_TEMP_ALARM_FIELD_NUMBER: _ClassVar[int]
         OVER_TEMP_WARNING_FIELD_NUMBER: _ClassVar[int]
@@ -117,7 +117,7 @@ class EsdSummary(_message.Message):
         CONFIGURATION_WARNING: bool
         def __init__(self, COMMUNICATION_ERROR: _Optional[bool] = ..., OVER_TEMP_ALARM: _Optional[bool] = ..., OVER_TEMP_WARNING: _Optional[bool] = ..., UNDER_TEMP_ALARM: _Optional[bool] = ..., UNDER_TEMP_WARNING: _Optional[bool] = ..., OVER_CHARGE_CURRENT_ALARM: _Optional[bool] = ..., OVER_CHARGE_CURRENT_WARNING: _Optional[bool] = ..., OVER_DISCHARGE_CURRENT_ALARM: _Optional[bool] = ..., OVER_DISCHARGE_CURRENT_WARNING: _Optional[bool] = ..., OVER_VOLT_ALARM: _Optional[bool] = ..., OVER_VOLT_WARNING: _Optional[bool] = ..., UNDER_VOLT_ALARM: _Optional[bool] = ..., UNDER_VOLT_WARNING: _Optional[bool] = ..., UNDER_SOC_MIN_ALARM: _Optional[bool] = ..., UNDER_SOC_MIN_WARNING: _Optional[bool] = ..., OVER_SOC_MAX_ALARM: _Optional[bool] = ..., OVER_SOC_MAX_WARNING: _Optional[bool] = ..., VOLTAGE_IMBALANCE_WARNING: _Optional[bool] = ..., TEMPERATURE_IMBALANCE_ALARM: _Optional[bool] = ..., TEMPERATURE_IMBALANCE_WARNING: _Optional[bool] = ..., CONTACTOR_ERROR: _Optional[bool] = ..., FAN_ERROR: _Optional[bool] = ..., GROUND_FAULT: _Optional[bool] = ..., OPEN_DOOR_ERROR: _Optional[bool] = ..., CURRENT_IMBALANCE_WARNING: _Optional[bool] = ..., OTHER_ALARM: _Optional[bool] = ..., OTHER_WARNING: _Optional[bool] = ..., RESERVED_1: _Optional[bool] = ..., CONFIGURATION_ALARM: _Optional[bool] = ..., CONFIGURATION_WARNING: _Optional[bool] = ...) -> None: ...
     class CellCount(_message.Message):
-        __slots__ = ("v_max", "v_max_str", "v_max_mod", "v_min", "v_min_str", "v_min_mod", "v_avg")
+        __slots__ = ()
         V_MAX_FIELD_NUMBER: _ClassVar[int]
         V_MAX_STR_FIELD_NUMBER: _ClassVar[int]
         V_MAX_MOD_FIELD_NUMBER: _ClassVar[int]
@@ -134,7 +134,7 @@ class EsdSummary(_message.Message):
         v_avg: float
         def __init__(self, v_max: _Optional[float] = ..., v_max_str: _Optional[int] = ..., v_max_mod: _Optional[int] = ..., v_min: _Optional[float] = ..., v_min_str: _Optional[int] = ..., v_min_mod: _Optional[int] = ..., v_avg: _Optional[float] = ...) -> None: ...
     class Command(_message.Message):
-        __slots__ = ("set_op",)
+        __slots__ = ()
         SET_OP_FIELD_NUMBER: _ClassVar[int]
         set_op: EsdSummary.SetOp
         def __init__(self, set_op: _Optional[_Union[EsdSummary.SetOp, str]] = ...) -> None: ...
@@ -179,7 +179,7 @@ class EsdSummary(_message.Message):
     def __init__(self, soc: _Optional[float] = ..., dod: _Optional[float] = ..., soh: _Optional[float] = ..., n_cyc: _Optional[int] = ..., cha_st: _Optional[_Union[EsdSummary.ChaSt, str]] = ..., hb: _Optional[int] = ..., state: _Optional[_Union[EsdSummary.State, str]] = ..., state_vnd: _Optional[int] = ..., evt1: _Optional[_Union[EsdSummary.Evt1, _Mapping]] = ..., v: _Optional[float] = ..., v_max: _Optional[float] = ..., v_min: _Optional[float] = ..., cnt_cell: _Optional[_Union[EsdSummary.CellCount, _Mapping]] = ..., a: _Optional[float] = ..., a_cha_max: _Optional[float] = ..., a_discha_max: _Optional[float] = ..., w: _Optional[float] = ..., set_op: _Optional[_Union[EsdSummary.SetOp, str]] = ..., bank: _Optional[_Union[EsdBank, _Mapping]] = ...) -> None: ...
 
 class EsdBank(_message.Message):
-    __slots__ = ("st", "st_cha", "cnt_mod", "cnt_str", "cnt_cell", "soc", "dod", "soh", "n_cyc", "hb", "v", "a", "a_cha_max", "a_discha_max", "w", "status", "warning", "fault", "set_op", "strs")
+    __slots__ = ()
     class StCha(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         ST_CHA_NA: _ClassVar[EsdBank.StCha]
@@ -217,14 +217,14 @@ class EsdBank(_message.Message):
     ST_SUSPENDING: EsdBank.St
     ST_FAULT: EsdBank.St
     class Status(_message.Message):
-        __slots__ = ("OTHER", "OPEN_DOOR")
+        __slots__ = ()
         OTHER_FIELD_NUMBER: _ClassVar[int]
         OPEN_DOOR_FIELD_NUMBER: _ClassVar[int]
         OTHER: bool
         OPEN_DOOR: bool
         def __init__(self, OTHER: _Optional[bool] = ..., OPEN_DOOR: _Optional[bool] = ...) -> None: ...
     class Warning(_message.Message):
-        __slots__ = ("OTHER", "OVER_TEMP", "UNDER_TEMP", "OVER_CHARGE_CURRENT", "OVER_DISCHARGE_CURRENT", "OVER_VOLT", "UNDER_VOLT", "UNDER_SOC_MIN", "OVER_SOC_MAX", "VOLTAGE_IMBALANCE", "TEMPERATURE_IMBALANCE", "CURRENT_IMBALANCE", "CONFIGURATION")
+        __slots__ = ()
         OTHER_FIELD_NUMBER: _ClassVar[int]
         OVER_TEMP_FIELD_NUMBER: _ClassVar[int]
         UNDER_TEMP_FIELD_NUMBER: _ClassVar[int]
@@ -253,7 +253,7 @@ class EsdBank(_message.Message):
         CONFIGURATION: bool
         def __init__(self, OTHER: _Optional[bool] = ..., OVER_TEMP: _Optional[bool] = ..., UNDER_TEMP: _Optional[bool] = ..., OVER_CHARGE_CURRENT: _Optional[bool] = ..., OVER_DISCHARGE_CURRENT: _Optional[bool] = ..., OVER_VOLT: _Optional[bool] = ..., UNDER_VOLT: _Optional[bool] = ..., UNDER_SOC_MIN: _Optional[bool] = ..., OVER_SOC_MAX: _Optional[bool] = ..., VOLTAGE_IMBALANCE: _Optional[bool] = ..., TEMPERATURE_IMBALANCE: _Optional[bool] = ..., CURRENT_IMBALANCE: _Optional[bool] = ..., CONFIGURATION: _Optional[bool] = ...) -> None: ...
     class Fault(_message.Message):
-        __slots__ = ("OTHER", "OVER_TEMP", "UNDER_TEMP", "OVER_CHARGE_CURRENT", "OVER_DISCHARGE_CURRENT", "OVER_VOLT", "UNDER_VOLT", "UNDER_SOC_MIN", "OVER_SOC_MAX", "VOLTAGE_IMBALANCE", "TEMPERATURE_IMBALANCE", "CURRENT_IMBALANCE", "CONFIGURATION", "COMMUNICATION_ERROR", "CONTACTOR_ERROR", "FAN_ERROR", "GROUND_FAULT")
+        __slots__ = ()
         OTHER_FIELD_NUMBER: _ClassVar[int]
         OVER_TEMP_FIELD_NUMBER: _ClassVar[int]
         UNDER_TEMP_FIELD_NUMBER: _ClassVar[int]
@@ -290,7 +290,7 @@ class EsdBank(_message.Message):
         GROUND_FAULT: bool
         def __init__(self, OTHER: _Optional[bool] = ..., OVER_TEMP: _Optional[bool] = ..., UNDER_TEMP: _Optional[bool] = ..., OVER_CHARGE_CURRENT: _Optional[bool] = ..., OVER_DISCHARGE_CURRENT: _Optional[bool] = ..., OVER_VOLT: _Optional[bool] = ..., UNDER_VOLT: _Optional[bool] = ..., UNDER_SOC_MIN: _Optional[bool] = ..., OVER_SOC_MAX: _Optional[bool] = ..., VOLTAGE_IMBALANCE: _Optional[bool] = ..., TEMPERATURE_IMBALANCE: _Optional[bool] = ..., CURRENT_IMBALANCE: _Optional[bool] = ..., CONFIGURATION: _Optional[bool] = ..., COMMUNICATION_ERROR: _Optional[bool] = ..., CONTACTOR_ERROR: _Optional[bool] = ..., FAN_ERROR: _Optional[bool] = ..., GROUND_FAULT: _Optional[bool] = ...) -> None: ...
     class Command(_message.Message):
-        __slots__ = ("set_op",)
+        __slots__ = ()
         class SetOp(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
             __slots__ = ()
             SET_OP_NA: _ClassVar[EsdBank.Command.SetOp]
@@ -303,7 +303,7 @@ class EsdBank(_message.Message):
         set_op: EsdBank.Command.SetOp
         def __init__(self, set_op: _Optional[_Union[EsdBank.Command.SetOp, str]] = ...) -> None: ...
     class CellCount(_message.Message):
-        __slots__ = ("v_max", "v_max_str", "v_max_mod", "v_min", "v_min_str", "v_min_mod", "v_avg", "n_bal")
+        __slots__ = ()
         V_MAX_FIELD_NUMBER: _ClassVar[int]
         V_MAX_STR_FIELD_NUMBER: _ClassVar[int]
         V_MAX_MOD_FIELD_NUMBER: _ClassVar[int]
@@ -322,7 +322,7 @@ class EsdBank(_message.Message):
         n_bal: int
         def __init__(self, v_max: _Optional[float] = ..., v_max_str: _Optional[int] = ..., v_max_mod: _Optional[int] = ..., v_min: _Optional[float] = ..., v_min_str: _Optional[int] = ..., v_min_mod: _Optional[int] = ..., v_avg: _Optional[float] = ..., n_bal: _Optional[int] = ...) -> None: ...
     class ModuleCount(_message.Message):
-        __slots__ = ("tmp_max", "tmp_max_str", "tmp_max_mod", "tmp_min", "tmp_min_str", "tmp_min_mod", "tmp_avg")
+        __slots__ = ()
         TMP_MAX_FIELD_NUMBER: _ClassVar[int]
         TMP_MAX_STR_FIELD_NUMBER: _ClassVar[int]
         TMP_MAX_MOD_FIELD_NUMBER: _ClassVar[int]
@@ -339,7 +339,7 @@ class EsdBank(_message.Message):
         tmp_avg: float
         def __init__(self, tmp_max: _Optional[float] = ..., tmp_max_str: _Optional[int] = ..., tmp_max_mod: _Optional[int] = ..., tmp_min: _Optional[float] = ..., tmp_min_str: _Optional[int] = ..., tmp_min_mod: _Optional[int] = ..., tmp_avg: _Optional[float] = ...) -> None: ...
     class StringCount(_message.Message):
-        __slots__ = ("v_max", "v_max_str", "v_min", "v_min_str", "v_avg", "a_max", "a_max_str", "a_min", "a_min_str", "a_avg", "n_conn")
+        __slots__ = ()
         V_MAX_FIELD_NUMBER: _ClassVar[int]
         V_MAX_STR_FIELD_NUMBER: _ClassVar[int]
         V_MIN_FIELD_NUMBER: _ClassVar[int]
@@ -406,7 +406,7 @@ class EsdBank(_message.Message):
     def __init__(self, st: _Optional[_Union[EsdBank.St, str]] = ..., st_cha: _Optional[_Union[EsdBank.StCha, str]] = ..., cnt_mod: _Optional[_Union[EsdBank.ModuleCount, _Mapping]] = ..., cnt_str: _Optional[_Union[EsdBank.StringCount, _Mapping]] = ..., cnt_cell: _Optional[_Union[EsdBank.CellCount, _Mapping]] = ..., soc: _Optional[float] = ..., dod: _Optional[float] = ..., soh: _Optional[float] = ..., n_cyc: _Optional[int] = ..., hb: _Optional[int] = ..., v: _Optional[float] = ..., a: _Optional[float] = ..., a_cha_max: _Optional[float] = ..., a_discha_max: _Optional[float] = ..., w: _Optional[float] = ..., status: _Optional[_Union[EsdBank.Status, _Mapping]] = ..., warning: _Optional[_Union[EsdBank.Warning, _Mapping]] = ..., fault: _Optional[_Union[EsdBank.Fault, _Mapping]] = ..., set_op: _Optional[_Union[EsdBank.Command.SetOp, str]] = ..., strs: _Optional[_Iterable[_Union[EsdString, _Mapping]]] = ...) -> None: ...
 
 class EsdString(_message.Message):
-    __slots__ = ("con_fail", "soc", "dod", "n_cyc", "soh", "a", "v", "cnt_cell", "cnt_mod", "st_con", "status", "warning", "fault", "set_ena", "set_con", "mods")
+    __slots__ = ()
     class ConFail(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         CON_FAIL_NO_FAILURE: _ClassVar[EsdString.ConFail]
@@ -428,7 +428,7 @@ class EsdString(_message.Message):
     CON_FAIL_PRECHARGE_FAILURE: EsdString.ConFail
     CON_FAIL_STRING_FAULT: EsdString.ConFail
     class StCon(_message.Message):
-        __slots__ = ("CONTACTOR_0", "CONTACTOR_1", "CONTACTOR_2", "CONTACTOR_3", "CONTACTOR_4", "CONTACTOR_5", "CONTACTOR_6", "CONTACTOR_7", "CONTACTOR_8", "CONTACTOR_9", "CONTACTOR_10", "CONTACTOR_11", "CONTACTOR_12", "CONTACTOR_13", "CONTACTOR_14", "CONTACTOR_15", "CONTACTOR_16", "CONTACTOR_17", "CONTACTOR_18", "CONTACTOR_19", "CONTACTOR_20", "CONTACTOR_21", "CONTACTOR_22", "CONTACTOR_23", "CONTACTOR_24", "CONTACTOR_25", "CONTACTOR_26", "CONTACTOR_27", "CONTACTOR_28", "CONTACTOR_29", "CONTACTOR_30")
+        __slots__ = ()
         CONTACTOR_0_FIELD_NUMBER: _ClassVar[int]
         CONTACTOR_1_FIELD_NUMBER: _ClassVar[int]
         CONTACTOR_2_FIELD_NUMBER: _ClassVar[int]
@@ -493,7 +493,7 @@ class EsdString(_message.Message):
         CONTACTOR_30: bool
         def __init__(self, CONTACTOR_0: _Optional[bool] = ..., CONTACTOR_1: _Optional[bool] = ..., CONTACTOR_2: _Optional[bool] = ..., CONTACTOR_3: _Optional[bool] = ..., CONTACTOR_4: _Optional[bool] = ..., CONTACTOR_5: _Optional[bool] = ..., CONTACTOR_6: _Optional[bool] = ..., CONTACTOR_7: _Optional[bool] = ..., CONTACTOR_8: _Optional[bool] = ..., CONTACTOR_9: _Optional[bool] = ..., CONTACTOR_10: _Optional[bool] = ..., CONTACTOR_11: _Optional[bool] = ..., CONTACTOR_12: _Optional[bool] = ..., CONTACTOR_13: _Optional[bool] = ..., CONTACTOR_14: _Optional[bool] = ..., CONTACTOR_15: _Optional[bool] = ..., CONTACTOR_16: _Optional[bool] = ..., CONTACTOR_17: _Optional[bool] = ..., CONTACTOR_18: _Optional[bool] = ..., CONTACTOR_19: _Optional[bool] = ..., CONTACTOR_20: _Optional[bool] = ..., CONTACTOR_21: _Optional[bool] = ..., CONTACTOR_22: _Optional[bool] = ..., CONTACTOR_23: _Optional[bool] = ..., CONTACTOR_24: _Optional[bool] = ..., CONTACTOR_25: _Optional[bool] = ..., CONTACTOR_26: _Optional[bool] = ..., CONTACTOR_27: _Optional[bool] = ..., CONTACTOR_28: _Optional[bool] = ..., CONTACTOR_29: _Optional[bool] = ..., CONTACTOR_30: _Optional[bool] = ...) -> None: ...
     class Status(_message.Message):
-        __slots__ = ("OTHER", "OPEN_DOOR", "STRING_ENABLED", "CONTACTOR_STATUS")
+        __slots__ = ()
         OTHER_FIELD_NUMBER: _ClassVar[int]
         OPEN_DOOR_FIELD_NUMBER: _ClassVar[int]
         STRING_ENABLED_FIELD_NUMBER: _ClassVar[int]
@@ -504,7 +504,7 @@ class EsdString(_message.Message):
         CONTACTOR_STATUS: bool
         def __init__(self, OTHER: _Optional[bool] = ..., OPEN_DOOR: _Optional[bool] = ..., STRING_ENABLED: _Optional[bool] = ..., CONTACTOR_STATUS: _Optional[bool] = ...) -> None: ...
     class Warning(_message.Message):
-        __slots__ = ("OTHER", "OVER_TEMP", "UNDER_TEMP", "OVER_CHARGE_CURRENT", "OVER_DISCHARGE_CURRENT", "OVER_VOLT", "UNDER_VOLT", "UNDER_SOC_MIN", "OVER_SOC_MAX", "VOLTAGE_IMBALANCE", "TEMPERATURE_IMBALANCE")
+        __slots__ = ()
         OTHER_FIELD_NUMBER: _ClassVar[int]
         OVER_TEMP_FIELD_NUMBER: _ClassVar[int]
         UNDER_TEMP_FIELD_NUMBER: _ClassVar[int]
@@ -529,7 +529,7 @@ class EsdString(_message.Message):
         TEMPERATURE_IMBALANCE: bool
         def __init__(self, OTHER: _Optional[bool] = ..., OVER_TEMP: _Optional[bool] = ..., UNDER_TEMP: _Optional[bool] = ..., OVER_CHARGE_CURRENT: _Optional[bool] = ..., OVER_DISCHARGE_CURRENT: _Optional[bool] = ..., OVER_VOLT: _Optional[bool] = ..., UNDER_VOLT: _Optional[bool] = ..., UNDER_SOC_MIN: _Optional[bool] = ..., OVER_SOC_MAX: _Optional[bool] = ..., VOLTAGE_IMBALANCE: _Optional[bool] = ..., TEMPERATURE_IMBALANCE: _Optional[bool] = ...) -> None: ...
     class Fault(_message.Message):
-        __slots__ = ("OTHER", "OVER_TEMP", "UNDER_TEMP", "OVER_CHARGE_CURRENT", "OVER_DISCHARGE_CURRENT", "OVER_VOLT", "UNDER_VOLT", "UNDER_SOC_MIN", "OVER_SOC_MAX", "VOLTAGE_IMBALANCE", "TEMPERATURE_IMBALANCE", "COMMUNICATION_ERROR", "CONFIGURATION", "CONTACTOR_ERROR", "FAN_ERROR", "GROUND_FAULT")
+        __slots__ = ()
         OTHER_FIELD_NUMBER: _ClassVar[int]
         OVER_TEMP_FIELD_NUMBER: _ClassVar[int]
         UNDER_TEMP_FIELD_NUMBER: _ClassVar[int]
@@ -564,7 +564,7 @@ class EsdString(_message.Message):
         GROUND_FAULT: bool
         def __init__(self, OTHER: _Optional[bool] = ..., OVER_TEMP: _Optional[bool] = ..., UNDER_TEMP: _Optional[bool] = ..., OVER_CHARGE_CURRENT: _Optional[bool] = ..., OVER_DISCHARGE_CURRENT: _Optional[bool] = ..., OVER_VOLT: _Optional[bool] = ..., UNDER_VOLT: _Optional[bool] = ..., UNDER_SOC_MIN: _Optional[bool] = ..., OVER_SOC_MAX: _Optional[bool] = ..., VOLTAGE_IMBALANCE: _Optional[bool] = ..., TEMPERATURE_IMBALANCE: _Optional[bool] = ..., COMMUNICATION_ERROR: _Optional[bool] = ..., CONFIGURATION: _Optional[bool] = ..., CONTACTOR_ERROR: _Optional[bool] = ..., FAN_ERROR: _Optional[bool] = ..., GROUND_FAULT: _Optional[bool] = ...) -> None: ...
     class Command(_message.Message):
-        __slots__ = ("set_con", "set_ena")
+        __slots__ = ()
         class SetEna(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
             __slots__ = ()
             SET_ENA_NA: _ClassVar[EsdString.Command.SetEna]
@@ -587,7 +587,7 @@ class EsdString(_message.Message):
         set_ena: EsdString.Command.SetEna
         def __init__(self, set_con: _Optional[_Union[EsdString.Command.SetCon, str]] = ..., set_ena: _Optional[_Union[EsdString.Command.SetEna, str]] = ...) -> None: ...
     class CellCount(_message.Message):
-        __slots__ = ("v_max", "v_max_mod", "v_min", "v_min_mod", "v_avg", "n_cell_bal")
+        __slots__ = ()
         V_MAX_FIELD_NUMBER: _ClassVar[int]
         V_MAX_MOD_FIELD_NUMBER: _ClassVar[int]
         V_MIN_FIELD_NUMBER: _ClassVar[int]
@@ -602,7 +602,7 @@ class EsdString(_message.Message):
         n_cell_bal: int
         def __init__(self, v_max: _Optional[float] = ..., v_max_mod: _Optional[int] = ..., v_min: _Optional[float] = ..., v_min_mod: _Optional[int] = ..., v_avg: _Optional[float] = ..., n_cell_bal: _Optional[int] = ...) -> None: ...
     class ModuleCount(_message.Message):
-        __slots__ = ("tmp_max", "tmp_max_mod", "tmp_min", "tmp_min_mod", "tmp_avg")
+        __slots__ = ()
         TMP_MAX_FIELD_NUMBER: _ClassVar[int]
         TMP_MAX_MOD_FIELD_NUMBER: _ClassVar[int]
         TMP_MIN_FIELD_NUMBER: _ClassVar[int]
@@ -649,9 +649,9 @@ class EsdString(_message.Message):
     def __init__(self, con_fail: _Optional[_Union[EsdString.ConFail, str]] = ..., soc: _Optional[float] = ..., dod: _Optional[float] = ..., n_cyc: _Optional[int] = ..., soh: _Optional[float] = ..., a: _Optional[float] = ..., v: _Optional[float] = ..., cnt_cell: _Optional[_Union[EsdString.CellCount, _Mapping]] = ..., cnt_mod: _Optional[_Union[EsdString.ModuleCount, _Mapping]] = ..., st_con: _Optional[_Union[EsdString.StCon, _Mapping]] = ..., status: _Optional[_Union[EsdString.Status, _Mapping]] = ..., warning: _Optional[_Union[EsdString.Warning, _Mapping]] = ..., fault: _Optional[_Union[EsdString.Fault, _Mapping]] = ..., set_ena: _Optional[_Union[EsdString.Command.SetEna, str]] = ..., set_con: _Optional[_Union[EsdString.Command.SetCon, str]] = ..., mods: _Optional[_Iterable[_Union[EsdModule, _Mapping]]] = ...) -> None: ...
 
 class EsdModule(_message.Message):
-    __slots__ = ("str_idx", "mod_idx", "n_cell", "soc", "dod", "soh", "n_cyc", "v", "cnt_cell", "sn", "cells")
+    __slots__ = ()
     class CellCount(_message.Message):
-        __slots__ = ("v_max", "v_max_cell", "v_min", "v_min_cell", "v_avg", "tmp_max", "tmp_max_cell", "tmp_min", "tmp_min_cell", "tmp_avg", "n_bal")
+        __slots__ = ()
         V_MAX_FIELD_NUMBER: _ClassVar[int]
         V_MAX_CELL_FIELD_NUMBER: _ClassVar[int]
         V_MIN_FIELD_NUMBER: _ClassVar[int]
@@ -700,9 +700,9 @@ class EsdModule(_message.Message):
     def __init__(self, str_idx: _Optional[int] = ..., mod_idx: _Optional[int] = ..., n_cell: _Optional[int] = ..., soc: _Optional[float] = ..., dod: _Optional[float] = ..., soh: _Optional[float] = ..., n_cyc: _Optional[int] = ..., v: _Optional[float] = ..., cnt_cell: _Optional[_Union[EsdModule.CellCount, _Mapping]] = ..., sn: _Optional[str] = ..., cells: _Optional[_Iterable[_Union[EsdCell, _Mapping]]] = ...) -> None: ...
 
 class EsdCell(_message.Message):
-    __slots__ = ("v", "tmp", "st")
+    __slots__ = ()
     class St(_message.Message):
-        __slots__ = ("is_balancing",)
+        __slots__ = ()
         IS_BALANCING_FIELD_NUMBER: _ClassVar[int]
         is_balancing: bool
         def __init__(self, is_balancing: _Optional[bool] = ...) -> None: ...

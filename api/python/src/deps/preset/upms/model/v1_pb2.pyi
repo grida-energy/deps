@@ -9,7 +9,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class PmsMeasure(_message.Message):
-    __slots__ = ("lookup", "input", "output")
+    __slots__ = ()
     LOOKUP_FIELD_NUMBER: _ClassVar[int]
     INPUT_FIELD_NUMBER: _ClassVar[int]
     OUTPUT_FIELD_NUMBER: _ClassVar[int]
@@ -19,7 +19,7 @@ class PmsMeasure(_message.Message):
     def __init__(self, lookup: _Optional[_Union[_v1_pb2_1.LookupRule, _Mapping]] = ..., input: _Optional[_Union[_v1_pb2_1.LookupInput, _Mapping]] = ..., output: _Optional[_Union[_v1_pb2_1.LookupOutput, _Mapping]] = ...) -> None: ...
 
 class PmsCommand(_message.Message):
-    __slots__ = ("lookup",)
+    __slots__ = ()
     LOOKUP_FIELD_NUMBER: _ClassVar[int]
     lookup: _v1_pb2_1.LookupRule.Command
     def __init__(self, lookup: _Optional[_Union[_v1_pb2_1.LookupRule.Command, _Mapping]] = ...) -> None: ...
@@ -27,14 +27,14 @@ class PmsCommand(_message.Message):
 class Rpc(_message.Message):
     __slots__ = ()
     class PmsRequest(_message.Message):
-        __slots__ = ("header", "payload")
+        __slots__ = ()
         HEADER_FIELD_NUMBER: _ClassVar[int]
         PAYLOAD_FIELD_NUMBER: _ClassVar[int]
         header: _v1_pb2.Request
         payload: _containers.RepeatedCompositeFieldContainer[PmsCommand]
         def __init__(self, header: _Optional[_Union[_v1_pb2.Request, _Mapping]] = ..., payload: _Optional[_Iterable[_Union[PmsCommand, _Mapping]]] = ...) -> None: ...
     class PmsResponse(_message.Message):
-        __slots__ = ("header", "n")
+        __slots__ = ()
         HEADER_FIELD_NUMBER: _ClassVar[int]
         N_FIELD_NUMBER: _ClassVar[int]
         header: _v1_pb2.Response

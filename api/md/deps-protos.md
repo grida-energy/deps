@@ -13,6 +13,13 @@
     - [Rpc.BessRequest](#deps-preset-bess-v1-Rpc-BessRequest)
     - [Rpc.BessResponse](#deps-preset-bess-v1-Rpc-BessResponse)
   
+- [deps/preset/station-cast/model.v1.proto](#deps_preset_station-cast_model-v1-proto)
+    - [CastSet](#deps-preset-station_cast-v1-CastSet)
+    - [Rpc](#deps-preset-station_cast-v1-Rpc)
+    - [Rpc.CastMeasure](#deps-preset-station_cast-v1-Rpc-CastMeasure)
+    - [StationCastPreset](#deps-preset-station_cast-v1-StationCastPreset)
+    - [StationCastPreset.GroupEntry](#deps-preset-station_cast-v1-StationCastPreset-GroupEntry)
+  
 - [deps/preset/upms/model.v1.proto](#deps_preset_upms_model-v1-proto)
     - [PmsCommand](#deps-preset-upms-v1-PmsCommand)
     - [PmsMeasure](#deps-preset-upms-v1-PmsMeasure)
@@ -116,7 +123,17 @@
     - [ChaLimit](#deps-model-esd-v1-ChaLimit)
     - [Conn](#deps-model-esd-v1-Conn)
   
-    - [Conn.Conn](#deps-model-esd-v1-Conn-Conn)
+    - [Conn.ConnCmd](#deps-model-esd-v1-Conn-ConnCmd)
+  
+- [deps/model/cast/model.v1.proto](#deps_model_cast_model-v1-proto)
+    - [CastHeader](#deps-model-cast-v1-CastHeader)
+    - [EnergyCast](#deps-model-cast-v1-EnergyCast)
+    - [GridOperation](#deps-model-cast-v1-GridOperation)
+    - [GridOutputControl](#deps-model-cast-v1-GridOutputControl)
+    - [H2StationMeasure](#deps-model-cast-v1-H2StationMeasure)
+    - [StationCast](#deps-model-cast-v1-StationCast)
+    - [WeatherCast](#deps-model-cast-v1-WeatherCast)
+    - [WindData](#deps-model-cast-v1-WindData)
   
 - [deps/model/source/model.v1.proto](#deps_model_source_model-v1-proto)
     - [PvLine](#deps-model-source-v1-PvLine)
@@ -297,6 +314,100 @@ BESS RPC 응답
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | head | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  | 응답 헤더 |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="deps_preset_station-cast_model-v1-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## deps/preset/station-cast/model.v1.proto
+
+
+
+<a name="deps-preset-station_cast-v1-CastSet"></a>
+
+### CastSet
+그룹별 수소 발전단지 데이터
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cst_stn | [deps.model.cast.v1.StationCast](#deps-model-cast-v1-StationCast) |  | 발전소 예측 정보 |
+| h2 | [deps.model.cast.v1.H2StationMeasure](#deps-model-cast-v1-H2StationMeasure) |  | 수소 발전 단지 계측 값 |
+| forecast | [deps.model.cast.v1.WeatherCast](#deps-model-cast-v1-WeatherCast) |  | 기상 예측 정보 |
+
+
+
+
+
+
+<a name="deps-preset-station_cast-v1-Rpc"></a>
+
+### Rpc
+
+
+
+
+
+
+
+<a name="deps-preset-station_cast-v1-Rpc-CastMeasure"></a>
+
+### Rpc.CastMeasure
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| data | [StationCastPreset](#deps-preset-station_cast-v1-StationCastPreset) |  |  |
+
+
+
+
+
+
+<a name="deps-preset-station_cast-v1-StationCastPreset"></a>
+
+### StationCastPreset
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| group | [StationCastPreset.GroupEntry](#deps-preset-station_cast-v1-StationCastPreset-GroupEntry) | repeated | 그룹별 수소 발전단지 데이터 |
+| ops_grid | [deps.model.cast.v1.GridOperation](#deps-model-cast-v1-GridOperation) |  | 계통 운영 정보 |
+| ctl_grid | [deps.model.cast.v1.GridOutputControl](#deps-model-cast-v1-GridOutputControl) |  | 예측 출력 제어 데이터 |
+| cst_dmnd | [deps.model.cast.v1.EnergyCast](#deps-model-cast-v1-EnergyCast) |  | 일간 수요 예측 데이터 |
+| cst_re | [deps.model.cast.v1.EnergyCast](#deps-model-cast-v1-EnergyCast) |  | 일간 신재생 예측 발전 데이터 |
+
+
+
+
+
+
+<a name="deps-preset-station_cast-v1-StationCastPreset-GroupEntry"></a>
+
+### StationCastPreset.GroupEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [CastSet](#deps-preset-station_cast-v1-CastSet) |  |  |
 
 
 
@@ -2011,7 +2122,7 @@ Module 요약
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| conn | [Conn.Conn](#deps-model-esd-v1-Conn-Conn) |  |  |
+| conn | [Conn.ConnCmd](#deps-model-esd-v1-Conn-ConnCmd) |  |  |
 
 
 
@@ -2020,9 +2131,9 @@ Module 요약
  
 
 
-<a name="deps-model-esd-v1-Conn-Conn"></a>
+<a name="deps-model-esd-v1-Conn-ConnCmd"></a>
 
-### Conn.Conn
+### Conn.ConnCmd
 
 
 | Name | Number | Description |
@@ -2030,6 +2141,166 @@ Module 요약
 | DISCONNECT | 0 | 연결 해제 |
 | CONNECT | 1 | 연결 |
 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="deps_model_cast_model-v1-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## deps/model/cast/model.v1.proto
+
+
+
+<a name="deps-model-cast-v1-CastHeader"></a>
+
+### CastHeader
+예측 정보 헤더
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| caststamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | 예측 시간 (예측 생성 시간) |
+| pointstamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | 예측 기준 시점 (예측 대상 시점) |
+| leadtime | [google.protobuf.Duration](#google-protobuf-Duration) |  | 예측 선행 시간 |
+| kind | [uint32](#uint32) |  | 예측 생산 생산 구분 |
+
+
+
+
+
+
+<a name="deps-model-cast-v1-EnergyCast"></a>
+
+### EnergyCast
+수요/발전 예측 데이터
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [CastHeader](#deps-model-cast-v1-CastHeader) |  | 예측 정보 헤더 |
+| w_cap | [double](#double) | optional | 설비 용량 |
+| w | [double](#double) | repeated | 수요/발전 예측량 (배열) |
+| w_tot | [double](#double) |  | 최종 수요/발전 예측량 |
+| w_min | [double](#double) |  | 수요/발전 예측 최소값 |
+| w_max | [double](#double) |  | 수요/발전 예측 최대값 |
+
+
+
+
+
+
+<a name="deps-model-cast-v1-GridOperation"></a>
+
+### GridOperation
+계통 운영 데이터
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | 계측 시각 |
+| w_dmnd | [double](#double) |  | 현재 수요 |
+| w_pv | [double](#double) |  | 태양광 합계 |
+| w_wind | [double](#double) |  | 풍력 합계 |
+| w_re_tot | [double](#double) |  | 신재생 합계 |
+| w_cap_sup | [double](#double) |  | 공급 능력 |
+
+
+
+
+
+
+<a name="deps-model-cast-v1-GridOutputControl"></a>
+
+### GridOutputControl
+예측 출력 제어 데이터
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [CastHeader](#deps-model-cast-v1-CastHeader) |  | .google.protobuf.Timestamp timestamp = 1; 예측 정보 헤더 |
+| w_p_m2_ctl | [double](#double) |  | 출력 제어량 |
+| w_p_m2_min | [double](#double) |  | 최소 출력량 |
+
+
+
+
+
+
+<a name="deps-model-cast-v1-H2StationMeasure"></a>
+
+### H2StationMeasure
+수소 발전 단지 계측 값
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | 계측 시각 |
+| kg_cap | [double](#double) |  | 설비 용량 |
+| kg | [double](#double) |  | 생산량 |
+
+
+
+
+
+
+<a name="deps-model-cast-v1-StationCast"></a>
+
+### StationCast
+발전소 예측 정보
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [CastHeader](#deps-model-cast-v1-CastHeader) |  | 예측 정보 헤더 |
+| w_cap | [double](#double) |  | 설비 용량 |
+| wh | [double](#double) |  | 생산량 |
+
+
+
+
+
+
+<a name="deps-model-cast-v1-WeatherCast"></a>
+
+### WeatherCast
+기상 예측 정보
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [CastHeader](#deps-model-cast-v1-CastHeader) |  | 예측 정보 헤더 |
+| tmp | [double](#double) | repeated | 기온 (°C) |
+| rh | [double](#double) | repeated | 습도 (%) |
+| irr | [double](#double) | repeated | 일사량 (W/m²) |
+| wind | [WindData](#deps-model-cast-v1-WindData) | repeated | 풍속/풍향 |
+
+
+
+
+
+
+<a name="deps-model-cast-v1-WindData"></a>
+
+### WindData
+풍속 정보
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| mps_spd | [double](#double) |  | 풍속 (m/s) |
+| deg_dir | [double](#double) |  | 풍향 (deg) |
+
+
+
+
+
+ 
 
  
 

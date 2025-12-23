@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+option java_package = "io.github.grida_energy.deps.model.cast.v1";
+
+package deps.model.cast.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+// 예측 정보 헤더
+message CastHeader {
+  // 예측 시간 (예측 생성 시간)
+  .google.protobuf.Timestamp caststamp = 1;
+  // 예측 기준 시점 (예측 대상 시점)
+  .google.protobuf.Timestamp pointstamp = 2;
+  // 예측 선행 시간
+  .google.protobuf.Duration leadtime = 3;
+  // 예측 생산 생산 구분
+  uint32 kind = 4;
+}
+
+// 발전소 예측 정보
+message StationCast {
+  // 예측 정보 헤더
+  CastHeader header = 1;
+
+  // 설비 용량
+  double w_cap = 5;
+  // 생산량
+  double wh = 6;
+}
+
+// 수소 발전 단지 계측 값
+message H2StationMeasure {
+  // 계측 시각
+  .google.protobuf.Timestamp timestamp = 1;
+  // 설비 용량
+  double kg_cap = 2;
+  // 생산량
+  double kg = 3;
+}
+
+// 풍속 정보
+message WindData {
+  // 풍속 (m/s)
+  double mps_spd = 1;
+  // 풍향 (deg)
+  double deg_dir = 2;
+}
+
+// 기상 예측 정보
+message WeatherCast {
+  // 예측 정보 헤더
+  CastHeader header = 1;
+
+  // 기온 (°C)
+  repeated double tmp = 5;
+  // 습도 (%)
+  repeated double rh = 6;
+  // 일사량 (W/m²)
+  repeated double irr = 7;
+  // 풍속/풍향
+  repeated WindData wind = 8;
+}
+// 계통 운영 데이터
+message GridOperation {
+  // 계측 시각
+  .google.protobuf.Timestamp timestamp = 1;
+
+  // 현재 수요
+  double w_dmnd = 2;
+  // 태양광 합계
+  double w_pv = 3;
+  // 풍력 합계
+  double w_wind = 4;
+  // 신재생 합계
+  double w_re_tot = 5;
+  // 공급 능력
+  double w_cap_sup = 6;
+}
+
+// 예측 출력 제어 데이터
+message GridOutputControl {
+  // .google.protobuf.Timestamp timestamp = 1;
+  // 예측 정보 헤더
+  CastHeader header = 1;
+
+  // 출력 제어량
+  double w_p_m2_ctl = 2;
+  // 최소 출력량
+  double w_p_m2_min = 3;
+}
+
+// 수요/발전 예측 데이터
+message EnergyCast {
+  // 예측 정보 헤더
+  CastHeader header = 1;
+
+  // 설비 용량
+  optional double w_cap = 4;
+  // 수요/발전 예측량 (배열)
+  repeated double w = 5;
+  // 최종 수요/발전 예측량
+  double w_tot = 6;
+  // 수요/발전 예측 최소값
+  double w_min = 7;
+  // 수요/발전 예측 최대값
+  double w_max = 8;
+}
