@@ -1,6 +1,6 @@
 PROTO_FILES := $(shell find ../protos -name "*.v1.proto")
 
-deps-protos.md:
+deps-protos.md: $(PROTO_FILES)
 	protoc --doc_out=. --doc_opt=markdown,deps-protos.md $(PROTO_FILES) -I ../protos
 
 clean:

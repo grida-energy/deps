@@ -4,6 +4,10 @@
 package org.example;
 
 import io.github.grida_energy.deps.preset.bess.v1.ModelV1.*;
+import io.github.grida_energy.deps.preset.station_cast.v1.ModelV1.*;
+import io.github.grida_energy.deps.preset.station_cast.v1.ModelV1.Rpc.CastMeasure;
+import io.github.grida_energy.deps.model.cast.v1.ModelV1.GridOperation;
+// import io.github.grida_energy.deps.model.cast.v1.ModelV1.StationCast;
 import io.github.grida_energy.deps.model.pcs.v1.ModelV1.*;
 
 public class Library {
@@ -11,7 +15,14 @@ public class Library {
         BessMeasure measure = BessMeasure.newBuilder().setData(
                 Bess.newBuilder().setPcs(ThreePhasePcsPart.newBuilder().setW(50).build()).build()).build();
 
+        CastMeasure stationCast = CastMeasure.newBuilder()
+                .setData(
+                        StationCastPreset.newBuilder().setOpsGrid(GridOperation.newBuilder().setWPv(50).build())
+                                .build())
+                .build();
+
         System.out.println(measure);
+        System.out.println(stationCast);
         return true;
     }
 }

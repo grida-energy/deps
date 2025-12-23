@@ -5,17 +5,25 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/9.0.0/userguide/building_java_projects.html in the Gradle documentation.
  */
 
+// import com.vanniktech.maven.publish.SonatypeHost
+import com.vanniktech.maven.publish.KotlinJvm
+import com.vanniktech.maven.publish.JavadocJar
+
 plugins {
     // Apply the java-library plugin for API and implementation separation.
-    `java-library`
-    `maven-publish`
-    signing
+    id("java-library")
+    id("maven-publish")
+    id("signing")
+    // id("org.jreleaser") version "1.21.0"
+    // kotlin("jvm") version "1.9.20"
+    id("org.jetbrains.kotlin.jvm") version "2.3.0"
+    id("com.vanniktech.maven.publish") version "0.35.0"
     id("com.google.protobuf") version "0.9.4"
 }
 
-group = "io.github.grida-energy"
-var artifactId = "deps"
-version = "1.0.1"
+// group = "io.github.grida-energy"
+// var artifactId = "deps"
+// version = "1.0.1"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -25,7 +33,6 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
-
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // This dependency is exported to consumers, that is to say found on their compile classpath.
@@ -38,8 +45,8 @@ dependencies {
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
-    withSourcesJar()
-    withJavadocJar()
+    // withSourcesJar()
+    // withJavadocJar()
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
@@ -65,12 +72,12 @@ buildscript {
 }
 
 tasks {
-    getByName<Delete>("clean") {
-        // delete.add("$projectDir/src/main/deps")
-        // delete.add("$projectDir/src/main/grpc")
-        // delete.add("$projectDir/src/main/java/internal")
-        // delete.add("$projectDir/src/main/java/io")
-    }
+    // getByName<Delete>("clean") {
+    //     // delete.add("$projectDir/src/main/deps")
+    //     // delete.add("$projectDir/src/main/grpc")
+    //     // delete.add("$projectDir/src/main/java/internal")
+    //     // delete.add("$projectDir/src/main/java/io")
+    // }
     getByName("processResources") {
         dependsOn("generateProto")
     }
@@ -82,51 +89,58 @@ protobuf {
     }
 }
 
-publishing {
-    publications {
-        
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-            groupId = project.group.toString()
-            artifactId = "deps"
-            version = project.version.toString()
 
-            pom {
-                name.set("DEPS - Distributed Energy Protocol System")
-                description.set("Common data model for distributed energy devices and systems.")
-                url.set("https://github.com/grida-energy/deps")
+mavenPublishing {
+    coordinates(
+        groupId = "io.github.grida-energy",
+        artifactId = "deps",
+        version = "1.0.2"
+    )
 
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("mark.ahn")
-                        name.set("Mark Ahn")
-                        email.set("mark.ahn@gridaenergy.com")
-                    }
-                }
-                scm {
-                    url.set("https://github.com/grida-energy/deps")
-                    connection.set("scm:git:git://github.com/grida-energy/deps.git")
-                    developerConnection.set("scm:git:ssh://github.com/grida-energy/deps.git")
-                }
+    configure(KotlinJvm(
+        javadocJar = JavadocJar.Javadoc(),
+        sourcesJar = true
+    ))
+
+    pom {
+        name.set("DEPS - Distributed Energy Protocol System")
+        description.set("Common data model for distributed energy devices and systems.")
+        url.set("https://github.com/grida-energy/deps")
+
+        licenses {
+            license {
+                name.set("MIT License")
+                url.set("https://opensource.org/licenses/MIT")
             }
         }
+        developers {
+            developer {
+                id.set("mark.ahn")
+                name.set("Mark Ahn")
+                email.set("mark.ahn@gridaenergy.com")
+            }
+        }
+        scm {
+            url.set("https://github.com/grida-energy/deps")
+            connection.set("scm:git:git://github.com/grida-energy/deps.git")
+            developerConnection.set("scm:git:ssh://github.com/grida-energy/deps.git")
+        }
     }
+
+    // publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
+    signAllPublications()
 }
 
-signing {
-    useInMemoryPgpKeys(
-        (project.findProperty("signingKeyId") as String?)
-            ?: System.getenv("SIGNING_KEY_ID"),
-        (project.findProperty("signingKey") as String?)
-            ?: System.getenv("SIGNING_KEY"),
-        (project.findProperty("signingKeyPassword") as String?)
-            ?: System.getenv("SIGNING_KEY_PASSWORD")
-    )
-    sign(publishing.publications["mavenJava"])
-}
+
+// signing {
+//     useInMemoryPgpKeys(
+//         (project.findProperty("signingKeyId") as String?)
+//             ?: System.getenv("SIGNING_KEY_ID"),
+//         (project.findProperty("signingKey") as String?)
+//             ?: System.getenv("SIGNING_KEY"),
+//         (project.findProperty("signingKeyPassword") as String?)
+//             ?: System.getenv("SIGNING_KEY_PASSWORD")
+//     )
+//     sign(publishing.publications["mavenJava"])
+// }
