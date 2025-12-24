@@ -7,3 +7,5 @@ build/
 docs/*.test.txt
 makefile.pb
 protos-out/
+*.egg-info/
+docs/olds

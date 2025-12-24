@@ -300,7 +300,7 @@ message Rpc {
   }
   message Grid {
     message MeasureResponse {
-      .deps.rpc.v1.Request header = 1;
+      .google.protobuf.Timestamp timestamp = 1;
       ThreePhaseGridPart grid = 2;
     }
   }
