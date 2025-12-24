@@ -301,7 +301,7 @@ message Rpc {
   message Grid {
     message MeasureResponse {
       .google.protobuf.Timestamp timestamp = 1;
-      ThreePhaseGridPart grid = 2;
+      ThreePhaseGridPart payload = 2;
     }
   }
 }
