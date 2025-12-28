@@ -33,13 +33,13 @@ mod voca {
     #[macro_export]
     macro_rules! impl_packet {
         ($st:path, $hd: path, $pl:path, $mx: path) => {
-            impl crate::rpc::v1::HasHeader for $st {
+            impl $crate::rpc::v1::HasHeader for $st {
                 type Header = $hd;
                 fn get_header(&self) -> Option<&Self::Header> {
                     self.header.as_ref()
                 }
             }
-            impl crate::rpc::v1::HasData for $st {
+            impl $crate::rpc::v1::HasData for $st {
                 type Data = $pl;
                 fn get_data(&self) -> &Self::Data {
                     &self.payload
@@ -57,7 +57,7 @@ mod voca {
         (@request, $st:path, $pl:ty) => {
             $crate::voca::impl_packet!(
                 $st,
-                crate::rpc::v1::Request,
+                $crate::rpc::v1::Request,
                 $pl,
                 crate::rpc::v1::MixinRequest<$pl>
             );
@@ -65,13 +65,13 @@ mod voca {
         (@response, $st:path, $pl:ty) => {
             $crate::voca::impl_packet!(
                 $st,
-                crate::rpc::v1::Response,
+                $crate::rpc::v1::Response,
                 $pl,
-                crate::rpc::v1::MixinResponse<$pl>
+                $crate::rpc::v1::MixinResponse<$pl>
             );
         };
         (@measure, $st:path) => {
-            impl crate::preset::StampedData for $st {
+            impl $crate::preset::StampedData for $st {
                 fn timestamp(&self) -> pbs::wkt::Timestamp {
                     (self.timestamp).unwrap_or_default()
                 }
@@ -298,52 +298,6 @@ pub mod vnd {
             crate::voca::impl_packet!(@request, rpc::ParamRequest, Option<rpc::ParamReadWriteRequest>);
             crate::voca::impl_packet!(@response, rpc::ParamResponse, Option<rpc::ParamReadWriteResponse>);
             crate::voca::impl_packet!(@measure, rpc::AlarmResponse);
-            // impl crate::rpc::v1::HasHeader for rpc::ParamRequest {
-            //     type Header = crate::rpc::v1::Request;
-            //     fn get_header(&self) -> Option<&crate::rpc::v1::Request> {
-            //         self.head.as_ref()
-            //     }
-            // }
-            // impl crate::rpc::v1::HasData for rpc::ParamRequest {
-            //     type Data = Option<rpc::ParamReadWriteRequest>;
-            //     fn get_data(&self) -> &Option<rpc::ParamReadWriteRequest> {
-            //         &self.data
-            //     }
-            // }
-            // impl crate::rpc::v1::MixinRequest<Option<rpc::ParamReadWriteRequest>> for rpc::ParamRequest {
-            //     fn build(
-            //         header: Option<crate::rpc::v1::Request>,
-            //         data: Option<rpc::ParamReadWriteRequest>,
-            //     ) -> Self {
-            //         rpc::ParamRequest {
-            //             head: header,
-            //             data: data.into(),
-            //         }
-            //     }
-            // }
-            // impl crate::rpc::v1::HasHeader for rpc::ParamResponse {
-            //     type Header = crate::rpc::v1::Response;
-            //     fn get_header(&self) -> Option<&crate::rpc::v1::Response> {
-            //         self.head.as_ref()
-            //     }
-            // }
-            // impl crate::rpc::v1::HasData for rpc::ParamResponse {
-            //     type Data = Option<rpc::ParamReadWriteResponse>;
-            //     fn get_data(&self) -> &Option<rpc::ParamReadWriteResponse> {
-            //         &self.data
-            //     }
-            // }
-            // impl crate::rpc::v1::MixinResponse<Option<rpc::ParamReadWriteResponse>> for rpc::ParamResponse {
-            //     fn build(
-            //         header: Option<crate::rpc::v1::Response>,
-            //         data: Option<rpc::ParamReadWriteResponse>,
-            //     ) -> Self {
-            //         rpc::ParamResponse {
-            //             head: header,
-            //             data: data.into(),
-            //         }
-            //     }
-            // }
         };
     }
 }
@@ -393,6 +347,7 @@ pub mod model {
             crate::voca::impl_packet!(@request, rpc::dc_dc::CommandRequest, alloc::vec::Vec<dc_dc_converter::Command>);
             crate::voca::impl_packet!(@response, rpc::dc_dc::CommandResponse, u32);
             crate::voca::impl_packet!(@measure, rpc::dc_dc::MeasureResponse);
+            crate::voca::impl_packet!(@measure, rpc::grid::MeasureResponse);
         }
     }
     pub mod source {
