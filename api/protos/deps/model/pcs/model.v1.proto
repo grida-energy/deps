@@ -138,6 +138,7 @@ message ThreePhasePcsPart {
     oneof cmd {
       bool conn = 1;
       bool reset = 2;
+      bool block = 3;
       // 전류 지령치
       float a = 5;
       // 전압 지령치 - UPS 등

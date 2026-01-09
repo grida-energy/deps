@@ -14,7 +14,7 @@ import "google/protobuf/timestamp.proto";
 // 배터리 + 인버터로 구성된 단순 BESS 모델
 message Bess {
   // 배터리 모델
-  .deps.model.esd.v1.EsdBank battery = 1;
+  .deps.model.esd.v1.EsdBank bank = 1;
   // PCS 모델
   .deps.model.pcs.v1.ThreePhasePcsPart pcs = 2;
   // Off Grid (부하 연결 부)
@@ -32,7 +32,7 @@ message Bess {
 message BessCommand {
   oneof cmd {
     // 배터리 명령
-    .deps.model.esd.v1.EsdBank.Command battery = 1;
+    .deps.model.esd.v1.EsdBank.Command bank = 1;
     // PCS 명령
     .deps.model.pcs.v1.ThreePhasePcsPart.Command pcs = 2;
     // DcDc 명령
