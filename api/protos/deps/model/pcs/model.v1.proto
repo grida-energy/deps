@@ -39,7 +39,7 @@ message ThreePhasePcsPart {
   enum St {
     // 기타
     ST_NA = 0;
-    // 기타
+    // 정지
     ST_OFF = 1;
     // 슬립
     ST_SLEEPING = 2;
@@ -138,7 +138,8 @@ message ThreePhasePcsPart {
     oneof cmd {
       bool conn = 1;
       bool reset = 2;
-      bool block = 3;
+      bool estop = 3;
+      bool block = 4;
       // 전류 지령치
       float a = 5;
       // 전압 지령치 - UPS 등

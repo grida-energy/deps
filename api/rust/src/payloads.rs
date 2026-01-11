@@ -413,7 +413,7 @@ mod tests {
     }
     fn only_hpcs_full() -> bess::v1::Bess {
         bess::v1::Bess {
-            battery: None,
+            bank: None,
             pcs: pcs_full().into(),
             on_grid: grid_full().into(),
             off_grid: grid_full().into(),

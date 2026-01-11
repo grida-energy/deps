@@ -13,6 +13,13 @@ import "google/protobuf/timestamp.proto";
 
 // 배터리 + 인버터로 구성된 단순 BESS 모델
 message Bess {
+  // // BESS 시스템 명령
+  // message Command {
+  //   oneof cmd {
+  //     // 전체 시스템 정지
+  //     bool estop = 3;
+  //   }
+  // }
   // 배터리 모델
   .deps.model.esd.v1.EsdBank bank = 1;
   // PCS 모델
@@ -63,25 +70,3 @@ message Rpc {
     uint32 payload = 2;
   }
 }
-
-// // PV 입력이 존재하는 BESS (모델에 대한 정제 필요)
-// message HybridBess {
-//   // 배터리 모델
-//   .deps.model.esd.v1.EsdBank battery = 1;
-//   // PCS 모델
-//   .deps.model.pcs.v1.ThreePhasePcsPart pcs = 2;
-//   // Off Grid (부하 연결 부)
-//   .deps.model.pcs.v1.ThreePhaseGridPart off_grid = 3;
-//   // On Grid (계통 연결 부)
-//   .deps.model.pcs.v1.ThreePhaseGridPart on_grid = 4;
-//   // PV 연결 부
-//   .deps.model.source.v1.PvLine pv = 5;
-// }
-
-// // 하이브리드 BESS 계측 정보
-// message HybridBessMeasure {
-//   // 타임 스탬프
-//   .google.protobuf.Timestamp timestamp = 1;
-//   // 하이브리드 BESS 데이터
-//   HybridBess data = 2;
-// }
