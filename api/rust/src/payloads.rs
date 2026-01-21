@@ -2,6 +2,8 @@
 #[cfg(test)]
 mod tests {
     extern crate alloc;
+    use std::collections::BTreeMap;
+
     use alloc::{string::ToString, vec};
 
     use prost::Message;
@@ -131,37 +133,7 @@ mod tests {
             }
             .into(),
             st_con: esd_string::StCon {
-                contactor_0: true,
-                contactor_1: true,
-                contactor_2: true,
-                contactor_3: true,
-                contactor_4: true,
-                contactor_5: true,
-                contactor_6: true,
-                contactor_7: true,
-                contactor_8: true,
-                contactor_9: true,
-                contactor_10: true,
-                contactor_11: true,
-                contactor_12: true,
-                contactor_13: true,
-                contactor_14: true,
-                contactor_15: true,
-                contactor_16: true,
-                contactor_17: true,
-                contactor_18: true,
-                contactor_19: true,
-                contactor_20: true,
-                contactor_21: true,
-                contactor_22: true,
-                contactor_23: true,
-                contactor_24: true,
-                contactor_25: true,
-                contactor_26: true,
-                contactor_27: true,
-                contactor_28: true,
-                contactor_29: true,
-                contactor_30: true,
+                conn: BTreeMap::new(),
             }
             .into(),
             status: esd_string::Status {
@@ -204,8 +176,8 @@ mod tests {
                 ground_fault: true,
             }
             .into(),
-            set_ena: i32::MAX,
-            set_con: i32::MAX,
+            // set_ena: i32::MAX,
+            // set_con: i32::MAX,
             mods: vec![],
         };
         esd_str

@@ -37,14 +37,14 @@ message EsdBank {
   enum StCha {
     ST_CHA_NA = 0;
     // 정지
-    ST_CHA_OFF = 1;
-    // 완전 방전됨
+    ST_CHA_STOP = 1;
+    // 완전 방전됨 (정지)
     ST_CHA_EMPTY = 2;
     // 방전 중
     ST_CHA_DISCHARGING = 3;
     // 충전 중
     ST_CHA_CHARGING = 4;
-    // 완전 충전됨
+    // 완전 충전됨 (정지)
     ST_CHA_FULL = 5;
     // 유지 중 (현재 SoC 유지)
     ST_CHA_HOLDING = 6;
@@ -61,11 +61,11 @@ message EsdBank {
     // 연결 됨
     ST_CONNECTED = 3;
     // 대기 중
-    ST_STANDBY = 4;
+    // ST_STANDBY = 4;
     // SoC 보호 상태
-    ST_SOC_PROTECTION = 5;
+    // ST_SOC_PROTECTION = 5;
     // 일시 중지 상태
-    ST_SUSPENDING = 6;
+    // ST_SUSPENDING = 6;
     // 고장 상태
     ST_FAULT = 99;
   }
@@ -282,59 +282,30 @@ message EsdBank {
 message EsdString {
   // 연결 실패 여부
   enum ConFail {
+    CON_FAIL_NA = 0;
     // 고장 없음
-    CON_FAIL_NO_FAILURE = 0;
+    CON_FAIL_NO_FAILURE = 1;
     // 비상 정지
-    CON_FAIL_BUTTON_PUSHED = 1;
+    CON_FAIL_BUTTON_PUSHED = 2;
     // 접지 오류
-    CON_FAIL_STR_GROUND_FAULT = 2;
+    CON_FAIL_STR_GROUND_FAULT = 3;
     // 허용 전압 범위 초과
-    CON_FAIL_OUTSIDE_VOLTAGE_RANGE = 3;
+    CON_FAIL_OUTSIDE_VOLTAGE_RANGE = 4;
     // 비활성화
-    CON_FAIL_STRING_NOT_ENABLED = 4;
+    CON_FAIL_STRING_NOT_ENABLED = 5;
     // 퓨즈 개방
-    CON_FAIL_FUSE_OPEN = 5;
+    CON_FAIL_FUSE_OPEN = 6;
     // 컨택터 동작 실패
-    CON_FAIL_CONTACTOR_FAILURE = 6;
+    CON_FAIL_CONTACTOR_FAILURE = 7;
     // 초기충전 실패
-    CON_FAIL_PRECHARGE_FAILURE = 7;
+    CON_FAIL_PRECHARGE_FAILURE = 8;
     // String 고장
-    CON_FAIL_STRING_FAULT = 8;
+    CON_FAIL_STRING_FAULT = 9;
   }
-  // TODO: 필요 여부 재확인 - String에 대한 하나의 상태만 있어도 될 듯
+  // TODO: 필요 여부 재확인
   // 컨택터 상태
   message StCon {
-    bool CONTACTOR_0 = 1;
-    bool CONTACTOR_1 = 2;
-    bool CONTACTOR_2 = 3;
-    bool CONTACTOR_3 = 4;
-    bool CONTACTOR_4 = 5;
-    bool CONTACTOR_5 = 6;
-    bool CONTACTOR_6 = 7;
-    bool CONTACTOR_7 = 8;
-    bool CONTACTOR_8 = 9;
-    bool CONTACTOR_9 = 10;
-    bool CONTACTOR_10 = 11;
-    bool CONTACTOR_11 = 12;
-    bool CONTACTOR_12 = 13;
-    bool CONTACTOR_13 = 14;
-    bool CONTACTOR_14 = 15;
-    bool CONTACTOR_15 = 16;
-    bool CONTACTOR_16 = 17;
-    bool CONTACTOR_17 = 18;
-    bool CONTACTOR_18 = 19;
-    bool CONTACTOR_19 = 20;
-    bool CONTACTOR_20 = 21;
-    bool CONTACTOR_21 = 22;
-    bool CONTACTOR_22 = 23;
-    bool CONTACTOR_23 = 24;
-    bool CONTACTOR_24 = 25;
-    bool CONTACTOR_25 = 26;
-    bool CONTACTOR_26 = 27;
-    bool CONTACTOR_27 = 28;
-    bool CONTACTOR_28 = 29;
-    bool CONTACTOR_29 = 30;
-    bool CONTACTOR_30 = 31;
+    map<uint32, bool> conn = 1;
   }
   // 상태 알람
   message Status {
@@ -496,10 +467,10 @@ message EsdString {
   // 고장 알람
   Fault fault = 14;
 
-  // 활성화 설정
-  Command.SetEna set_ena = 15;
-  // 동작 설정
-  Command.SetCon set_con = 16;
+  // // 활성화 설정
+  // Command.SetEna set_ena = 15;
+  // // 동작 설정
+  // Command.SetCon set_con = 16;
   // 모듈 정보
   repeated EsdModule mods = 17;
 }

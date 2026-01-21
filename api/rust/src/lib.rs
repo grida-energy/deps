@@ -615,6 +615,8 @@ const _: () = {
 
 #[cfg(test)]
 mod test {
+    use std::collections::BTreeMap;
+
     use prost::Message;
 
     #[test]
