@@ -305,7 +305,7 @@ message EsdString {
   // TODO: 필요 여부 재확인
   // 컨택터 상태
   message StCon {
-    map<uint32, bool> conn = 1;
+    repeated bool conn = 1;
   }
   // 상태 알람
   message Status {
