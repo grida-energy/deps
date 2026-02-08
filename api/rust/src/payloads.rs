@@ -2,7 +2,6 @@
 #[cfg(test)]
 mod tests {
     extern crate alloc;
-    use std::collections::BTreeMap;
 
     use alloc::{string::ToString, vec};
 
@@ -132,10 +131,7 @@ mod tests {
                 tmp_avg: f32::MAX,
             }
             .into(),
-            st_con: esd_string::StCon {
-                conn: BTreeMap::new(),
-            }
-            .into(),
+            st_con: esd_string::StCon { conn: vec![] }.into(),
             status: esd_string::Status {
                 other: true,
                 open_door: true,

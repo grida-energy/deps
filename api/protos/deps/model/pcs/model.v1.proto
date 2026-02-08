@@ -245,6 +245,20 @@ message TemperaturePart {
 message DcDcConverter {
   enum St {
     ST_NA = 0;
+    // 정지
+    ST_OFF = 1;
+    // 슬립
+    ST_SLEEPING = 2;
+    // 시작 중
+    ST_STARTING = 3;
+    // 정지 중
+    ST_SHUTTING_DOWN = 6;
+    // 고장
+    ST_FAULT = 7;
+    // 대기
+    ST_STANDBY = 8;
+    // 동작 중
+    ST_OPERATION = 9;
   }
   message Fault { bool OTHER = 1; }
   message Warning { bool OTHER = 1; }
