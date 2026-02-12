@@ -52,6 +52,9 @@ enum OutputBlendMode {
   OUTPUT_BLEND_MODE_MULTIPLY = 4;
   OUTPUT_BLEND_MODE_MUL_MASK_ZPOS = 5;
   OUTPUT_BLEND_MODE_OVERRIDE_SOME = 6;
+  // value != 0: add value to output
+  // value == 0: output is cleared (None)
+  OUTPUT_BLEND_MODE_FILTER_NONZERO_ADDITION = 7;
 }
 message ChartFn { repeated Point2D points = 1; }
 message ChainFn { repeated ChartFn charts = 1; }
