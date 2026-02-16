@@ -1,6 +1,4 @@
 #![cfg_attr(not(feature = "std"), no_std)]
-#![feature(try_blocks)]
-#![feature(trim_prefix_suffix)]
 
 extern crate alloc;
 
@@ -118,10 +116,14 @@ mod voca {
     }
     impl<T: core::ops::Deref<Target = str>> PresetTopics<T> {
         pub fn subtopic_of<'t>(&self, topic: &'t str) -> Option<&'t str> {
-            if !topic.starts_with(&*self.0) {
-                return None;
-            }
-            Some(topic[self.0.len()..].trim_prefix('/'))
+            // if !topic.starts_with(&*self.0) {
+            //     return None;
+            // }
+            // let subtopic = &topic[self.0.len()..];
+            // Some(subtopic.strip_prefix('/').unwrap_or(subtopic))
+            topic
+                .strip_prefix(&*self.0)
+                .map(|s| s.strip_prefix('/').unwrap_or(s))
         }
         pub fn subtopic_kind_of<'t>(&self, topic: &'t str) -> Option<TopicKind> {
             self.subtopic_of(topic)

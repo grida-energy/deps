@@ -37,8 +37,5 @@ tracing = { version = "0.1.44", default-features = false }
 std = []
 
 serde-json = ["dep:pbjson", "dep:serde", "std", "pbs/serde-json"]
-mqtt-server = ["mqtt-deps"]
-mqtt-client = ["mqtt-deps"]
-mqtt-deps = ["std"]
 tracing-log = []
 pub-deps = []
