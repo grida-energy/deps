@@ -792,7 +792,25 @@ message Response {
 |-|-|
 |bess|bess 장치 - 배터리 + PCS로 구성된 장치. 계통에서 충방전을 수행한다. 선택적으로 부하에 직접 전력을 공급하는 기능을 포함한다.|
 
+## 비호환성 변경점
 
-### 0.0.2 => 1.0.0 변경 점
+### 0.0.2 -> 1.0.0
 
-preset.bess.v1.BessMeasure => preset.bess.v1.Rpc.MeasureResponse
+- 일관성 있는 Request/Response 메시지 이름으로 변경
+  - preset.bess.v1.BessMeasure -> preset.bess.v1.Rpc.MeasureResponse
+  - preset.bess.v1.BessRequest -> preset.bess.v1.Rpc.CommandRequest
+  - preset.bess.v1.BessResponse -> preset.bess.v1.Rpc.CommandResponse
+  - vnd.v1.Rpc.AlarmEvent -> vnd.v1.Rpc.AlarmResponse
+  - ...
+
+- 일관성을 위한 일부 필드 이름 변경
+  - preset.bess.v1.BessRequest.head -> preset.bess.v1.Rpc.CommandRequest.header
+  - preset.bess.v1.BessRequest.data -> preset.bess.v1.Rpc.CommandRequest.payload
+  - preset.bess.v1.Bess.battery -> preset.bess.v1.Bess.bank
+  - ...
+
+- Command
+  - 여러 명령을 한번에 전송 할수 있도록 oneof와 repeated 필드 조합으로 변경
+
+  - model.pcs.v1.ThreePhasePcsPart.Command.Action 및 Reference -> oneof 필드로 통합됨
+  - preset.bess.v1.BessRequest.data -> preset.bess.v1.Rpc.CommandRequest.payload (repeated 필드로 변경)
