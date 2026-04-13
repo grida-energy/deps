@@ -11,7 +11,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class CastSet(_message.Message):
-    __slots__ = ()
+    __slots__ = ("cst_stn", "h2", "forecast")
     CST_STN_FIELD_NUMBER: _ClassVar[int]
     H2_FIELD_NUMBER: _ClassVar[int]
     FORECAST_FIELD_NUMBER: _ClassVar[int]
@@ -21,9 +21,9 @@ class CastSet(_message.Message):
     def __init__(self, cst_stn: _Optional[_Union[_v1_pb2.StationCast, _Mapping]] = ..., h2: _Optional[_Union[_v1_pb2.H2StationMeasure, _Mapping]] = ..., forecast: _Optional[_Union[_v1_pb2.WeatherCast, _Mapping]] = ...) -> None: ...
 
 class StationCastPreset(_message.Message):
-    __slots__ = ()
+    __slots__ = ("group", "ops_grid", "ctl_grid", "cst_dmnd", "cst_re")
     class GroupEntry(_message.Message):
-        __slots__ = ()
+        __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: str
@@ -44,7 +44,7 @@ class StationCastPreset(_message.Message):
 class Rpc(_message.Message):
     __slots__ = ()
     class CastMeasure(_message.Message):
-        __slots__ = ()
+        __slots__ = ("timestamp", "data")
         TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
         DATA_FIELD_NUMBER: _ClassVar[int]
         timestamp: _timestamp_pb2.Timestamp

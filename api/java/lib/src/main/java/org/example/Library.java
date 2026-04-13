@@ -4,15 +4,19 @@
 package org.example;
 
 import io.github.grida_energy.deps.preset.bess.v1.ModelV1.*;
+// import io.github.grida_energy.deps.model.pcs.v1.ModelV1.*;
+import io.github.grida_energy.deps.preset.bess.v1.ModelV1.Rpc.MeasureResponse;
+import io.github.grida_energy.deps.preset.bess.v1.ModelV1.Rpc.CommandRequest;
 import io.github.grida_energy.deps.preset.station_cast.v1.ModelV1.*;
 import io.github.grida_energy.deps.preset.station_cast.v1.ModelV1.Rpc.CastMeasure;
 import io.github.grida_energy.deps.model.cast.v1.ModelV1.GridOperation;
 // import io.github.grida_energy.deps.model.cast.v1.ModelV1.StationCast;
 import io.github.grida_energy.deps.model.pcs.v1.ModelV1.*;
+import io.github.grida_energy.deps.model.pcs.v1.ModelV1.ThreePhasePcsPart.Command;;
 
 public class Library {
     public boolean someLibraryMethod() {
-        BessMeasure measure = BessMeasure.newBuilder().setData(
+        MeasureResponse measure = MeasureResponse.newBuilder().setPayload(
                 Bess.newBuilder().setPcs(ThreePhasePcsPart.newBuilder().setW(50).build()).build()).build();
 
         CastMeasure stationCast = CastMeasure.newBuilder()
@@ -21,8 +25,12 @@ public class Library {
                                 .build())
                 .build();
 
+        CommandRequest command = CommandRequest.newBuilder()
+                .addPayload(BessCommand.newBuilder().setPcs(Command.newBuilder().setW(5_000)).build()).build();
+
         System.out.println(measure);
         System.out.println(stationCast);
+        System.out.println(command);
         return true;
     }
 }

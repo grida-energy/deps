@@ -11,7 +11,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class CastHeader(_message.Message):
-    __slots__ = ()
+    __slots__ = ("caststamp", "pointstamp", "leadtime", "kind")
     CASTSTAMP_FIELD_NUMBER: _ClassVar[int]
     POINTSTAMP_FIELD_NUMBER: _ClassVar[int]
     LEADTIME_FIELD_NUMBER: _ClassVar[int]
@@ -23,7 +23,7 @@ class CastHeader(_message.Message):
     def __init__(self, caststamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., pointstamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., leadtime: _Optional[_Union[datetime.timedelta, _duration_pb2.Duration, _Mapping]] = ..., kind: _Optional[int] = ...) -> None: ...
 
 class StationCast(_message.Message):
-    __slots__ = ()
+    __slots__ = ("header", "w_cap", "wh")
     HEADER_FIELD_NUMBER: _ClassVar[int]
     W_CAP_FIELD_NUMBER: _ClassVar[int]
     WH_FIELD_NUMBER: _ClassVar[int]
@@ -33,7 +33,7 @@ class StationCast(_message.Message):
     def __init__(self, header: _Optional[_Union[CastHeader, _Mapping]] = ..., w_cap: _Optional[float] = ..., wh: _Optional[float] = ...) -> None: ...
 
 class H2StationMeasure(_message.Message):
-    __slots__ = ()
+    __slots__ = ("timestamp", "kg_cap", "kg")
     TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
     KG_CAP_FIELD_NUMBER: _ClassVar[int]
     KG_FIELD_NUMBER: _ClassVar[int]
@@ -43,7 +43,7 @@ class H2StationMeasure(_message.Message):
     def __init__(self, timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., kg_cap: _Optional[float] = ..., kg: _Optional[float] = ...) -> None: ...
 
 class WindData(_message.Message):
-    __slots__ = ()
+    __slots__ = ("mps_spd", "deg_dir")
     MPS_SPD_FIELD_NUMBER: _ClassVar[int]
     DEG_DIR_FIELD_NUMBER: _ClassVar[int]
     mps_spd: float
@@ -51,7 +51,7 @@ class WindData(_message.Message):
     def __init__(self, mps_spd: _Optional[float] = ..., deg_dir: _Optional[float] = ...) -> None: ...
 
 class WeatherCast(_message.Message):
-    __slots__ = ()
+    __slots__ = ("header", "tmp", "rh", "irr", "wind")
     HEADER_FIELD_NUMBER: _ClassVar[int]
     TMP_FIELD_NUMBER: _ClassVar[int]
     RH_FIELD_NUMBER: _ClassVar[int]
@@ -65,7 +65,7 @@ class WeatherCast(_message.Message):
     def __init__(self, header: _Optional[_Union[CastHeader, _Mapping]] = ..., tmp: _Optional[_Iterable[float]] = ..., rh: _Optional[_Iterable[float]] = ..., irr: _Optional[_Iterable[float]] = ..., wind: _Optional[_Iterable[_Union[WindData, _Mapping]]] = ...) -> None: ...
 
 class GridOperation(_message.Message):
-    __slots__ = ()
+    __slots__ = ("timestamp", "w_dmnd", "w_pv", "w_wind", "w_re_tot", "w_cap_sup")
     TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
     W_DMND_FIELD_NUMBER: _ClassVar[int]
     W_PV_FIELD_NUMBER: _ClassVar[int]
@@ -81,7 +81,7 @@ class GridOperation(_message.Message):
     def __init__(self, timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., w_dmnd: _Optional[float] = ..., w_pv: _Optional[float] = ..., w_wind: _Optional[float] = ..., w_re_tot: _Optional[float] = ..., w_cap_sup: _Optional[float] = ...) -> None: ...
 
 class GridOutputControl(_message.Message):
-    __slots__ = ()
+    __slots__ = ("header", "w_p_m2_ctl", "w_p_m2_min")
     HEADER_FIELD_NUMBER: _ClassVar[int]
     W_P_M2_CTL_FIELD_NUMBER: _ClassVar[int]
     W_P_M2_MIN_FIELD_NUMBER: _ClassVar[int]
@@ -91,7 +91,7 @@ class GridOutputControl(_message.Message):
     def __init__(self, header: _Optional[_Union[CastHeader, _Mapping]] = ..., w_p_m2_ctl: _Optional[float] = ..., w_p_m2_min: _Optional[float] = ...) -> None: ...
 
 class EnergyCast(_message.Message):
-    __slots__ = ()
+    __slots__ = ("header", "w_cap", "w", "w_tot", "w_min", "w_max")
     HEADER_FIELD_NUMBER: _ClassVar[int]
     W_CAP_FIELD_NUMBER: _ClassVar[int]
     W_FIELD_NUMBER: _ClassVar[int]

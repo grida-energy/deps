@@ -6,12 +6,10 @@
 - [deps/preset/bess/model.v1.proto](#deps_preset_bess_model-v1-proto)
     - [Bess](#deps-preset-bess-v1-Bess)
     - [BessCommand](#deps-preset-bess-v1-BessCommand)
-    - [BessMeasure](#deps-preset-bess-v1-BessMeasure)
-    - [HybridBess](#deps-preset-bess-v1-HybridBess)
-    - [HybridBessMeasure](#deps-preset-bess-v1-HybridBessMeasure)
     - [Rpc](#deps-preset-bess-v1-Rpc)
-    - [Rpc.BessRequest](#deps-preset-bess-v1-Rpc-BessRequest)
-    - [Rpc.BessResponse](#deps-preset-bess-v1-Rpc-BessResponse)
+    - [Rpc.CommandRequest](#deps-preset-bess-v1-Rpc-CommandRequest)
+    - [Rpc.CommandResponse](#deps-preset-bess-v1-Rpc-CommandResponse)
+    - [Rpc.MeasureResponse](#deps-preset-bess-v1-Rpc-MeasureResponse)
   
 - [deps/preset/station-cast/model.v1.proto](#deps_preset_station-cast_model-v1-proto)
     - [CastSet](#deps-preset-station_cast-v1-CastSet)
@@ -20,16 +18,23 @@
     - [StationCastPreset](#deps-preset-station_cast-v1-StationCastPreset)
     - [StationCastPreset.GroupEntry](#deps-preset-station_cast-v1-StationCastPreset-GroupEntry)
   
+- [deps/preset/dbserver/model.v1.proto](#deps_preset_dbserver_model-v1-proto)
+    - [rpc](#deps-preset-dbserver-v1-rpc)
+    - [rpc.PullLogRequest](#deps-preset-dbserver-v1-rpc-PullLogRequest)
+    - [rpc.PullLogResponse](#deps-preset-dbserver-v1-rpc-PullLogResponse)
+    - [rpc.PullMeasureRequest](#deps-preset-dbserver-v1-rpc-PullMeasureRequest)
+    - [rpc.PullMeasureResponse](#deps-preset-dbserver-v1-rpc-PullMeasureResponse)
+  
 - [deps/preset/upms/model.v1.proto](#deps_preset_upms_model-v1-proto)
     - [PmsCommand](#deps-preset-upms-v1-PmsCommand)
-    - [PmsMeasure](#deps-preset-upms-v1-PmsMeasure)
     - [Rpc](#deps-preset-upms-v1-Rpc)
-    - [Rpc.PmsRequest](#deps-preset-upms-v1-Rpc-PmsRequest)
-    - [Rpc.PmsResponse](#deps-preset-upms-v1-Rpc-PmsResponse)
+    - [Rpc.CommandRequest](#deps-preset-upms-v1-Rpc-CommandRequest)
+    - [Rpc.CommandResponse](#deps-preset-upms-v1-Rpc-CommandResponse)
+    - [Rpc.MeasureResponse](#deps-preset-upms-v1-Rpc-MeasureResponse)
   
 - [deps/vnd/rpc.v1.proto](#deps_vnd_rpc-v1-proto)
     - [Rpc](#deps-vnd-v1-Rpc)
-    - [Rpc.AlarmEvent](#deps-vnd-v1-Rpc-AlarmEvent)
+    - [Rpc.AlarmResponse](#deps-vnd-v1-Rpc-AlarmResponse)
     - [Rpc.ParamReadWriteRequest](#deps-vnd-v1-Rpc-ParamReadWriteRequest)
     - [Rpc.ParamReadWriteResponse](#deps-vnd-v1-Rpc-ParamReadWriteResponse)
     - [Rpc.ParamRequest](#deps-vnd-v1-Rpc-ParamRequest)
@@ -39,11 +44,13 @@
     - [ParamBlock](#deps-vnd-v1-ParamBlock)
     - [ParamIdRange](#deps-vnd-v1-ParamIdRange)
     - [ParamInfo](#deps-vnd-v1-ParamInfo)
-    - [ParamInfo.Enum](#deps-vnd-v1-ParamInfo-Enum)
-    - [ParamInfo.Enum.CollectionsEntry](#deps-vnd-v1-ParamInfo-Enum-CollectionsEntry)
     - [ParamInfo.MinMax](#deps-vnd-v1-ParamInfo-MinMax)
+    - [ParamInfo.OneOfPick](#deps-vnd-v1-ParamInfo-OneOfPick)
+    - [ParamInfo.OneOfPick.OptionsEntry](#deps-vnd-v1-ParamInfo-OneOfPick-OptionsEntry)
     - [ParamMeta](#deps-vnd-v1-ParamMeta)
     - [ParamMeta.ParamInfosEntry](#deps-vnd-v1-ParamMeta-ParamInfosEntry)
+  
+    - [ParamInfo.ParamKind](#deps-vnd-v1-ParamInfo-ParamKind)
   
 - [deps/vnd/alarm.v1.proto](#deps_vnd_alarm-v1-proto)
     - [AlarmData](#deps-vnd-v1-AlarmData)
@@ -54,6 +61,7 @@
   
     - [AlarmType](#deps-vnd-v1-AlarmType)
   
+- [deps/model/ems/model.v1.proto](#deps_model_ems_model-v1-proto)
 - [deps/model/pcs/model.v1.proto](#deps_model_pcs_model-v1-proto)
     - [DcDcConverter](#deps-model-pcs-v1-DcDcConverter)
     - [DcDcConverter.Command](#deps-model-pcs-v1-DcDcConverter-Command)
@@ -61,6 +69,17 @@
     - [DcDcConverter.Status](#deps-model-pcs-v1-DcDcConverter-Status)
     - [DcDcConverter.Warning](#deps-model-pcs-v1-DcDcConverter-Warning)
     - [DcPart](#deps-model-pcs-v1-DcPart)
+    - [Rpc](#deps-model-pcs-v1-Rpc)
+    - [Rpc.DcDc](#deps-model-pcs-v1-Rpc-DcDc)
+    - [Rpc.DcDc.CommandRequest](#deps-model-pcs-v1-Rpc-DcDc-CommandRequest)
+    - [Rpc.DcDc.CommandResponse](#deps-model-pcs-v1-Rpc-DcDc-CommandResponse)
+    - [Rpc.DcDc.MeasureResponse](#deps-model-pcs-v1-Rpc-DcDc-MeasureResponse)
+    - [Rpc.Grid](#deps-model-pcs-v1-Rpc-Grid)
+    - [Rpc.Grid.MeasureResponse](#deps-model-pcs-v1-Rpc-Grid-MeasureResponse)
+    - [Rpc.Pcs](#deps-model-pcs-v1-Rpc-Pcs)
+    - [Rpc.Pcs.CommandRequest](#deps-model-pcs-v1-Rpc-Pcs-CommandRequest)
+    - [Rpc.Pcs.CommandResponse](#deps-model-pcs-v1-Rpc-Pcs-CommandResponse)
+    - [Rpc.Pcs.MeasureResponse](#deps-model-pcs-v1-Rpc-Pcs-MeasureResponse)
     - [TemperaturePart](#deps-model-pcs-v1-TemperaturePart)
     - [ThreePhase](#deps-model-pcs-v1-ThreePhase)
     - [ThreePhaseGridPart](#deps-model-pcs-v1-ThreePhaseGridPart)
@@ -68,13 +87,11 @@
     - [ThreePhaseNSum](#deps-model-pcs-v1-ThreePhaseNSum)
     - [ThreePhasePcsPart](#deps-model-pcs-v1-ThreePhasePcsPart)
     - [ThreePhasePcsPart.Command](#deps-model-pcs-v1-ThreePhasePcsPart-Command)
-    - [ThreePhasePcsPart.Command.Reference](#deps-model-pcs-v1-ThreePhasePcsPart-Command-Reference)
     - [ThreePhasePcsPart.Fault](#deps-model-pcs-v1-ThreePhasePcsPart-Fault)
     - [ThreePhasePcsPart.Status](#deps-model-pcs-v1-ThreePhasePcsPart-Status)
     - [ThreePhasePcsPart.Warning](#deps-model-pcs-v1-ThreePhasePcsPart-Warning)
   
     - [DcDcConverter.St](#deps-model-pcs-v1-DcDcConverter-St)
-    - [ThreePhasePcsPart.Command.Action](#deps-model-pcs-v1-ThreePhasePcsPart-Command-Action)
     - [ThreePhasePcsPart.DirPwr](#deps-model-pcs-v1-ThreePhasePcsPart-DirPwr)
     - [ThreePhasePcsPart.St](#deps-model-pcs-v1-ThreePhasePcsPart-St)
   
@@ -82,6 +99,7 @@
     - [AcLine](#deps-model-net-v1-AcLine)
     - [AcLineSum](#deps-model-net-v1-AcLineSum)
     - [Energy](#deps-model-net-v1-Energy)
+    - [Line](#deps-model-net-v1-Line)
   
 - [deps/model/esd/model.v1.proto](#deps_model_esd_model-v1-proto)
     - [EsdBank](#deps-model-esd-v1-EsdBank)
@@ -104,26 +122,38 @@
     - [EsdString.StCon](#deps-model-esd-v1-EsdString-StCon)
     - [EsdString.Status](#deps-model-esd-v1-EsdString-Status)
     - [EsdString.Warning](#deps-model-esd-v1-EsdString-Warning)
-    - [EsdSummary](#deps-model-esd-v1-EsdSummary)
-    - [EsdSummary.CellCount](#deps-model-esd-v1-EsdSummary-CellCount)
-    - [EsdSummary.Command](#deps-model-esd-v1-EsdSummary-Command)
-    - [EsdSummary.Evt1](#deps-model-esd-v1-EsdSummary-Evt1)
+    - [Rpc](#deps-model-esd-v1-Rpc)
+    - [Rpc.Bank](#deps-model-esd-v1-Rpc-Bank)
+    - [Rpc.Bank.CommandRequest](#deps-model-esd-v1-Rpc-Bank-CommandRequest)
+    - [Rpc.Bank.CommandResponse](#deps-model-esd-v1-Rpc-Bank-CommandResponse)
+    - [Rpc.Bank.MeasureResponse](#deps-model-esd-v1-Rpc-Bank-MeasureResponse)
   
-    - [EsdBank.Command.SetOp](#deps-model-esd-v1-EsdBank-Command-SetOp)
     - [EsdBank.St](#deps-model-esd-v1-EsdBank-St)
     - [EsdBank.StCha](#deps-model-esd-v1-EsdBank-StCha)
     - [EsdString.Command.SetCon](#deps-model-esd-v1-EsdString-Command-SetCon)
     - [EsdString.Command.SetEna](#deps-model-esd-v1-EsdString-Command-SetEna)
     - [EsdString.ConFail](#deps-model-esd-v1-EsdString-ConFail)
-    - [EsdSummary.ChaSt](#deps-model-esd-v1-EsdSummary-ChaSt)
-    - [EsdSummary.SetOp](#deps-model-esd-v1-EsdSummary-SetOp)
-    - [EsdSummary.State](#deps-model-esd-v1-EsdSummary-State)
   
 - [deps/model/esd/extra.v1.proto](#deps_model_esd_extra-v1-proto)
     - [ChaLimit](#deps-model-esd-v1-ChaLimit)
     - [Conn](#deps-model-esd-v1-Conn)
   
     - [Conn.ConnCmd](#deps-model-esd-v1-Conn-ConnCmd)
+  
+- [deps/model/tsdb/model.v1.proto](#deps_model_tsdb_model-v1-proto)
+    - [AlarmExtra](#deps-model-tsdb-v1-AlarmExtra)
+    - [CommandExtra](#deps-model-tsdb-v1-CommandExtra)
+    - [EventExtra](#deps-model-tsdb-v1-EventExtra)
+    - [LogConstraint](#deps-model-tsdb-v1-LogConstraint)
+    - [LogItem](#deps-model-tsdb-v1-LogItem)
+    - [LogMatch](#deps-model-tsdb-v1-LogMatch)
+    - [MeasureConstraint](#deps-model-tsdb-v1-MeasureConstraint)
+    - [MeasureId](#deps-model-tsdb-v1-MeasureId)
+  
+    - [AlarmKind](#deps-model-tsdb-v1-AlarmKind)
+    - [AlarmStatus](#deps-model-tsdb-v1-AlarmStatus)
+    - [LogKind](#deps-model-tsdb-v1-LogKind)
+    - [Order](#deps-model-tsdb-v1-Order)
   
 - [deps/model/cast/model.v1.proto](#deps_model_cast_model-v1-proto)
     - [CastHeader](#deps-model-cast-v1-CastHeader)
@@ -176,6 +206,18 @@
     - [NetworkConfig](#deps-model-nameplate-v1-NetworkConfig)
     - [NetworkConfig.IpsEntry](#deps-model-nameplate-v1-NetworkConfig-IpsEntry)
   
+- [deps/model/rms/model.v1.proto](#deps_model_rms_model-v1-proto)
+    - [DeleteNode](#deps-model-rms-v1-DeleteNode)
+    - [LocalRms](#deps-model-rms-v1-LocalRms)
+    - [LocalRms.Command](#deps-model-rms-v1-LocalRms-Command)
+    - [MeasureRequest](#deps-model-rms-v1-MeasureRequest)
+    - [NodeItem](#deps-model-rms-v1-NodeItem)
+    - [NodeItem.ArgsEntry](#deps-model-rms-v1-NodeItem-ArgsEntry)
+    - [Rpc](#deps-model-rms-v1-Rpc)
+    - [Rpc.CommandRequest](#deps-model-rms-v1-Rpc-CommandRequest)
+    - [Rpc.CommandResponse](#deps-model-rms-v1-Rpc-CommandResponse)
+    - [Rpc.MeasureResponse](#deps-model-rms-v1-Rpc-MeasureResponse)
+  
 - [deps/rpc/header.v1.proto](#deps_rpc_header-v1-proto)
     - [Request](#deps-rpc-v1-Request)
     - [Response](#deps-rpc-v1-Response)
@@ -202,10 +244,12 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| battery | [deps.model.esd.v1.EsdBank](#deps-model-esd-v1-EsdBank) |  | 배터리 모델 |
+| bank | [deps.model.esd.v1.EsdBank](#deps-model-esd-v1-EsdBank) |  | BESS 시스템 명령 message Command { oneof cmd { // 전체 시스템 정지 bool estop = 3; } } 배터리 모델 |
 | pcs | [deps.model.pcs.v1.ThreePhasePcsPart](#deps-model-pcs-v1-ThreePhasePcsPart) |  | PCS 모델 |
 | off_grid | [deps.model.pcs.v1.ThreePhaseGridPart](#deps-model-pcs-v1-ThreePhaseGridPart) |  | Off Grid (부하 연결 부) |
 | on_grid | [deps.model.pcs.v1.ThreePhaseGridPart](#deps-model-pcs-v1-ThreePhaseGridPart) |  | On Grid (계통 연결 부) |
+| dcdc | [deps.model.pcs.v1.DcDcConverter](#deps-model-pcs-v1-DcDcConverter) |  | DcDc 모델 (옵션) |
+| pv | [deps.model.source.v1.PvLine](#deps-model-source-v1-PvLine) |  | PV 연결 부 (옵션) |
 
 
 
@@ -220,59 +264,9 @@ BESS 명령
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| battery | [deps.model.esd.v1.EsdBank.Command](#deps-model-esd-v1-EsdBank-Command) |  | 배터리 명령 |
+| bank | [deps.model.esd.v1.EsdBank.Command](#deps-model-esd-v1-EsdBank-Command) |  | 배터리 명령 |
 | pcs | [deps.model.pcs.v1.ThreePhasePcsPart.Command](#deps-model-pcs-v1-ThreePhasePcsPart-Command) |  | PCS 명령 |
-
-
-
-
-
-
-<a name="deps-preset-bess-v1-BessMeasure"></a>
-
-### BessMeasure
-BESS 계측 정보
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | 타임 스탬프 |
-| data | [Bess](#deps-preset-bess-v1-Bess) |  | BESS 데이터 |
-
-
-
-
-
-
-<a name="deps-preset-bess-v1-HybridBess"></a>
-
-### HybridBess
-PV 입력이 존재하는 BESS (모델에 대한 정제 필요)
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| battery | [deps.model.esd.v1.EsdBank](#deps-model-esd-v1-EsdBank) |  | 배터리 모델 |
-| pcs | [deps.model.pcs.v1.ThreePhasePcsPart](#deps-model-pcs-v1-ThreePhasePcsPart) |  | PCS 모델 |
-| off_grid | [deps.model.pcs.v1.ThreePhaseGridPart](#deps-model-pcs-v1-ThreePhaseGridPart) |  | Off Grid (부하 연결 부) |
-| on_grid | [deps.model.pcs.v1.ThreePhaseGridPart](#deps-model-pcs-v1-ThreePhaseGridPart) |  | On Grid (계통 연결 부) |
-| pv | [deps.model.source.v1.PvLine](#deps-model-source-v1-PvLine) |  | PV 연결 부 |
-
-
-
-
-
-
-<a name="deps-preset-bess-v1-HybridBessMeasure"></a>
-
-### HybridBessMeasure
-하이브리드 BESS 계측 정보
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | 타임 스탬프 |
-| data | [HybridBess](#deps-preset-bess-v1-HybridBess) |  | 하이브리드 BESS 데이터 |
+| dcdc | [deps.model.pcs.v1.DcDcConverter.Command](#deps-model-pcs-v1-DcDcConverter-Command) |  | DcDc 명령 |
 
 
 
@@ -289,31 +283,48 @@ RPC 메시지
 
 
 
-<a name="deps-preset-bess-v1-Rpc-BessRequest"></a>
+<a name="deps-preset-bess-v1-Rpc-CommandRequest"></a>
 
-### Rpc.BessRequest
+### Rpc.CommandRequest
 BESS RPC 요청
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| head | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  | 요청 헤더 |
-| data | [BessCommand](#deps-preset-bess-v1-BessCommand) |  | BESS 명령 |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  | 요청 헤더 |
+| payload | [BessCommand](#deps-preset-bess-v1-BessCommand) | repeated | BESS 명령 |
 
 
 
 
 
 
-<a name="deps-preset-bess-v1-Rpc-BessResponse"></a>
+<a name="deps-preset-bess-v1-Rpc-CommandResponse"></a>
 
-### Rpc.BessResponse
+### Rpc.CommandResponse
 BESS RPC 응답
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| head | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  | 응답 헤더 |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  | 응답 헤더 |
+| payload | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="deps-preset-bess-v1-Rpc-MeasureResponse"></a>
+
+### Rpc.MeasureResponse
+BESS 계측 정보
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | 타임 스탬프 |
+| payload | [Bess](#deps-preset-bess-v1-Bess) |  | BESS 데이터 |
 
 
 
@@ -423,6 +434,96 @@ BESS RPC 응답
 
 
 
+<a name="deps_preset_dbserver_model-v1-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## deps/preset/dbserver/model.v1.proto
+
+
+
+<a name="deps-preset-dbserver-v1-rpc"></a>
+
+### rpc
+
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-rpc-PullLogRequest"></a>
+
+### rpc.PullLogRequest
+topic: .../pull-event
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
+| payload | [deps.model.tsdb.v1.LogConstraint](#deps-model-tsdb-v1-LogConstraint) |  |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-rpc-PullLogResponse"></a>
+
+### rpc.PullLogResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
+| payload | [deps.model.tsdb.v1.LogItem](#deps-model-tsdb-v1-LogItem) | repeated |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-rpc-PullMeasureRequest"></a>
+
+### rpc.PullMeasureRequest
+topic: .../pull-measure
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
+| payload | [deps.model.tsdb.v1.MeasureConstraint](#deps-model-tsdb-v1-MeasureConstraint) |  |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-rpc-PullMeasureResponse"></a>
+
+### rpc.PullMeasureResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
+| payload | [google.protobuf.ListValue](#google-protobuf-ListValue) | repeated |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="deps_preset_upms_model-v1-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -445,23 +546,6 @@ BESS RPC 응답
 
 
 
-<a name="deps-preset-upms-v1-PmsMeasure"></a>
-
-### PmsMeasure
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| lookup | [deps.model.pms.v1.LookupRule](#deps-model-pms-v1-LookupRule) |  |  |
-| input | [deps.model.pms.v1.LookupInput](#deps-model-pms-v1-LookupInput) |  |  |
-| output | [deps.model.pms.v1.LookupOutput](#deps-model-pms-v1-LookupOutput) |  |  |
-
-
-
-
-
-
 <a name="deps-preset-upms-v1-Rpc"></a>
 
 ### Rpc
@@ -472,9 +556,9 @@ BESS RPC 응답
 
 
 
-<a name="deps-preset-upms-v1-Rpc-PmsRequest"></a>
+<a name="deps-preset-upms-v1-Rpc-CommandRequest"></a>
 
-### Rpc.PmsRequest
+### Rpc.CommandRequest
 
 
 
@@ -488,16 +572,34 @@ BESS RPC 응답
 
 
 
-<a name="deps-preset-upms-v1-Rpc-PmsResponse"></a>
+<a name="deps-preset-upms-v1-Rpc-CommandResponse"></a>
 
-### Rpc.PmsResponse
+### Rpc.CommandResponse
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
-| n | [uint32](#uint32) |  |  |
+| payload | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="deps-preset-upms-v1-Rpc-MeasureResponse"></a>
+
+### Rpc.MeasureResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| lookup | [deps.model.pms.v1.LookupRule](#deps-model-pms-v1-LookupRule) |  |  |
+| input | [deps.model.pms.v1.LookupInput](#deps-model-pms-v1-LookupInput) |  |  |
+| output | [deps.model.pms.v1.LookupOutput](#deps-model-pms-v1-LookupOutput) |  |  |
 
 
 
@@ -530,16 +632,16 @@ BESS RPC 응답
 
 
 
-<a name="deps-vnd-v1-Rpc-AlarmEvent"></a>
+<a name="deps-vnd-v1-Rpc-AlarmResponse"></a>
 
-### Rpc.AlarmEvent
+### Rpc.AlarmResponse
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| alarm_data | [AlarmData](#deps-vnd-v1-AlarmData) |  |  |
+| payload | [AlarmData](#deps-vnd-v1-AlarmData) |  |  |
 
 
 
@@ -549,7 +651,7 @@ BESS RPC 응답
 <a name="deps-vnd-v1-Rpc-ParamReadWriteRequest"></a>
 
 ### Rpc.ParamReadWriteRequest
-
+&#34;writes&#34; performs first then &#34;reads&#34;
 
 
 | Field | Type | Label | Description |
@@ -586,8 +688,8 @@ error codes would be specified in deps.rpc.Response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| head | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
-| data | [Rpc.ParamReadWriteRequest](#deps-vnd-v1-Rpc-ParamReadWriteRequest) |  | repeated ParamOps data = 3; |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
+| payload | [Rpc.ParamReadWriteRequest](#deps-vnd-v1-Rpc-ParamReadWriteRequest) |  |  |
 
 
 
@@ -602,8 +704,8 @@ error codes would be specified in deps.rpc.Response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| head | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
-| data | [Rpc.ParamReadWriteResponse](#deps-vnd-v1-Rpc-ParamReadWriteResponse) |  | repeated ParamResult data = 4; |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
+| payload | [Rpc.ParamReadWriteResponse](#deps-vnd-v1-Rpc-ParamReadWriteResponse) |  |  |
 
 
 
@@ -670,38 +772,8 @@ error codes would be specified in deps.rpc.Response
 | description | [string](#string) |  |  |
 | unit | [string](#string) |  |  |
 | min_max | [ParamInfo.MinMax](#deps-vnd-v1-ParamInfo-MinMax) |  |  |
-| pick | [ParamInfo.Enum](#deps-vnd-v1-ParamInfo-Enum) |  |  |
-
-
-
-
-
-
-<a name="deps-vnd-v1-ParamInfo-Enum"></a>
-
-### ParamInfo.Enum
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collections | [ParamInfo.Enum.CollectionsEntry](#deps-vnd-v1-ParamInfo-Enum-CollectionsEntry) | repeated |  |
-
-
-
-
-
-
-<a name="deps-vnd-v1-ParamInfo-Enum-CollectionsEntry"></a>
-
-### ParamInfo.Enum.CollectionsEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [int32](#int32) |  |  |
-| value | [string](#string) |  |  |
+| pick | [ParamInfo.OneOfPick](#deps-vnd-v1-ParamInfo-OneOfPick) |  |  |
+| accepts | [ParamInfo.ParamKind](#deps-vnd-v1-ParamInfo-ParamKind) | repeated |  |
 
 
 
@@ -716,8 +788,41 @@ error codes would be specified in deps.rpc.Response
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| min | [float](#float) |  |  |
-| max | [float](#float) |  |  |
+| min | [double](#double) |  |  |
+| max | [double](#double) |  |  |
+| exclusive_min | [bool](#bool) |  |  |
+| exclusive_max | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="deps-vnd-v1-ParamInfo-OneOfPick"></a>
+
+### ParamInfo.OneOfPick
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| options | [ParamInfo.OneOfPick.OptionsEntry](#deps-vnd-v1-ParamInfo-OneOfPick-OptionsEntry) | repeated |  |
+
+
+
+
+
+
+<a name="deps-vnd-v1-ParamInfo-OneOfPick-OptionsEntry"></a>
+
+### ParamInfo.OneOfPick.OptionsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [double](#double) |  |  |
 
 
 
@@ -755,6 +860,23 @@ error codes would be specified in deps.rpc.Response
 
 
  
+
+
+<a name="deps-vnd-v1-ParamInfo-ParamKind"></a>
+
+### ParamInfo.ParamKind
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| PARAM_KIND_NA | 0 |  |
+| PARAM_KIND_NULL | 1 |  |
+| PARAM_KIND_NUMBER | 2 |  |
+| PARAM_KIND_STRING | 3 |  |
+| PARAM_KIND_BOOL | 4 |  |
+| PARAM_KIND_STRUCT | 5 |  |
+| PARAM_KIND_LIST | 6 |  |
+
 
  
 
@@ -876,6 +998,22 @@ TODO: remove later
 
 
 
+<a name="deps_model_ems_model-v1-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## deps/model/ems/model.v1.proto
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="deps_model_pcs_model-v1-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -887,6 +1025,16 @@ TODO: remove later
 
 ### DcDcConverter
 DC-DC 컨버터
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| st | [DcDcConverter.St](#deps-model-pcs-v1-DcDcConverter-St) |  | 상태 |
+| status | [DcDcConverter.Status](#deps-model-pcs-v1-DcDcConverter-Status) |  | 상태 알람 |
+| fault | [DcDcConverter.Fault](#deps-model-pcs-v1-DcDcConverter-Fault) |  | 고장 알람 |
+| warning | [DcDcConverter.Warning](#deps-model-pcs-v1-DcDcConverter-Warning) |  | 경고 알람 |
+| input | [deps.model.net.v1.Line](#deps-model-net-v1-Line) |  |  |
+| output | [deps.model.net.v1.Line](#deps-model-net-v1-Line) |  |  |
 
 
 
@@ -901,7 +1049,8 @@ DC-DC 컨버터
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| enable | [bool](#bool) |  |  |
+| conn | [bool](#bool) |  | run/stop |
+| reset | [bool](#bool) |  |  |
 
 
 
@@ -964,6 +1113,158 @@ DC측 정보
 | dca | [float](#float) |  | DC 전류 |
 | dcv | [float](#float) |  | DC 전압 |
 | dcw | [float](#float) |  | DC 전력 |
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc"></a>
+
+### Rpc
+
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-DcDc"></a>
+
+### Rpc.DcDc
+
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-DcDc-CommandRequest"></a>
+
+### Rpc.DcDc.CommandRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
+| payload | [DcDcConverter.Command](#deps-model-pcs-v1-DcDcConverter-Command) | repeated |  |
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-DcDc-CommandResponse"></a>
+
+### Rpc.DcDc.CommandResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
+| payload | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-DcDc-MeasureResponse"></a>
+
+### Rpc.DcDc.MeasureResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| payload | [DcDcConverter](#deps-model-pcs-v1-DcDcConverter) |  |  |
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-Grid"></a>
+
+### Rpc.Grid
+
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-Grid-MeasureResponse"></a>
+
+### Rpc.Grid.MeasureResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| payload | [ThreePhaseGridPart](#deps-model-pcs-v1-ThreePhaseGridPart) |  |  |
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-Pcs"></a>
+
+### Rpc.Pcs
+
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-Pcs-CommandRequest"></a>
+
+### Rpc.Pcs.CommandRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
+| payload | [ThreePhasePcsPart.Command](#deps-model-pcs-v1-ThreePhasePcsPart-Command) | repeated |  |
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-Pcs-CommandResponse"></a>
+
+### Rpc.Pcs.CommandResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
+| payload | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="deps-model-pcs-v1-Rpc-Pcs-MeasureResponse"></a>
+
+### Rpc.Pcs.MeasureResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| payload | [ThreePhasePcsPart](#deps-model-pcs-v1-ThreePhasePcsPart) |  |  |
 
 
 
@@ -1095,22 +1396,10 @@ DC측 정보
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| action | [ThreePhasePcsPart.Command.Action](#deps-model-pcs-v1-ThreePhasePcsPart-Command-Action) |  |  |
-| ref | [ThreePhasePcsPart.Command.Reference](#deps-model-pcs-v1-ThreePhasePcsPart-Command-Reference) |  |  |
-
-
-
-
-
-
-<a name="deps-model-pcs-v1-ThreePhasePcsPart-Command-Reference"></a>
-
-### ThreePhasePcsPart.Command.Reference
-지령치 - 장치에 따라 일부만 적용할 수 있음
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
+| conn | [bool](#bool) |  |  |
+| reset | [bool](#bool) |  |  |
+| estop | [bool](#bool) |  |  |
+| block | [bool](#bool) |  |  |
 | a | [float](#float) |  | 전류 지령치 |
 | v | [float](#float) |  | 전압 지령치 - UPS 등 |
 | w | [float](#float) |  | 유효 전력 지령치 |
@@ -1213,20 +1502,13 @@ DC측 정보
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | ST_NA | 0 |  |
-
-
-
-<a name="deps-model-pcs-v1-ThreePhasePcsPart-Command-Action"></a>
-
-### ThreePhasePcsPart.Command.Action
-동작
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| ACTION_NA | 0 |  |
-| ACTION_CONNECT | 1 | 운전 시작 |
-| ACTION_DISCONNECT | 2 | 운전 정지 |
-| ACTION_RESET_ALARM | 3 | 알람 리셋 |
+| ST_OFF | 1 | 정지 |
+| ST_SLEEPING | 2 | 슬립 |
+| ST_STARTING | 3 | 시작 중 |
+| ST_SHUTTING_DOWN | 6 | 정지 중 |
+| ST_FAULT | 7 | 고장 |
+| ST_STANDBY | 8 | 대기 |
+| ST_OPERATION | 9 | 동작 중 |
 
 
 
@@ -1252,7 +1534,7 @@ PCS 상태
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | ST_NA | 0 | 기타 |
-| ST_OFF | 1 | 기타 |
+| ST_OFF | 1 | 정지 |
 | ST_SLEEPING | 2 | 슬립 |
 | ST_STARTING | 3 | 시작 중 |
 | ST_SHUTTING_DOWN | 6 | 정지 중 |
@@ -1287,11 +1569,12 @@ PCS 상태
 | ----- | ---- | ----- | ----------- |
 | v | [float](#float) |  |  |
 | a | [float](#float) |  |  |
-| hz | [float](#float) |  | maby needs to be |
+| hz | [float](#float) |  |  |
 | w | [float](#float) |  |  |
 | va | [float](#float) |  |  |
 | var | [float](#float) |  |  |
 | pf | [float](#float) |  |  |
+| wh | [Energy](#deps-model-net-v1-Energy) |  |  |
 
 
 
@@ -1312,6 +1595,7 @@ PCS 상태
 | va | [float](#float) |  |  |
 | var | [float](#float) |  |  |
 | pf | [float](#float) |  |  |
+| wh | [Energy](#deps-model-net-v1-Energy) |  |  |
 
 
 
@@ -1328,6 +1612,24 @@ PCS 상태
 | ----- | ---- | ----- | ----------- |
 | exported | [double](#double) |  |  |
 | imported | [double](#double) |  |  |
+
+
+
+
+
+
+<a name="deps-model-net-v1-Line"></a>
+
+### Line
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| v | [float](#float) |  |  |
+| a | [float](#float) |  |  |
+| w | [float](#float) |  |  |
+| wh | [Energy](#deps-model-net-v1-Energy) |  |  |
 
 
 
@@ -1376,7 +1678,6 @@ PCS 상태
 | status | [EsdBank.Status](#deps-model-esd-v1-EsdBank-Status) |  | 상태 알람 |
 | warning | [EsdBank.Warning](#deps-model-esd-v1-EsdBank-Warning) |  | 경고 알람 |
 | fault | [EsdBank.Fault](#deps-model-esd-v1-EsdBank-Fault) |  | 고장 알람 |
-| set_op | [EsdBank.Command.SetOp](#deps-model-esd-v1-EsdBank-Command-SetOp) |  | 동작 설정 |
 | strs | [EsdString](#deps-model-esd-v1-EsdString) | repeated | String (Rack) 정보 |
 
 
@@ -1393,11 +1694,11 @@ Bank Cell 요약
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | v_max | [float](#float) |  | 최대 Cell 전압 |
-| v_max_str | [uint32](#uint32) |  | 최대 Cell 전압의 String 위치 |
-| v_max_mod | [uint32](#uint32) |  | 최대 Cell 전압의 Module 위치 |
+| v_max_str | [uint32](#uint32) |  | 최대 Cell 전압의 String 위치 (1-base, 0 = N/A) |
+| v_max_mod | [uint32](#uint32) |  | 최대 Cell 전압의 Module 위치 (1-base, 0 = N/A) |
 | v_min | [float](#float) |  | 최소 Cell 전압 |
-| v_min_str | [uint32](#uint32) |  | 최소 Cell 전압의 String 위치 |
-| v_min_mod | [uint32](#uint32) |  | 최소 Cell 전압의 Module 위치 |
+| v_min_str | [uint32](#uint32) |  | 최소 Cell 전압의 String 위치 (1-base, 0 = N/A) |
+| v_min_mod | [uint32](#uint32) |  | 최소 Cell 전압의 Module 위치 (1-base, 0 = N/A) |
 | v_avg | [float](#float) |  | 평균 Cell 전압 |
 | n_bal | [uint32](#uint32) |  | Cell Balance 갯수 |
 
@@ -1414,7 +1715,8 @@ Bank Cell 요약
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| set_op | [EsdBank.Command.SetOp](#deps-model-esd-v1-EsdBank-Command-SetOp) |  | 동작 설정 |
+| conn | [bool](#bool) |  | 동작 설정 |
+| reset | [bool](#bool) |  |  |
 
 
 
@@ -1461,11 +1763,11 @@ Bank Module 요약
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | tmp_max | [float](#float) |  | 최고 온도 |
-| tmp_max_str | [uint32](#uint32) |  | 최고 온도의 String 위치 |
-| tmp_max_mod | [uint32](#uint32) |  | 최고 온도의 Module 위치 |
+| tmp_max_str | [uint32](#uint32) |  | 최고 온도의 String 위치 (1-base, 0 = N/A) |
+| tmp_max_mod | [uint32](#uint32) |  | 최고 온도의 Module 위치 (1-base, 0 = N/A) |
 | tmp_min | [float](#float) |  | 최소 온도 |
-| tmp_min_str | [uint32](#uint32) |  | 최소 온도의 String 위치 |
-| tmp_min_mod | [uint32](#uint32) |  | 최소 온도의 Module 위치 |
+| tmp_min_str | [uint32](#uint32) |  | 최소 온도의 String 위치 (1-base, 0 = N/A) |
+| tmp_min_mod | [uint32](#uint32) |  | 최소 온도의 Module 위치 (1-base, 0 = N/A) |
 | tmp_avg | [float](#float) |  | 평균 온도 |
 
 
@@ -1498,14 +1800,14 @@ Bank String 요약
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | v_max | [float](#float) |  | 최대 String 전압 |
-| v_max_str | [uint32](#uint32) |  | 최대 String 전압의 String 위치 |
+| v_max_str | [uint32](#uint32) |  | 최대 String 전압의 String 위치 (1-base, 0 = N/A) |
 | v_min | [float](#float) |  | 최소 String 전압 |
-| v_min_str | [uint32](#uint32) |  | 최소 String 전압의 String 위치 |
+| v_min_str | [uint32](#uint32) |  | 최소 String 전압의 String 위치 (1-base, 0 = N/A) |
 | v_avg | [float](#float) |  | 평균 String 전압 |
 | a_max | [float](#float) |  | 최대 String 전류 |
-| a_max_str | [uint32](#uint32) |  | 최대 String 전류의 String 위치 |
+| a_max_str | [uint32](#uint32) |  | 최대 String 전류의 String 위치 (1-base, 0 = N/A) |
 | a_min | [float](#float) |  | 최소 String 전류 |
-| a_min_str | [uint32](#uint32) |  | 최소 String 전류의 String 위치 |
+| a_min_str | [uint32](#uint32) |  | 최소 String 전류의 String 위치 (1-base, 0 = N/A) |
 | a_avg | [float](#float) |  | 평균 String 전류 |
 | n_conn | [uint32](#uint32) |  | 연결된 String 갯수 |
 
@@ -1517,6 +1819,7 @@ Bank String 요약
 <a name="deps-model-esd-v1-EsdBank-Warning"></a>
 
 ### EsdBank.Warning
+TODO: CELL_OV, CELL_UV 필요할 수도
 경고 알람
 
 
@@ -1644,9 +1947,7 @@ Cell 요약
 | status | [EsdString.Status](#deps-model-esd-v1-EsdString-Status) |  | 상태 알람 |
 | warning | [EsdString.Warning](#deps-model-esd-v1-EsdString-Warning) |  | 경고 알람 |
 | fault | [EsdString.Fault](#deps-model-esd-v1-EsdString-Fault) |  | 고장 알람 |
-| set_ena | [EsdString.Command.SetEna](#deps-model-esd-v1-EsdString-Command-SetEna) |  | 활성화 설정 |
-| set_con | [EsdString.Command.SetCon](#deps-model-esd-v1-EsdString-Command-SetCon) |  | 동작 설정 |
-| mods | [EsdModule](#deps-model-esd-v1-EsdModule) | repeated | 모듈 정보 |
+| mods | [EsdModule](#deps-model-esd-v1-EsdModule) | repeated | 활성화 설정 Command.SetEna set_ena = 15; // 동작 설정 Command.SetCon set_con = 16; 모듈 정보 |
 
 
 
@@ -1692,6 +1993,7 @@ Cell 요약
 <a name="deps-model-esd-v1-EsdString-Fault"></a>
 
 ### EsdString.Fault
+TODO: CURRENT_IMBALANCE 필요할지 체크
 고장 알람
 
 
@@ -1741,42 +2043,13 @@ Module 요약
 <a name="deps-model-esd-v1-EsdString-StCon"></a>
 
 ### EsdString.StCon
+TODO: 필요 여부 재확인
 컨택터 상태
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| CONTACTOR_0 | [bool](#bool) |  |  |
-| CONTACTOR_1 | [bool](#bool) |  |  |
-| CONTACTOR_2 | [bool](#bool) |  |  |
-| CONTACTOR_3 | [bool](#bool) |  |  |
-| CONTACTOR_4 | [bool](#bool) |  |  |
-| CONTACTOR_5 | [bool](#bool) |  |  |
-| CONTACTOR_6 | [bool](#bool) |  |  |
-| CONTACTOR_7 | [bool](#bool) |  |  |
-| CONTACTOR_8 | [bool](#bool) |  |  |
-| CONTACTOR_9 | [bool](#bool) |  |  |
-| CONTACTOR_10 | [bool](#bool) |  |  |
-| CONTACTOR_11 | [bool](#bool) |  |  |
-| CONTACTOR_12 | [bool](#bool) |  |  |
-| CONTACTOR_13 | [bool](#bool) |  |  |
-| CONTACTOR_14 | [bool](#bool) |  |  |
-| CONTACTOR_15 | [bool](#bool) |  |  |
-| CONTACTOR_16 | [bool](#bool) |  |  |
-| CONTACTOR_17 | [bool](#bool) |  |  |
-| CONTACTOR_18 | [bool](#bool) |  |  |
-| CONTACTOR_19 | [bool](#bool) |  |  |
-| CONTACTOR_20 | [bool](#bool) |  |  |
-| CONTACTOR_21 | [bool](#bool) |  |  |
-| CONTACTOR_22 | [bool](#bool) |  |  |
-| CONTACTOR_23 | [bool](#bool) |  |  |
-| CONTACTOR_24 | [bool](#bool) |  |  |
-| CONTACTOR_25 | [bool](#bool) |  |  |
-| CONTACTOR_26 | [bool](#bool) |  |  |
-| CONTACTOR_27 | [bool](#bool) |  |  |
-| CONTACTOR_28 | [bool](#bool) |  |  |
-| CONTACTOR_29 | [bool](#bool) |  |  |
-| CONTACTOR_30 | [bool](#bool) |  |  |
+| conn | [bool](#bool) | repeated |  |
 
 
 
@@ -1826,132 +2099,74 @@ Module 요약
 
 
 
-<a name="deps-model-esd-v1-EsdSummary"></a>
+<a name="deps-model-esd-v1-Rpc"></a>
 
-### EsdSummary
-폐지됨 - 더 이상 사용되지 않음
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| soc | [float](#float) |  |  |
-| dod | [float](#float) |  |  |
-| soh | [float](#float) |  |  |
-| n_cyc | [uint32](#uint32) |  |  |
-| cha_st | [EsdSummary.ChaSt](#deps-model-esd-v1-EsdSummary-ChaSt) |  |  |
-| hb | [uint32](#uint32) |  |  |
-| state | [EsdSummary.State](#deps-model-esd-v1-EsdSummary-State) |  |  |
-| state_vnd | [uint32](#uint32) |  |  |
-| evt1 | [EsdSummary.Evt1](#deps-model-esd-v1-EsdSummary-Evt1) |  |  |
-| v | [float](#float) |  |  |
-| v_max | [float](#float) |  |  |
-| v_min | [float](#float) |  |  |
-| cnt_cell | [EsdSummary.CellCount](#deps-model-esd-v1-EsdSummary-CellCount) |  |  |
-| a | [float](#float) |  |  |
-| a_cha_max | [float](#float) |  |  |
-| a_discha_max | [float](#float) |  |  |
-| w | [float](#float) |  |  |
-| set_op | [EsdSummary.SetOp](#deps-model-esd-v1-EsdSummary-SetOp) |  |  |
-| bank | [EsdBank](#deps-model-esd-v1-EsdBank) |  |  |
+### Rpc
 
 
 
 
 
 
-<a name="deps-model-esd-v1-EsdSummary-CellCount"></a>
 
-### EsdSummary.CellCount
+<a name="deps-model-esd-v1-Rpc-Bank"></a>
+
+### Rpc.Bank
+
+
+
+
+
+
+
+<a name="deps-model-esd-v1-Rpc-Bank-CommandRequest"></a>
+
+### Rpc.Bank.CommandRequest
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| v_max | [float](#float) |  |  |
-| v_max_str | [uint32](#uint32) |  |  |
-| v_max_mod | [uint32](#uint32) |  |  |
-| v_min | [float](#float) |  |  |
-| v_min_str | [uint32](#uint32) |  |  |
-| v_min_mod | [uint32](#uint32) |  |  |
-| v_avg | [float](#float) |  |  |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
+| payload | [EsdBank.Command](#deps-model-esd-v1-EsdBank-Command) | repeated |  |
 
 
 
 
 
 
-<a name="deps-model-esd-v1-EsdSummary-Command"></a>
+<a name="deps-model-esd-v1-Rpc-Bank-CommandResponse"></a>
 
-### EsdSummary.Command
+### Rpc.Bank.CommandResponse
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| set_op | [EsdSummary.SetOp](#deps-model-esd-v1-EsdSummary-SetOp) |  |  |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
+| payload | [uint32](#uint32) |  |  |
 
 
 
 
 
 
-<a name="deps-model-esd-v1-EsdSummary-Evt1"></a>
+<a name="deps-model-esd-v1-Rpc-Bank-MeasureResponse"></a>
 
-### EsdSummary.Evt1
+### Rpc.Bank.MeasureResponse
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| COMMUNICATION_ERROR | [bool](#bool) |  |  |
-| OVER_TEMP_ALARM | [bool](#bool) |  |  |
-| OVER_TEMP_WARNING | [bool](#bool) |  |  |
-| UNDER_TEMP_ALARM | [bool](#bool) |  |  |
-| UNDER_TEMP_WARNING | [bool](#bool) |  |  |
-| OVER_CHARGE_CURRENT_ALARM | [bool](#bool) |  |  |
-| OVER_CHARGE_CURRENT_WARNING | [bool](#bool) |  |  |
-| OVER_DISCHARGE_CURRENT_ALARM | [bool](#bool) |  |  |
-| OVER_DISCHARGE_CURRENT_WARNING | [bool](#bool) |  |  |
-| OVER_VOLT_ALARM | [bool](#bool) |  |  |
-| OVER_VOLT_WARNING | [bool](#bool) |  |  |
-| UNDER_VOLT_ALARM | [bool](#bool) |  |  |
-| UNDER_VOLT_WARNING | [bool](#bool) |  |  |
-| UNDER_SOC_MIN_ALARM | [bool](#bool) |  |  |
-| UNDER_SOC_MIN_WARNING | [bool](#bool) |  |  |
-| OVER_SOC_MAX_ALARM | [bool](#bool) |  |  |
-| OVER_SOC_MAX_WARNING | [bool](#bool) |  |  |
-| VOLTAGE_IMBALANCE_WARNING | [bool](#bool) |  |  |
-| TEMPERATURE_IMBALANCE_ALARM | [bool](#bool) |  |  |
-| TEMPERATURE_IMBALANCE_WARNING | [bool](#bool) |  |  |
-| CONTACTOR_ERROR | [bool](#bool) |  |  |
-| FAN_ERROR | [bool](#bool) |  |  |
-| GROUND_FAULT | [bool](#bool) |  |  |
-| OPEN_DOOR_ERROR | [bool](#bool) |  |  |
-| CURRENT_IMBALANCE_WARNING | [bool](#bool) |  |  |
-| OTHER_ALARM | [bool](#bool) |  |  |
-| OTHER_WARNING | [bool](#bool) |  |  |
-| RESERVED_1 | [bool](#bool) |  |  |
-| CONFIGURATION_ALARM | [bool](#bool) |  |  |
-| CONFIGURATION_WARNING | [bool](#bool) |  |  |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| payload | [EsdBank](#deps-model-esd-v1-EsdBank) |  |  |
 
 
 
 
 
  
-
-
-<a name="deps-model-esd-v1-EsdBank-Command-SetOp"></a>
-
-### EsdBank.Command.SetOp
-동작 설정
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| SET_OP_NA | 0 |  |
-| SET_OP_CONNECT | 1 | 연결 |
-| SET_OP_DISCONNECT | 2 | 연결 해제 |
-
 
 
 <a name="deps-model-esd-v1-EsdBank-St"></a>
@@ -1965,10 +2180,7 @@ Module 요약
 | ST_DISCONNECTED | 1 | 연결 해제 됨 |
 | ST_INITIALIZING | 2 | 초기화 중 |
 | ST_CONNECTED | 3 | 연결 됨 |
-| ST_STANDBY | 4 | 대기 중 |
-| ST_SOC_PROTECTION | 5 | SoC 보호 상태 |
-| ST_SUSPENDING | 6 | 일시 중지 상태 |
-| ST_FAULT | 99 | 고장 상태 |
+| ST_FAULT | 99 | 대기 중 ST_STANDBY = 4; SoC 보호 상태 ST_SOC_PROTECTION = 5; 일시 중지 상태 ST_SUSPENDING = 6; 고장 상태 |
 
 
 
@@ -1980,11 +2192,11 @@ Module 요약
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | ST_CHA_NA | 0 |  |
-| ST_CHA_OFF | 1 | 정지 |
-| ST_CHA_EMPTY | 2 | 완전 방전됨 |
+| ST_CHA_STOP | 1 | 정지 |
+| ST_CHA_EMPTY | 2 | 완전 방전됨 (정지) |
 | ST_CHA_DISCHARGING | 3 | 방전 중 |
 | ST_CHA_CHARGING | 4 | 충전 중 |
-| ST_CHA_FULL | 5 | 완전 충전됨 |
+| ST_CHA_FULL | 5 | 완전 충전됨 (정지) |
 | ST_CHA_HOLDING | 6 | 유지 중 (현재 SoC 유지) |
 | ST_CHA_TESTING | 7 | 테스트 상태 |
 
@@ -2023,64 +2235,16 @@ Module 요약
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CON_FAIL_NO_FAILURE | 0 | 고장 없음 |
-| CON_FAIL_BUTTON_PUSHED | 1 | 비상 정지 |
-| CON_FAIL_STR_GROUND_FAULT | 2 | 접지 오류 |
-| CON_FAIL_OUTSIDE_VOLTAGE_RANGE | 3 | 허용 전압 범위 초과 |
-| CON_FAIL_STRING_NOT_ENABLED | 4 | 비활성화 |
-| CON_FAIL_FUSE_OPEN | 5 | 퓨즈 개방 |
-| CON_FAIL_CONTACTOR_FAILURE | 6 | 컨택터 동작 실패 |
-| CON_FAIL_PRECHARGE_FAILURE | 7 | 초기충전 실패 |
-| CON_FAIL_STRING_FAULT | 8 | String 고장 |
-
-
-
-<a name="deps-model-esd-v1-EsdSummary-ChaSt"></a>
-
-### EsdSummary.ChaSt
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| CHA_ST_NA | 0 |  |
-| CHA_ST_OFF | 1 |  |
-| CHA_ST_EMPTY | 2 |  |
-| CHA_ST_DISCHARGING | 3 |  |
-| CHA_ST_CHARGING | 4 |  |
-| CHA_ST_FULL | 5 |  |
-| CHA_ST_HOLDING | 6 |  |
-| CHA_ST_TESTING | 7 |  |
-
-
-
-<a name="deps-model-esd-v1-EsdSummary-SetOp"></a>
-
-### EsdSummary.SetOp
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| SETOP_NA | 0 |  |
-| SETOP_CONNECT | 1 |  |
-| SETOP_DISCONNECT | 2 |  |
-
-
-
-<a name="deps-model-esd-v1-EsdSummary-State"></a>
-
-### EsdSummary.State
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| STATE_NA | 0 |  |
-| STATE_DISCONNECTED | 1 |  |
-| STATE_INITIALIZING | 2 |  |
-| STATE_CONNECTED | 3 |  |
-| STATE_STANDBY | 4 |  |
-| STATE_SOC_PROTECTION | 5 |  |
-| STATE_SUSPENDING | 6 |  |
-| STATE_FAULT | 99 |  |
+| CON_FAIL_NA | 0 |  |
+| CON_FAIL_NO_FAILURE | 1 | 고장 없음 |
+| CON_FAIL_BUTTON_PUSHED | 2 | 비상 정지 |
+| CON_FAIL_STR_GROUND_FAULT | 3 | 접지 오류 |
+| CON_FAIL_OUTSIDE_VOLTAGE_RANGE | 4 | 허용 전압 범위 초과 |
+| CON_FAIL_STRING_NOT_ENABLED | 5 | 비활성화 |
+| CON_FAIL_FUSE_OPEN | 6 | 퓨즈 개방 |
+| CON_FAIL_CONTACTOR_FAILURE | 7 | 컨택터 동작 실패 |
+| CON_FAIL_PRECHARGE_FAILURE | 8 | 초기충전 실패 |
+| CON_FAIL_STRING_FAULT | 9 | String 고장 |
 
 
  
@@ -2140,6 +2304,213 @@ Module 요약
 | ---- | ------ | ----------- |
 | DISCONNECT | 0 | 연결 해제 |
 | CONNECT | 1 | 연결 |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="deps_model_tsdb_model-v1-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## deps/model/tsdb/model.v1.proto
+
+
+
+<a name="deps-model-tsdb-v1-AlarmExtra"></a>
+
+### AlarmExtra
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| kind | [AlarmKind](#deps-model-tsdb-v1-AlarmKind) |  |  |
+| status | [AlarmStatus](#deps-model-tsdb-v1-AlarmStatus) |  |  |
+
+
+
+
+
+
+<a name="deps-model-tsdb-v1-CommandExtra"></a>
+
+### CommandExtra
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| target | [string](#string) |  |  |
+| parameters | [google.protobuf.Struct](#google-protobuf-Struct) |  |  |
+
+
+
+
+
+
+<a name="deps-model-tsdb-v1-EventExtra"></a>
+
+### EventExtra
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| tags | [google.protobuf.Struct](#google-protobuf-Struct) |  |  |
+
+
+
+
+
+
+<a name="deps-model-tsdb-v1-LogConstraint"></a>
+
+### LogConstraint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| end | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| matches | [LogMatch](#deps-model-tsdb-v1-LogMatch) | repeated |  |
+| limit | [uint32](#uint32) |  |  |
+| order | [Order](#deps-model-tsdb-v1-Order) |  |  |
+
+
+
+
+
+
+<a name="deps-model-tsdb-v1-LogItem"></a>
+
+### LogItem
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| source | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| event | [EventExtra](#deps-model-tsdb-v1-EventExtra) |  |  |
+| alarm | [AlarmExtra](#deps-model-tsdb-v1-AlarmExtra) |  |  |
+| command | [CommandExtra](#deps-model-tsdb-v1-CommandExtra) |  |  |
+
+
+
+
+
+
+<a name="deps-model-tsdb-v1-LogMatch"></a>
+
+### LogMatch
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| log_kind | [LogKind](#deps-model-tsdb-v1-LogKind) |  |  |
+| source_like | [string](#string) |  |  |
+| name_like | [string](#string) |  |  |
+| alarm_kind | [AlarmKind](#deps-model-tsdb-v1-AlarmKind) |  |  |
+| target_like | [string](#string) |  |  |
+| alarm_status | [AlarmStatus](#deps-model-tsdb-v1-AlarmStatus) |  |  |
+
+
+
+
+
+
+<a name="deps-model-tsdb-v1-MeasureConstraint"></a>
+
+### MeasureConstraint
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| start | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| end | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| measures | [MeasureId](#deps-model-tsdb-v1-MeasureId) | repeated |  |
+| limit | [uint32](#uint32) |  |  |
+| order | [Order](#deps-model-tsdb-v1-Order) |  |  |
+
+
+
+
+
+
+<a name="deps-model-tsdb-v1-MeasureId"></a>
+
+### MeasureId
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| source | [string](#string) |  |  |
+| paths | [string](#string) | repeated |  |
+
+
+
+
+
+ 
+
+
+<a name="deps-model-tsdb-v1-AlarmKind"></a>
+
+### AlarmKind
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ALARM_KIND_STATUS | 0 |  |
+| ALARM_KIND_WARNING | 1 |  |
+| ALARM_KIND_FAULT | 2 |  |
+
+
+
+<a name="deps-model-tsdb-v1-AlarmStatus"></a>
+
+### AlarmStatus
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ALARM_STATUS_CLEAR | 0 |  |
+| ALARM_STATUS_TRIGGER | 1 |  |
+
+
+
+<a name="deps-model-tsdb-v1-LogKind"></a>
+
+### LogKind
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| LOG_KIND_EVENT | 0 |  |
+| LOG_KIND_ALARM | 1 |  |
+| LOG_KIND_COMMAND | 2 |  |
+
+
+
+<a name="deps-model-tsdb-v1-Order"></a>
+
+### Order
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ORDER_ASC | 0 |  |
+| ORDER_DESC | 1 |  |
 
 
  
@@ -2798,6 +3169,7 @@ enum Ena {
 | OUTPUT_BLEND_MODE_MULTIPLY | 4 |  |
 | OUTPUT_BLEND_MODE_MUL_MASK_ZPOS | 5 |  |
 | OUTPUT_BLEND_MODE_OVERRIDE_SOME | 6 |  |
+| OUTPUT_BLEND_MODE_FILTER_NONZERO_ADDITION | 7 | value != 0: add value to output value == 0: output is cleared (None) |
 
 
  
@@ -2890,6 +3262,171 @@ enum Ena {
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [string](#string) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="deps_model_rms_model-v1-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## deps/model/rms/model.v1.proto
+
+
+
+<a name="deps-model-rms-v1-DeleteNode"></a>
+
+### DeleteNode
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| node_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="deps-model-rms-v1-LocalRms"></a>
+
+### LocalRms
+Resource Management System
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| nodes | [NodeItem](#deps-model-rms-v1-NodeItem) | repeated |  |
+
+
+
+
+
+
+<a name="deps-model-rms-v1-LocalRms-Command"></a>
+
+### LocalRms.Command
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| create_node | [NodeItem](#deps-model-rms-v1-NodeItem) |  |  |
+| delete_node | [DeleteNode](#deps-model-rms-v1-DeleteNode) |  |  |
+| measure_request | [MeasureRequest](#deps-model-rms-v1-MeasureRequest) |  |  |
+
+
+
+
+
+
+<a name="deps-model-rms-v1-MeasureRequest"></a>
+
+### MeasureRequest
+
+
+
+
+
+
+
+<a name="deps-model-rms-v1-NodeItem"></a>
+
+### NodeItem
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| node_id | [string](#string) |  |  |
+| kind | [string](#string) |  |  |
+| path_prefix | [string](#string) | optional |  |
+| args | [NodeItem.ArgsEntry](#deps-model-rms-v1-NodeItem-ArgsEntry) | repeated |  |
+
+
+
+
+
+
+<a name="deps-model-rms-v1-NodeItem-ArgsEntry"></a>
+
+### NodeItem.ArgsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [google.protobuf.Value](#google-protobuf-Value) |  |  |
+
+
+
+
+
+
+<a name="deps-model-rms-v1-Rpc"></a>
+
+### Rpc
+
+
+
+
+
+
+
+<a name="deps-model-rms-v1-Rpc-CommandRequest"></a>
+
+### Rpc.CommandRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
+| payload | [LocalRms.Command](#deps-model-rms-v1-LocalRms-Command) | repeated |  |
+
+
+
+
+
+
+<a name="deps-model-rms-v1-Rpc-CommandResponse"></a>
+
+### Rpc.CommandResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
+| payload | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="deps-model-rms-v1-Rpc-MeasureResponse"></a>
+
+### Rpc.MeasureResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| payload | [LocalRms](#deps-model-rms-v1-LocalRms) |  |  |
 
 
 

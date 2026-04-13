@@ -21,10 +21,6 @@ plugins {
     id("com.google.protobuf") version "0.9.4"
 }
 
-// group = "io.github.grida-energy"
-// var artifactId = "deps"
-// version = "1.0.1"
-
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -61,6 +57,7 @@ sourceSets {
     main {
         proto {
             srcDir("$projectDir/../../protos")
+            srcDir("build/generated/source/proto/main/java")
         }
     }
 }
@@ -94,7 +91,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.grida-energy",
         artifactId = "deps",
-        version = "1.0.2"
+        version = "1.0.3"
     )
 
     configure(KotlinJvm(

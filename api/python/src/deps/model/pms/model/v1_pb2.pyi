@@ -43,6 +43,7 @@ class OutputBlendMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     OUTPUT_BLEND_MODE_MULTIPLY: _ClassVar[OutputBlendMode]
     OUTPUT_BLEND_MODE_MUL_MASK_ZPOS: _ClassVar[OutputBlendMode]
     OUTPUT_BLEND_MODE_OVERRIDE_SOME: _ClassVar[OutputBlendMode]
+    OUTPUT_BLEND_MODE_FILTER_NONZERO_ADDITION: _ClassVar[OutputBlendMode]
 LOOKUP_INPUT_TYPE_NA: LookupInputType
 LOOKUP_INPUT_TYPE_TIME_SEC: LookupInputType
 LOOKUP_INPUT_TYPE_TIME_MIN: LookupInputType
@@ -68,9 +69,10 @@ OUTPUT_BLEND_MODE_SUBTRACT: OutputBlendMode
 OUTPUT_BLEND_MODE_MULTIPLY: OutputBlendMode
 OUTPUT_BLEND_MODE_MUL_MASK_ZPOS: OutputBlendMode
 OUTPUT_BLEND_MODE_OVERRIDE_SOME: OutputBlendMode
+OUTPUT_BLEND_MODE_FILTER_NONZERO_ADDITION: OutputBlendMode
 
 class MinMax(_message.Message):
-    __slots__ = ()
+    __slots__ = ("min", "max")
     MIN_FIELD_NUMBER: _ClassVar[int]
     MAX_FIELD_NUMBER: _ClassVar[int]
     min: float
@@ -78,7 +80,7 @@ class MinMax(_message.Message):
     def __init__(self, min: _Optional[float] = ..., max: _Optional[float] = ...) -> None: ...
 
 class Point2D(_message.Message):
-    __slots__ = ()
+    __slots__ = ("x", "y")
     X_FIELD_NUMBER: _ClassVar[int]
     Y_FIELD_NUMBER: _ClassVar[int]
     x: float
@@ -86,7 +88,7 @@ class Point2D(_message.Message):
     def __init__(self, x: _Optional[float] = ..., y: _Optional[float] = ...) -> None: ...
 
 class LookupItemAnchor(_message.Message):
-    __slots__ = ()
+    __slots__ = ("x", "y")
     X_FIELD_NUMBER: _ClassVar[int]
     Y_FIELD_NUMBER: _ClassVar[int]
     x: float
@@ -94,7 +96,7 @@ class LookupItemAnchor(_message.Message):
     def __init__(self, x: _Optional[float] = ..., y: _Optional[float] = ...) -> None: ...
 
 class LookupItemAxisRange(_message.Message):
-    __slots__ = ()
+    __slots__ = ("x", "y")
     X_FIELD_NUMBER: _ClassVar[int]
     Y_FIELD_NUMBER: _ClassVar[int]
     x: MinMax
@@ -102,19 +104,19 @@ class LookupItemAxisRange(_message.Message):
     def __init__(self, x: _Optional[_Union[MinMax, _Mapping]] = ..., y: _Optional[_Union[MinMax, _Mapping]] = ...) -> None: ...
 
 class ChartFn(_message.Message):
-    __slots__ = ()
+    __slots__ = ("points",)
     POINTS_FIELD_NUMBER: _ClassVar[int]
     points: _containers.RepeatedCompositeFieldContainer[Point2D]
     def __init__(self, points: _Optional[_Iterable[_Union[Point2D, _Mapping]]] = ...) -> None: ...
 
 class ChainFn(_message.Message):
-    __slots__ = ()
+    __slots__ = ("charts",)
     CHARTS_FIELD_NUMBER: _ClassVar[int]
     charts: _containers.RepeatedCompositeFieldContainer[ChartFn]
     def __init__(self, charts: _Optional[_Iterable[_Union[ChartFn, _Mapping]]] = ...) -> None: ...
 
 class LookupComplete(_message.Message):
-    __slots__ = ()
+    __slots__ = ("ranges", "win_tms")
     RANGES_FIELD_NUMBER: _ClassVar[int]
     WIN_TMS_FIELD_NUMBER: _ClassVar[int]
     ranges: _containers.RepeatedCompositeFieldContainer[Point2D]
@@ -122,7 +124,7 @@ class LookupComplete(_message.Message):
     def __init__(self, ranges: _Optional[_Iterable[_Union[Point2D, _Mapping]]] = ..., win_tms: _Optional[float] = ...) -> None: ...
 
 class LookupItem(_message.Message):
-    __slots__ = ()
+    __slots__ = ("anchor", "axis_range", "in_type", "out_type", "chain_fn", "blend_mode", "win_tms", "rmp_tms", "complete")
     ANCHOR_FIELD_NUMBER: _ClassVar[int]
     AXIS_RANGE_FIELD_NUMBER: _ClassVar[int]
     IN_TYPE_FIELD_NUMBER: _ClassVar[int]
@@ -144,7 +146,7 @@ class LookupItem(_message.Message):
     def __init__(self, anchor: _Optional[_Union[LookupItemAnchor, _Mapping]] = ..., axis_range: _Optional[_Iterable[_Union[LookupItemAxisRange, _Mapping]]] = ..., in_type: _Optional[_Union[LookupInputType, str]] = ..., out_type: _Optional[_Union[LookupOutputType, str]] = ..., chain_fn: _Optional[_Union[ChainFn, _Mapping]] = ..., blend_mode: _Optional[_Union[OutputBlendMode, str]] = ..., win_tms: _Optional[float] = ..., rmp_tms: _Optional[float] = ..., complete: _Optional[_Union[LookupComplete, _Mapping]] = ...) -> None: ...
 
 class LookupSequenceState(_message.Message):
-    __slots__ = ()
+    __slots__ = ("io_snapshot", "completed", "stamp_complete_check", "stamp_sequence_enter", "stamp_chain_enter", "error")
     IO_SNAPSHOT_FIELD_NUMBER: _ClassVar[int]
     COMPLETED_FIELD_NUMBER: _ClassVar[int]
     STAMP_COMPLETE_CHECK_FIELD_NUMBER: _ClassVar[int]
@@ -160,7 +162,7 @@ class LookupSequenceState(_message.Message):
     def __init__(self, io_snapshot: _Optional[_Iterable[_Union[LookupItemAnchor, _Mapping]]] = ..., completed: _Optional[_Iterable[bool]] = ..., stamp_complete_check: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., stamp_sequence_enter: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., stamp_chain_enter: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., error: _Optional[str] = ...) -> None: ...
 
 class LookupSequence(_message.Message):
-    __slots__ = ()
+    __slots__ = ("ena", "name", "sequence", "state")
     ENA_FIELD_NUMBER: _ClassVar[int]
     NAME_FIELD_NUMBER: _ClassVar[int]
     SEQUENCE_FIELD_NUMBER: _ClassVar[int]
@@ -172,7 +174,7 @@ class LookupSequence(_message.Message):
     def __init__(self, ena: _Optional[bool] = ..., name: _Optional[str] = ..., sequence: _Optional[_Iterable[_Union[LookupItem, _Mapping]]] = ..., state: _Optional[_Union[LookupSequenceState, _Mapping]] = ...) -> None: ...
 
 class LookupInput(_message.Message):
-    __slots__ = ()
+    __slots__ = ("stamp", "soc", "tmp", "price", "w_src", "w_cut")
     STAMP_FIELD_NUMBER: _ClassVar[int]
     SOC_FIELD_NUMBER: _ClassVar[int]
     TMP_FIELD_NUMBER: _ClassVar[int]
@@ -188,7 +190,7 @@ class LookupInput(_message.Message):
     def __init__(self, stamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., soc: _Optional[float] = ..., tmp: _Optional[float] = ..., price: _Optional[float] = ..., w_src: _Optional[float] = ..., w_cut: _Optional[float] = ...) -> None: ...
 
 class LookupOutput(_message.Message):
-    __slots__ = ()
+    __slots__ = ("w_cmd", "w_max_pos", "w_max_neg", "va_abs")
     W_CMD_FIELD_NUMBER: _ClassVar[int]
     W_MAX_POS_FIELD_NUMBER: _ClassVar[int]
     W_MAX_NEG_FIELD_NUMBER: _ClassVar[int]
@@ -200,37 +202,37 @@ class LookupOutput(_message.Message):
     def __init__(self, w_cmd: _Optional[float] = ..., w_max_pos: _Optional[float] = ..., w_max_neg: _Optional[float] = ..., va_abs: _Optional[float] = ...) -> None: ...
 
 class LookupRule(_message.Message):
-    __slots__ = ()
+    __slots__ = ("ena", "rules", "forced")
     class St(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         ST_NA: _ClassVar[LookupRule.St]
     ST_NA: LookupRule.St
     class Fault(_message.Message):
-        __slots__ = ()
+        __slots__ = ("other",)
         OTHER_FIELD_NUMBER: _ClassVar[int]
         other: bool
         def __init__(self, other: _Optional[bool] = ...) -> None: ...
     class Warning(_message.Message):
-        __slots__ = ()
+        __slots__ = ("other",)
         OTHER_FIELD_NUMBER: _ClassVar[int]
         other: bool
         def __init__(self, other: _Optional[bool] = ...) -> None: ...
     class Status(_message.Message):
-        __slots__ = ()
+        __slots__ = ("other",)
         OTHER_FIELD_NUMBER: _ClassVar[int]
         other: bool
         def __init__(self, other: _Optional[bool] = ...) -> None: ...
     class Command(_message.Message):
-        __slots__ = ()
+        __slots__ = ("ena", "ena_rule", "add", "delete", "clear", "overwrite")
         class EnaRule(_message.Message):
-            __slots__ = ()
+            __slots__ = ("name", "ena")
             NAME_FIELD_NUMBER: _ClassVar[int]
             ENA_FIELD_NUMBER: _ClassVar[int]
             name: str
             ena: bool
             def __init__(self, name: _Optional[str] = ..., ena: _Optional[bool] = ...) -> None: ...
         class AddRule(_message.Message):
-            __slots__ = ()
+            __slots__ = ("name", "items", "upsert")
             NAME_FIELD_NUMBER: _ClassVar[int]
             ITEMS_FIELD_NUMBER: _ClassVar[int]
             UPSERT_FIELD_NUMBER: _ClassVar[int]
@@ -239,7 +241,7 @@ class LookupRule(_message.Message):
             upsert: bool
             def __init__(self, name: _Optional[str] = ..., items: _Optional[_Iterable[_Union[LookupItem, _Mapping]]] = ..., upsert: _Optional[bool] = ...) -> None: ...
         class DeleteRule(_message.Message):
-            __slots__ = ()
+            __slots__ = ("name",)
             NAME_FIELD_NUMBER: _ClassVar[int]
             name: str
             def __init__(self, name: _Optional[str] = ...) -> None: ...
@@ -247,7 +249,7 @@ class LookupRule(_message.Message):
             __slots__ = ()
             def __init__(self) -> None: ...
         class OverwriteRules(_message.Message):
-            __slots__ = ()
+            __slots__ = ("rules",)
             RULES_FIELD_NUMBER: _ClassVar[int]
             rules: _containers.RepeatedCompositeFieldContainer[LookupSequence]
             def __init__(self, rules: _Optional[_Iterable[_Union[LookupSequence, _Mapping]]] = ...) -> None: ...

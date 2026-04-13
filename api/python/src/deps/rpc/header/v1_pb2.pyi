@@ -7,7 +7,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Request(_message.Message):
-    __slots__ = ()
+    __slots__ = ("uuid", "resp_topic")
     UUID_FIELD_NUMBER: _ClassVar[int]
     RESP_TOPIC_FIELD_NUMBER: _ClassVar[int]
     uuid: str
@@ -15,7 +15,7 @@ class Request(_message.Message):
     def __init__(self, uuid: _Optional[str] = ..., resp_topic: _Optional[str] = ...) -> None: ...
 
 class Response(_message.Message):
-    __slots__ = ()
+    __slots__ = ("uuid", "error")
     class ErrorCode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         ERROR_CODE_SUCCESS: _ClassVar[Response.ErrorCode]
@@ -31,7 +31,7 @@ class Response(_message.Message):
     ERROR_CODE_NOT_APPLICABLE: Response.ErrorCode
     ERROR_CODE_INTERNAL_ERROR: Response.ErrorCode
     class Error(_message.Message):
-        __slots__ = ()
+        __slots__ = ("code", "detail")
         CODE_FIELD_NUMBER: _ClassVar[int]
         DETAIL_FIELD_NUMBER: _ClassVar[int]
         code: Response.ErrorCode

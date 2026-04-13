@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class ChaLimit(_message.Message):
-    __slots__ = ()
+    __slots__ = ("soc_max", "soc_min")
     SOC_MAX_FIELD_NUMBER: _ClassVar[int]
     SOC_MIN_FIELD_NUMBER: _ClassVar[int]
     soc_max: float
@@ -14,7 +14,7 @@ class ChaLimit(_message.Message):
     def __init__(self, soc_max: _Optional[float] = ..., soc_min: _Optional[float] = ...) -> None: ...
 
 class Conn(_message.Message):
-    __slots__ = ()
+    __slots__ = ("conn",)
     class ConnCmd(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         DISCONNECT: _ClassVar[Conn.ConnCmd]

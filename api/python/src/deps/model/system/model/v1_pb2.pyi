@@ -9,7 +9,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class SystemHead(_message.Message):
-    __slots__ = ()
+    __slots__ = ("timestamp",)
     TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
     timestamp: _timestamp_pb2.Timestamp
     def __init__(self, timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
