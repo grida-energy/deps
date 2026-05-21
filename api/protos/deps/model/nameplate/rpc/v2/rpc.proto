@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package deps.model.nameplate.rpc.v2;
+
+import "deps/model/nameplate/v2/nameplate.proto";
+import "deps/rpc/header.v1.proto";
+
+option java_package = "io.github.grida_energy.deps.model.nameplate.rpc.v2";
+
+message Request {
+  deps.rpc.v1.Request header = 1;
+  deps.model.nameplate.v2.NameplateFilter payload = 2;
+}
+message Response {
+  deps.rpc.v1.Response header = 1;
+  deps.model.nameplate.v2.Nameplate payload = 2;
+}

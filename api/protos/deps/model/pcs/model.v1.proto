@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package deps.model.pcs.v1;
 
-option java_package = "io.github.grida_energy.deps.model.pcs.v1";
-
 import "deps/model/net/model.v1.proto";
-import "google/protobuf/timestamp.proto";
 import "deps/rpc/header.v1.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.github.grida_energy.deps.model.pcs.v1";
 
 // 3상 선간 (전압) 값
 message ThreePhaseLine {
@@ -17,6 +17,7 @@ message ThreePhaseLine {
   // ca phase
   float ph_ca = 3;
 }
+
 // 3상 상 (전압) 값
 message ThreePhase {
   // a phase
@@ -26,6 +27,7 @@ message ThreePhase {
   // c phase
   float ph_c = 3;
 }
+
 // 3상 상 (전압) 값 및 합
 message ThreePhaseNSum {
   float ph_a = 1;
@@ -33,6 +35,7 @@ message ThreePhaseNSum {
   float ph_c = 3;
   float sum = 4;
 }
+
 // 3상 PCS 정보
 message ThreePhasePcsPart {
   // PCS 상태
@@ -86,6 +89,7 @@ message ThreePhasePcsPart {
     bool HW_TEST_FAILURE = 13;
     // 차단기 트립
     bool CB_TRIP = 14;
+    // bool STARTUP_FAIL = 15;
   }
   message Warning {
     // 기타
@@ -135,6 +139,7 @@ message ThreePhasePcsPart {
   }
   // 명령
   message Command {
+    // oneof kind {
     oneof cmd {
       bool conn = 1;
       bool reset = 2;
@@ -158,9 +163,10 @@ message ThreePhasePcsPart {
       float pf = 12;
       // 주파수 지령치
       float hz = 13;
+      // float var = 14;
     }
   }
-  
+
   // 전력 흐름 방향
   enum DirPwr {
     DIR_PWR_NA = 0;
@@ -205,6 +211,9 @@ message ThreePhasePcsPart {
   DcPart dc = 14;
   // 온도 정보
   TemperaturePart tmp = 15;
+
+  repeated Command cmds = 16;
+  .deps.model.net.v1.Energy wh = 17;
 }
 
 // 3상 계통 정보
@@ -260,9 +269,15 @@ message DcDcConverter {
     // 동작 중
     ST_OPERATION = 9;
   }
-  message Fault { bool OTHER = 1; }
-  message Warning { bool OTHER = 1; }
-  message Status { bool OTHER = 1; }
+  message Fault {
+    bool OTHER = 1;
+  }
+  message Warning {
+    bool OTHER = 1;
+  }
+  message Status {
+    bool OTHER = 1;
+  }
   message Command {
     oneof cmd {
       // run/stop
@@ -283,7 +298,6 @@ message DcDcConverter {
   .deps.model.net.v1.Line input = 6;
   .deps.model.net.v1.Line output = 7;
 }
-
 
 message Rpc {
   message Pcs {

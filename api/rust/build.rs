@@ -50,6 +50,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ("deps/preset/dbserver", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/rpc", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/vnd", "v1".into(), "**/*.v1.proto", &[]),
+        // ---- v2 ----
+        ("deps/model/nameplate/v2", None, "*.proto", &[]),
+        ("deps/model/nameplate/rpc/v2", None, "*.proto", &[]),
     ];
 
     build_protos(&packages)?;

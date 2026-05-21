@@ -88,6 +88,7 @@ mod voca {
         VndParamMeta,
         VndAlarm,
         VndAlarmMeta,
+        RpcNameplate,
     }
     const _: () = {
         impl TopicKind {
@@ -99,6 +100,7 @@ mod voca {
                     TopicKind::VndParamMeta => "vnd/param-meta",
                     TopicKind::VndAlarm => "vnd/alarm",
                     TopicKind::VndAlarmMeta => "vnd/alarm-meta",
+                    TopicKind::RpcNameplate => "rpc/nameplate",
                 }
             }
         }
@@ -113,14 +115,10 @@ mod voca {
         pub const VND_PARAM_META: &str = TopicKind::VndParamMeta.as_str();
         pub const VND_ALARM: &str = TopicKind::VndAlarm.as_str();
         pub const VND_ALARM_META: &str = TopicKind::VndAlarmMeta.as_str();
+        pub const RPC_NAMEPLATE: &str = TopicKind::RpcNameplate.as_str();
     }
     impl<T: core::ops::Deref<Target = str>> PresetTopics<T> {
         pub fn subtopic_of<'t>(&self, topic: &'t str) -> Option<&'t str> {
-            // if !topic.starts_with(&*self.0) {
-            //     return None;
-            // }
-            // let subtopic = &topic[self.0.len()..];
-            // Some(subtopic.strip_prefix('/').unwrap_or(subtopic))
             topic
                 .strip_prefix(&*self.0)
                 .map(|s| s.strip_prefix('/').unwrap_or(s))
@@ -134,6 +132,7 @@ mod voca {
                     Self::VND_PARAM_META => Some(TopicKind::VndParamMeta),
                     Self::VND_ALARM => Some(TopicKind::VndAlarm),
                     Self::VND_ALARM_META => Some(TopicKind::VndAlarmMeta),
+                    Self::RPC_NAMEPLATE => Some(TopicKind::RpcNameplate),
                     _ => None,
                 })
         }
@@ -150,14 +149,19 @@ mod voca {
         pub fn vnd_param(&self) -> String {
             format!("{}/{}", &*self.0, Self::VND_PARAM)
         }
-        pub fn vnd_param_meta(&self) -> String {
-            format!("{}/{}", &*self.0, Self::VND_PARAM_META)
-        }
         pub fn vnd_alarm(&self) -> String {
             format!("{}/{}", &*self.0, Self::VND_ALARM)
         }
+        pub fn rpc_nameplate(&self) -> String {
+            format!("{}/{}", &*self.0, Self::RPC_NAMEPLATE)
+        }
+
+        // ---- will be deprecated ---- (use rpc_nameplate instead)
         pub fn vnd_alarm_meta(&self) -> String {
             format!("{}/{}", &*self.0, Self::VND_ALARM_META)
+        }
+        pub fn vnd_param_meta(&self) -> String {
+            format!("{}/{}", &*self.0, Self::VND_PARAM_META)
         }
     }
     #[cfg(test)]
@@ -340,6 +344,22 @@ pub mod model {
                 "deps/model/nameplate/v1",
                 "deps.model.nameplate.v1"
             );
+        }
+        pub mod v2 {
+            crate::voca::include_proto_package!(
+                "deps/model/nameplate/v2",
+                "deps.model.nameplate.v2"
+            );
+        }
+        pub mod rpc {
+            pub mod v2 {
+                crate::voca::include_proto_package!(
+                    "deps/model/nameplate/rpc/v2",
+                    "deps.model.nameplate.rpc.v2"
+                );
+                crate::voca::impl_packet!(@request, Request, Option<crate::model::nameplate::v2::NameplateFilter>);
+                crate::voca::impl_packet!(@response, Response, Option<crate::model::nameplate::v2::Nameplate>);
+            }
         }
     }
     pub mod pcs {
@@ -770,4 +790,24 @@ mod test {
 
         Ok(())
     }
+
+    // #[test]
+    // fn test_some() -> anyhow::Result<()> {
+    //     let data = alloc::vec![
+    //         10, 38, 18, 36, 53, 99, 52, 97, 55, 56, 57, 50, 45, 49, 100, 51, 51, 45, 52, 100, 97,
+    //         102, 45, 98, 97, 50, 49, 45, 48, 102, 56, 51, 102, 57, 97, 53, 55, 100, 101, 50, 26,
+    //         202, 1, 10, 2, 16, 2, 10, 4, 8, 2, 16, 2, 10, 4, 8, 4, 16, 2, 10, 4, 8, 6, 16, 2, 10,
+    //         4, 8, 8, 16, 2, 10, 4, 8, 10, 16, 2, 10, 4, 8, 12, 16, 2, 10, 4, 8, 14, 16, 2, 10, 4,
+    //         8, 16, 16, 2, 10, 4, 8, 18, 16, 2, 10, 4, 8, 20, 16, 2, 10, 4, 8, 100, 16, 2, 10, 4, 8,
+    //         102, 16, 2, 10, 4, 8, 104, 16, 2, 10, 4, 8, 106, 16, 2, 10, 4, 8, 108, 16, 2, 10, 4, 8,
+    //         110, 16, 2, 10, 4, 8, 112, 16, 2, 10, 4, 8, 114, 16, 2, 10, 4, 8, 116, 16, 2, 10, 4, 8,
+    //         118, 16, 2, 10, 4, 8, 120, 16, 2, 10, 5, 8, 200, 1, 16, 2, 10, 5, 8, 202, 1, 16, 2, 10,
+    //         5, 8, 204, 1, 16, 2, 10, 5, 8, 206, 1, 16, 1, 10, 5, 8, 210, 1, 16, 2, 10, 5, 8, 212,
+    //         1, 16, 2, 10, 5, 8, 214, 1, 16, 2, 10, 5, 8, 216, 1, 16, 1, 10, 5, 8, 220, 1, 16, 2,
+    //         10, 5, 8, 222, 1, 16, 2, 18, 0,
+    //     ];
+    //     let model = crate::vnd::v1::rpc::ParamResponse::decode(&*data)?;
+    //     tracing::info!("{:?}", model);
+    //     Ok(())
+    // }
 }

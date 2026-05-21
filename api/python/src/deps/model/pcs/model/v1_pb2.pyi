@@ -1,8 +1,8 @@
 import datetime
 
 from deps.model.net.model import v1_pb2 as _v1_pb2
-from google.protobuf import timestamp_pb2 as _timestamp_pb2
 from deps.rpc.header import v1_pb2 as _v1_pb2_1
+from google.protobuf import timestamp_pb2 as _timestamp_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
@@ -45,7 +45,7 @@ class ThreePhaseNSum(_message.Message):
     def __init__(self, ph_a: _Optional[float] = ..., ph_b: _Optional[float] = ..., ph_c: _Optional[float] = ..., sum: _Optional[float] = ...) -> None: ...
 
 class ThreePhasePcsPart(_message.Message):
-    __slots__ = ("st", "status", "fault", "warning", "dir_pwr", "ph_v", "pp_v", "a", "w", "hz", "va", "var", "pf", "dc", "tmp")
+    __slots__ = ("st", "status", "fault", "warning", "dir_pwr", "ph_v", "pp_v", "a", "w", "hz", "va", "var", "pf", "dc", "tmp", "cmds", "wh")
     class St(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         ST_NA: _ClassVar[ThreePhasePcsPart.St]
@@ -199,6 +199,8 @@ class ThreePhasePcsPart(_message.Message):
     PF_FIELD_NUMBER: _ClassVar[int]
     DC_FIELD_NUMBER: _ClassVar[int]
     TMP_FIELD_NUMBER: _ClassVar[int]
+    CMDS_FIELD_NUMBER: _ClassVar[int]
+    WH_FIELD_NUMBER: _ClassVar[int]
     st: ThreePhasePcsPart.St
     status: ThreePhasePcsPart.Status
     fault: ThreePhasePcsPart.Fault
@@ -214,7 +216,9 @@ class ThreePhasePcsPart(_message.Message):
     pf: float
     dc: DcPart
     tmp: TemperaturePart
-    def __init__(self, st: _Optional[_Union[ThreePhasePcsPart.St, str]] = ..., status: _Optional[_Union[ThreePhasePcsPart.Status, _Mapping]] = ..., fault: _Optional[_Union[ThreePhasePcsPart.Fault, _Mapping]] = ..., warning: _Optional[_Union[ThreePhasePcsPart.Warning, _Mapping]] = ..., dir_pwr: _Optional[_Union[ThreePhasePcsPart.DirPwr, str]] = ..., ph_v: _Optional[_Union[ThreePhase, _Mapping]] = ..., pp_v: _Optional[_Union[ThreePhaseLine, _Mapping]] = ..., a: _Optional[_Union[ThreePhaseNSum, _Mapping]] = ..., w: _Optional[float] = ..., hz: _Optional[float] = ..., va: _Optional[float] = ..., var: _Optional[float] = ..., pf: _Optional[float] = ..., dc: _Optional[_Union[DcPart, _Mapping]] = ..., tmp: _Optional[_Union[TemperaturePart, _Mapping]] = ...) -> None: ...
+    cmds: _containers.RepeatedCompositeFieldContainer[ThreePhasePcsPart.Command]
+    wh: _v1_pb2.Energy
+    def __init__(self, st: _Optional[_Union[ThreePhasePcsPart.St, str]] = ..., status: _Optional[_Union[ThreePhasePcsPart.Status, _Mapping]] = ..., fault: _Optional[_Union[ThreePhasePcsPart.Fault, _Mapping]] = ..., warning: _Optional[_Union[ThreePhasePcsPart.Warning, _Mapping]] = ..., dir_pwr: _Optional[_Union[ThreePhasePcsPart.DirPwr, str]] = ..., ph_v: _Optional[_Union[ThreePhase, _Mapping]] = ..., pp_v: _Optional[_Union[ThreePhaseLine, _Mapping]] = ..., a: _Optional[_Union[ThreePhaseNSum, _Mapping]] = ..., w: _Optional[float] = ..., hz: _Optional[float] = ..., va: _Optional[float] = ..., var: _Optional[float] = ..., pf: _Optional[float] = ..., dc: _Optional[_Union[DcPart, _Mapping]] = ..., tmp: _Optional[_Union[TemperaturePart, _Mapping]] = ..., cmds: _Optional[_Iterable[_Union[ThreePhasePcsPart.Command, _Mapping]]] = ..., wh: _Optional[_Union[_v1_pb2.Energy, _Mapping]] = ...) -> None: ...
 
 class ThreePhaseGridPart(_message.Message):
     __slots__ = ("sum", "a", "b", "c")

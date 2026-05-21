@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package deps.model.nameplate.v2;
+
+// import "deps/rpc/header.v1.proto";
+import "deps/vnd/alarm.v1.proto";
+import "deps/vnd/parameter.v1.proto";
+
+option java_package = "io.github.grida_energy.deps.model.nameplate.v2";
+
+message NameplateFilter {}
+message Nameplate {
+  deps.vnd.v1.AlarmMeta alarm_meta = 1;
+  deps.vnd.v1.ParamMeta param_meta = 2;
+}
+
+// message NameplateRequest {
+//   deps.rpc.v1.Request header = 1;
+//   NameplateFilter payload = 2;
+// }
+// message NameplateResponse {
+//   deps.rpc.v1.Response header = 1;
+//   Nameplate payload = 2;
+// }

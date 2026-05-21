@@ -1382,6 +1382,8 @@ DC측 정보
 | pf | [float](#float) |  | 역률 - (방향 TBD) |
 | dc | [DcPart](#deps-model-pcs-v1-DcPart) |  | DC측 정보 |
 | tmp | [TemperaturePart](#deps-model-pcs-v1-TemperaturePart) |  | 온도 정보 |
+| cmds | [ThreePhasePcsPart.Command](#deps-model-pcs-v1-ThreePhasePcsPart-Command) | repeated |  |
+| wh | [deps.model.net.v1.Energy](#deps-model-net-v1-Energy) |  |  |
 
 
 
@@ -1408,7 +1410,9 @@ DC측 정보
 | p_pct | [float](#float) |  | 유효 전력 백분율 지령치 |
 | q_pct | [float](#float) |  | 무효 전력 백분율 지령치 |
 | pf | [float](#float) |  | 역률 지령치 |
-| hz | [float](#float) |  | 주파수 지령치 |
+| hz | [float](#float) |  | 주파수 지령치
+
+float var = 14; |
 
 
 
@@ -1436,7 +1440,9 @@ DC측 정보
 | AC_UNBALANCE_VOLT | [bool](#bool) |  | 불균형 전압 |
 | AC_UNBALANCE_CURRENT | [bool](#bool) |  | 불균형 전류 |
 | HW_TEST_FAILURE | [bool](#bool) |  | 하드웨어 테스트 실패 |
-| CB_TRIP | [bool](#bool) |  | 차단기 트립 |
+| CB_TRIP | [bool](#bool) |  | 차단기 트립
+
+bool STARTUP_FAIL = 15; |
 
 
 
