@@ -1,6 +1,6 @@
 [project]
 name = "deps"
-version = "1.0.0"
+version = "1.0.5"
 requires-python = ">=3.9"
 dependencies = ["protobuf>=6.32.1"]
 
