@@ -98,8 +98,17 @@
 - [deps/model/net/model.v1.proto](#deps_model_net_model-v1-proto)
     - [AcLine](#deps-model-net-v1-AcLine)
     - [AcLineSum](#deps-model-net-v1-AcLineSum)
+    - [AcLineThreePhase](#deps-model-net-v1-AcLineThreePhase)
     - [Energy](#deps-model-net-v1-Energy)
+    - [Harmonics](#deps-model-net-v1-Harmonics)
+    - [HarmonicsThreePhase](#deps-model-net-v1-HarmonicsThreePhase)
     - [Line](#deps-model-net-v1-Line)
+    - [LineToLine](#deps-model-net-v1-LineToLine)
+    - [MeterThreePhase](#deps-model-net-v1-MeterThreePhase)
+    - [Phasor](#deps-model-net-v1-Phasor)
+    - [Rpc](#deps-model-net-v1-Rpc)
+    - [Rpc.MeterThreePhase](#deps-model-net-v1-Rpc-MeterThreePhase)
+    - [Rpc.MeterThreePhase.MeasureResponse](#deps-model-net-v1-Rpc-MeterThreePhase-MeasureResponse)
   
 - [deps/model/esd/model.v1.proto](#deps_model_esd_model-v1-proto)
     - [EsdBank](#deps-model-esd-v1-EsdBank)
@@ -773,6 +782,7 @@ error codes would be specified in deps.rpc.Response
 | unit | [string](#string) |  |  |
 | min_max | [ParamInfo.MinMax](#deps-vnd-v1-ParamInfo-MinMax) |  |  |
 | pick | [ParamInfo.OneOfPick](#deps-vnd-v1-ParamInfo-OneOfPick) |  |  |
+| schema | [google.protobuf.FileDescriptorSet](#google-protobuf-FileDescriptorSet) |  |  |
 | accepts | [ParamInfo.ParamKind](#deps-vnd-v1-ParamInfo-ParamKind) | repeated |  |
 
 
@@ -1608,6 +1618,25 @@ PCS 상태
 
 
 
+<a name="deps-model-net-v1-AcLineThreePhase"></a>
+
+### AcLineThreePhase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| sum | [AcLineSum](#deps-model-net-v1-AcLineSum) |  | 3상 합 |
+| a | [AcLine](#deps-model-net-v1-AcLine) |  | A 상 |
+| b | [AcLine](#deps-model-net-v1-AcLine) |  | B 상 |
+| c | [AcLine](#deps-model-net-v1-AcLine) |  | C 상 |
+| pp_v | [LineToLine](#deps-model-net-v1-LineToLine) |  |  |
+
+
+
+
+
+
 <a name="deps-model-net-v1-Energy"></a>
 
 ### Energy
@@ -1618,6 +1647,44 @@ PCS 상태
 | ----- | ---- | ----- | ----------- |
 | exported | [double](#double) |  |  |
 | imported | [double](#double) |  |  |
+
+
+
+
+
+
+<a name="deps-model-net-v1-Harmonics"></a>
+
+### Harmonics
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| v_series | [float](#float) | repeated | 0 = DC, 1 = fundamental, 2 = 2nd harmonic, ... |
+| a_series | [float](#float) | repeated |  |
+| thd_v | [float](#float) |  |  |
+| thd_a | [float](#float) |  |  |
+| tdd_a | [float](#float) |  |  |
+| phs_v | [Phasor](#deps-model-net-v1-Phasor) |  | Fundamental 페이저 |
+| phs_a | [Phasor](#deps-model-net-v1-Phasor) |  |  |
+
+
+
+
+
+
+<a name="deps-model-net-v1-HarmonicsThreePhase"></a>
+
+### HarmonicsThreePhase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| a | [Harmonics](#deps-model-net-v1-Harmonics) |  |  |
+| b | [Harmonics](#deps-model-net-v1-Harmonics) |  |  |
+| c | [Harmonics](#deps-model-net-v1-Harmonics) |  |  |
 
 
 
@@ -1636,6 +1703,91 @@ PCS 상태
 | a | [float](#float) |  |  |
 | w | [float](#float) |  |  |
 | wh | [Energy](#deps-model-net-v1-Energy) |  |  |
+
+
+
+
+
+
+<a name="deps-model-net-v1-LineToLine"></a>
+
+### LineToLine
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ab | [float](#float) |  |  |
+| bc | [float](#float) |  |  |
+| ca | [float](#float) |  |  |
+
+
+
+
+
+
+<a name="deps-model-net-v1-MeterThreePhase"></a>
+
+### MeterThreePhase
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| main | [AcLineThreePhase](#deps-model-net-v1-AcLineThreePhase) |  |  |
+| harmonics | [HarmonicsThreePhase](#deps-model-net-v1-HarmonicsThreePhase) |  |  |
+
+
+
+
+
+
+<a name="deps-model-net-v1-Phasor"></a>
+
+### Phasor
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| x | [float](#float) |  |  |
+| y | [float](#float) |  |  |
+
+
+
+
+
+
+<a name="deps-model-net-v1-Rpc"></a>
+
+### Rpc
+
+
+
+
+
+
+
+<a name="deps-model-net-v1-Rpc-MeterThreePhase"></a>
+
+### Rpc.MeterThreePhase
+
+
+
+
+
+
+
+<a name="deps-model-net-v1-Rpc-MeterThreePhase-MeasureResponse"></a>
+
+### Rpc.MeterThreePhase.MeasureResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| payload | [MeterThreePhase](#deps-model-net-v1-MeterThreePhase) |  |  |
 
 
 

@@ -4,7 +4,7 @@
 
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
-import type { Value } from "@bufbuild/protobuf/wkt";
+import type { FileDescriptorSet, Value } from "@bufbuild/protobuf/wkt";
 
 /**
  * Describes the file deps/vnd/parameter.v1.proto.
@@ -47,6 +47,12 @@ export declare type ParamInfo = Message<"deps.vnd.v1.ParamInfo"> & {
      */
     value: ParamInfo_OneOfPick;
     case: "pick";
+  } | {
+    /**
+     * @generated from field: google.protobuf.FileDescriptorSet schema = 6;
+     */
+    value: FileDescriptorSet;
+    case: "schema";
   } | { case: undefined; value?: undefined };
 
   /**

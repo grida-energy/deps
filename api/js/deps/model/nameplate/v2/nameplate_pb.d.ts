@@ -13,6 +13,37 @@ import type { ParamMeta } from "../../../vnd/parameter.v1_pb.js";
 export declare const file_deps_model_nameplate_v2_nameplate: GenFile;
 
 /**
+ * @generated from message deps.model.nameplate.v2.Quadrant
+ */
+export declare type Quadrant = Message<"deps.model.nameplate.v2.Quadrant"> & {
+  /**
+   * @generated from field: float q1 = 1;
+   */
+  q1: number;
+
+  /**
+   * @generated from field: float q2 = 2;
+   */
+  q2: number;
+
+  /**
+   * @generated from field: float q3 = 3;
+   */
+  q3: number;
+
+  /**
+   * @generated from field: float q4 = 4;
+   */
+  q4: number;
+};
+
+/**
+ * Describes the message deps.model.nameplate.v2.Quadrant.
+ * Use `create(QuadrantSchema)` to create a new message.
+ */
+export declare const QuadrantSchema: GenMessage<Quadrant>;
+
+/**
  * @generated from message deps.model.nameplate.v2.NameplateFilter
  */
 export declare type NameplateFilter = Message<"deps.model.nameplate.v2.NameplateFilter"> & {
@@ -37,6 +68,11 @@ export declare type Nameplate = Message<"deps.model.nameplate.v2.Nameplate"> & {
    * @generated from field: deps.vnd.v1.ParamMeta param_meta = 2;
    */
   paramMeta?: ParamMeta | undefined;
+
+  /**
+   * @generated from field: deps.model.nameplate.v2.EndPointRatings ratings = 5;
+   */
+  ratings?: EndPointRatings | undefined;
 };
 
 /**
@@ -44,4 +80,111 @@ export declare type Nameplate = Message<"deps.model.nameplate.v2.Nameplate"> & {
  * Use `create(NameplateSchema)` to create a new message.
  */
 export declare const NameplateSchema: GenMessage<Nameplate>;
+
+/**
+ * @generated from message deps.model.nameplate.v2.DeviceRatings
+ */
+export declare type DeviceRatings = Message<"deps.model.nameplate.v2.DeviceRatings"> & {
+  /**
+   * @generated from field: deps.model.nameplate.v2.StorageRatings storage = 1;
+   */
+  storage?: StorageRatings | undefined;
+
+  /**
+   * @generated from field: deps.model.nameplate.v2.PcsRatings pcs = 2;
+   */
+  pcs?: PcsRatings | undefined;
+};
+
+/**
+ * Describes the message deps.model.nameplate.v2.DeviceRatings.
+ * Use `create(DeviceRatingsSchema)` to create a new message.
+ */
+export declare const DeviceRatingsSchema: GenMessage<DeviceRatings>;
+
+/**
+ * @generated from message deps.model.nameplate.v2.EndPointRatings
+ */
+export declare type EndPointRatings = Message<"deps.model.nameplate.v2.EndPointRatings"> & {
+  /**
+   * @generated from field: deps.model.nameplate.v2.DeviceRatings total = 1;
+   */
+  total?: DeviceRatings | undefined;
+
+  /**
+   * @generated from field: map<string, deps.model.nameplate.v2.StorageRatings> storage_devices = 2;
+   */
+  storageDevices: { [key: string]: StorageRatings };
+
+  /**
+   * @generated from field: map<string, deps.model.nameplate.v2.PcsRatings> pcs_devices = 3;
+   */
+  pcsDevices: { [key: string]: PcsRatings };
+};
+
+/**
+ * Describes the message deps.model.nameplate.v2.EndPointRatings.
+ * Use `create(EndPointRatingsSchema)` to create a new message.
+ */
+export declare const EndPointRatingsSchema: GenMessage<EndPointRatings>;
+
+/**
+ * @generated from message deps.model.nameplate.v2.StorageRatings
+ */
+export declare type StorageRatings = Message<"deps.model.nameplate.v2.StorageRatings"> & {
+  /**
+   * @generated from field: float wh = 1;
+   */
+  wh: number;
+
+  /**
+   * float max_cha_rte = 14;
+   * float max_dis_cha_rte = 15;
+   *
+   * @generated from field: float ahr = 2;
+   */
+  ahr: number;
+};
+
+/**
+ * Describes the message deps.model.nameplate.v2.StorageRatings.
+ * Use `create(StorageRatingsSchema)` to create a new message.
+ */
+export declare const StorageRatingsSchema: GenMessage<StorageRatings>;
+
+/**
+ * @generated from message deps.model.nameplate.v2.PcsRatings
+ */
+export declare type PcsRatings = Message<"deps.model.nameplate.v2.PcsRatings"> & {
+  /**
+   * @generated from field: float w = 1;
+   */
+  w: number;
+
+  /**
+   * @generated from field: float va = 2;
+   */
+  va: number;
+
+  /**
+   * @generated from field: deps.model.nameplate.v2.Quadrant var = 3;
+   */
+  var?: Quadrant | undefined;
+
+  /**
+   * @generated from field: float a = 7;
+   */
+  a: number;
+
+  /**
+   * @generated from field: deps.model.nameplate.v2.Quadrant pf = 8;
+   */
+  pf?: Quadrant | undefined;
+};
+
+/**
+ * Describes the message deps.model.nameplate.v2.PcsRatings.
+ * Use `create(PcsRatingsSchema)` to create a new message.
+ */
+export declare const PcsRatingsSchema: GenMessage<PcsRatings>;
 

@@ -3,12 +3,13 @@
 /* eslint-disable */
 
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
+import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 
 /**
  * Describes the file deps/model/net/model.v1.proto.
  */
 export const file_deps_model_net_model_v1 = /*@__PURE__*/
-  fileDesc("Ch1kZXBzL21vZGVsL25ldC9tb2RlbC52MS5wcm90bxIRZGVwcy5tb2RlbC5uZXQudjEiTgoETGluZRIJCgF2GAEgASgCEgkKAWEYAiABKAISCQoBdxgEIAEoAhIlCgJ3aBgIIAEoCzIZLmRlcHMubW9kZWwubmV0LnYxLkVuZXJneSKBAQoGQWNMaW5lEgkKAXYYASABKAISCQoBYRgCIAEoAhIKCgJoehgDIAEoAhIJCgF3GAQgASgCEgoKAnZhGAUgASgCEgsKA3ZhchgGIAEoAhIKCgJwZhgHIAEoAhIlCgJ3aBgIIAEoCzIZLmRlcHMubW9kZWwubmV0LnYxLkVuZXJneSJ5CglBY0xpbmVTdW0SCQoBYRgCIAEoAhIKCgJoehgDIAEoAhIJCgF3GAQgASgCEgoKAnZhGAUgASgCEgsKA3ZhchgGIAEoAhIKCgJwZhgHIAEoAhIlCgJ3aBgIIAEoCzIZLmRlcHMubW9kZWwubmV0LnYxLkVuZXJneSIsCgZFbmVyZ3kSEAoIZXhwb3J0ZWQYASABKAESEAoIaW1wb3J0ZWQYAiABKAFCKgooaW8uZ2l0aHViLmdyaWRhX2VuZXJneS5kZXBzLm1vZGVsLm5ldC52MWIGcHJvdG8z");
+  fileDesc("Ch1kZXBzL21vZGVsL25ldC9tb2RlbC52MS5wcm90bxIRZGVwcy5tb2RlbC5uZXQudjEiTgoETGluZRIJCgF2GAEgASgCEgkKAWEYAiABKAISCQoBdxgEIAEoAhIlCgJ3aBgIIAEoCzIZLmRlcHMubW9kZWwubmV0LnYxLkVuZXJneSKBAQoGQWNMaW5lEgkKAXYYASABKAISCQoBYRgCIAEoAhIKCgJoehgDIAEoAhIJCgF3GAQgASgCEgoKAnZhGAUgASgCEgsKA3ZhchgGIAEoAhIKCgJwZhgHIAEoAhIlCgJ3aBgIIAEoCzIZLmRlcHMubW9kZWwubmV0LnYxLkVuZXJneSJ5CglBY0xpbmVTdW0SCQoBYRgCIAEoAhIKCgJoehgDIAEoAhIJCgF3GAQgASgCEgoKAnZhGAUgASgCEgsKA3ZhchgGIAEoAhIKCgJwZhgHIAEoAhIlCgJ3aBgIIAEoCzIZLmRlcHMubW9kZWwubmV0LnYxLkVuZXJneSIsCgZFbmVyZ3kSEAoIZXhwb3J0ZWQYASABKAESEAoIaW1wb3J0ZWQYAiABKAEiMAoKTGluZVRvTGluZRIKCgJhYhgBIAEoAhIKCgJiYxgCIAEoAhIKCgJjYRgDIAEoAiLcAQoQQWNMaW5lVGhyZWVQaGFzZRIpCgNzdW0YASABKAsyHC5kZXBzLm1vZGVsLm5ldC52MS5BY0xpbmVTdW0SJAoBYRgCIAEoCzIZLmRlcHMubW9kZWwubmV0LnYxLkFjTGluZRIkCgFiGAMgASgLMhkuZGVwcy5tb2RlbC5uZXQudjEuQWNMaW5lEiQKAWMYBCABKAsyGS5kZXBzLm1vZGVsLm5ldC52MS5BY0xpbmUSKwoEcHBfdhgFIAEoCzIdLmRlcHMubW9kZWwubmV0LnYxLkxpbmVUb0xpbmUiHgoGUGhhc29yEgkKAXgYASABKAISCQoBeRgCIAEoAiKwAQoJSGFybW9uaWNzEhAKCHZfc2VyaWVzGAEgAygCEhAKCGFfc2VyaWVzGAIgAygCEg0KBXRoZF92GAMgASgCEg0KBXRoZF9hGAQgASgCEg0KBXRkZF9hGAYgASgCEigKBXBoc192GAcgASgLMhkuZGVwcy5tb2RlbC5uZXQudjEuUGhhc29yEigKBXBoc19hGAggASgLMhkuZGVwcy5tb2RlbC5uZXQudjEuUGhhc29yIpABChNIYXJtb25pY3NUaHJlZVBoYXNlEicKAWEYASABKAsyHC5kZXBzLm1vZGVsLm5ldC52MS5IYXJtb25pY3MSJwoBYhgCIAEoCzIcLmRlcHMubW9kZWwubmV0LnYxLkhhcm1vbmljcxInCgFjGAMgASgLMhwuZGVwcy5tb2RlbC5uZXQudjEuSGFybW9uaWNzIn8KD01ldGVyVGhyZWVQaGFzZRIxCgRtYWluGAEgASgLMiMuZGVwcy5tb2RlbC5uZXQudjEuQWNMaW5lVGhyZWVQaGFzZRI5CgloYXJtb25pY3MYAiABKAsyJi5kZXBzLm1vZGVsLm5ldC52MS5IYXJtb25pY3NUaHJlZVBoYXNlIpABCgNScGMaiAEKD01ldGVyVGhyZWVQaGFzZRp1Cg9NZWFzdXJlUmVzcG9uc2USLQoJdGltZXN0YW1wGAEgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIzCgdwYXlsb2FkGAIgASgLMiIuZGVwcy5tb2RlbC5uZXQudjEuTWV0ZXJUaHJlZVBoYXNlQioKKGlvLmdpdGh1Yi5ncmlkYV9lbmVyZ3kuZGVwcy5tb2RlbC5uZXQudjFiBnByb3RvMw", [file_google_protobuf_timestamp]);
 
 /**
  * Describes the message deps.model.net.v1.Line.
@@ -37,4 +38,67 @@ export const AcLineSumSchema = /*@__PURE__*/
  */
 export const EnergySchema = /*@__PURE__*/
   messageDesc(file_deps_model_net_model_v1, 3);
+
+/**
+ * Describes the message deps.model.net.v1.LineToLine.
+ * Use `create(LineToLineSchema)` to create a new message.
+ */
+export const LineToLineSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 4);
+
+/**
+ * Describes the message deps.model.net.v1.AcLineThreePhase.
+ * Use `create(AcLineThreePhaseSchema)` to create a new message.
+ */
+export const AcLineThreePhaseSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 5);
+
+/**
+ * Describes the message deps.model.net.v1.Phasor.
+ * Use `create(PhasorSchema)` to create a new message.
+ */
+export const PhasorSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 6);
+
+/**
+ * Describes the message deps.model.net.v1.Harmonics.
+ * Use `create(HarmonicsSchema)` to create a new message.
+ */
+export const HarmonicsSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 7);
+
+/**
+ * Describes the message deps.model.net.v1.HarmonicsThreePhase.
+ * Use `create(HarmonicsThreePhaseSchema)` to create a new message.
+ */
+export const HarmonicsThreePhaseSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 8);
+
+/**
+ * Describes the message deps.model.net.v1.MeterThreePhase.
+ * Use `create(MeterThreePhaseSchema)` to create a new message.
+ */
+export const MeterThreePhaseSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 9);
+
+/**
+ * Describes the message deps.model.net.v1.Rpc.
+ * Use `create(RpcSchema)` to create a new message.
+ */
+export const RpcSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 10);
+
+/**
+ * Describes the message deps.model.net.v1.Rpc.MeterThreePhase.
+ * Use `create(Rpc_MeterThreePhaseSchema)` to create a new message.
+ */
+export const Rpc_MeterThreePhaseSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 10, 0);
+
+/**
+ * Describes the message deps.model.net.v1.Rpc.MeterThreePhase.MeasureResponse.
+ * Use `create(Rpc_MeterThreePhase_MeasureResponseSchema)` to create a new message.
+ */
+export const Rpc_MeterThreePhase_MeasureResponseSchema = /*@__PURE__*/
+  messageDesc(file_deps_model_net_model_v1, 10, 0, 0);
 

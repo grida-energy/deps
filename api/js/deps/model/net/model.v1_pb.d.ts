@@ -4,6 +4,7 @@
 
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
+import type { Timestamp } from "@bufbuild/protobuf/wkt";
 
 /**
  * Describes the file deps/model/net/model.v1.proto.
@@ -158,4 +159,237 @@ export declare type Energy = Message<"deps.model.net.v1.Energy"> & {
  * Use `create(EnergySchema)` to create a new message.
  */
 export declare const EnergySchema: GenMessage<Energy>;
+
+/**
+ * @generated from message deps.model.net.v1.LineToLine
+ */
+export declare type LineToLine = Message<"deps.model.net.v1.LineToLine"> & {
+  /**
+   * @generated from field: float ab = 1;
+   */
+  ab: number;
+
+  /**
+   * @generated from field: float bc = 2;
+   */
+  bc: number;
+
+  /**
+   * @generated from field: float ca = 3;
+   */
+  ca: number;
+};
+
+/**
+ * Describes the message deps.model.net.v1.LineToLine.
+ * Use `create(LineToLineSchema)` to create a new message.
+ */
+export declare const LineToLineSchema: GenMessage<LineToLine>;
+
+/**
+ * @generated from message deps.model.net.v1.AcLineThreePhase
+ */
+export declare type AcLineThreePhase = Message<"deps.model.net.v1.AcLineThreePhase"> & {
+  /**
+   * 3상 합
+   *
+   * @generated from field: deps.model.net.v1.AcLineSum sum = 1;
+   */
+  sum?: AcLineSum | undefined;
+
+  /**
+   * A 상
+   *
+   * @generated from field: deps.model.net.v1.AcLine a = 2;
+   */
+  a?: AcLine | undefined;
+
+  /**
+   * B 상
+   *
+   * @generated from field: deps.model.net.v1.AcLine b = 3;
+   */
+  b?: AcLine | undefined;
+
+  /**
+   * C 상
+   *
+   * @generated from field: deps.model.net.v1.AcLine c = 4;
+   */
+  c?: AcLine | undefined;
+
+  /**
+   * @generated from field: deps.model.net.v1.LineToLine pp_v = 5;
+   */
+  ppV?: LineToLine | undefined;
+};
+
+/**
+ * Describes the message deps.model.net.v1.AcLineThreePhase.
+ * Use `create(AcLineThreePhaseSchema)` to create a new message.
+ */
+export declare const AcLineThreePhaseSchema: GenMessage<AcLineThreePhase>;
+
+/**
+ * @generated from message deps.model.net.v1.Phasor
+ */
+export declare type Phasor = Message<"deps.model.net.v1.Phasor"> & {
+  /**
+   * @generated from field: float x = 1;
+   */
+  x: number;
+
+  /**
+   * @generated from field: float y = 2;
+   */
+  y: number;
+};
+
+/**
+ * Describes the message deps.model.net.v1.Phasor.
+ * Use `create(PhasorSchema)` to create a new message.
+ */
+export declare const PhasorSchema: GenMessage<Phasor>;
+
+/**
+ * @generated from message deps.model.net.v1.Harmonics
+ */
+export declare type Harmonics = Message<"deps.model.net.v1.Harmonics"> & {
+  /**
+   * 0 = DC, 1 = fundamental, 2 = 2nd harmonic, ...
+   *
+   * @generated from field: repeated float v_series = 1;
+   */
+  vSeries: number[];
+
+  /**
+   * @generated from field: repeated float a_series = 2;
+   */
+  aSeries: number[];
+
+  /**
+   * @generated from field: float thd_v = 3;
+   */
+  thdV: number;
+
+  /**
+   * @generated from field: float thd_a = 4;
+   */
+  thdA: number;
+
+  /**
+   * @generated from field: float tdd_a = 6;
+   */
+  tddA: number;
+
+  /**
+   * Fundamental 페이저
+   *
+   * @generated from field: deps.model.net.v1.Phasor phs_v = 7;
+   */
+  phsV?: Phasor | undefined;
+
+  /**
+   * @generated from field: deps.model.net.v1.Phasor phs_a = 8;
+   */
+  phsA?: Phasor | undefined;
+};
+
+/**
+ * Describes the message deps.model.net.v1.Harmonics.
+ * Use `create(HarmonicsSchema)` to create a new message.
+ */
+export declare const HarmonicsSchema: GenMessage<Harmonics>;
+
+/**
+ * @generated from message deps.model.net.v1.HarmonicsThreePhase
+ */
+export declare type HarmonicsThreePhase = Message<"deps.model.net.v1.HarmonicsThreePhase"> & {
+  /**
+   * @generated from field: deps.model.net.v1.Harmonics a = 1;
+   */
+  a?: Harmonics | undefined;
+
+  /**
+   * @generated from field: deps.model.net.v1.Harmonics b = 2;
+   */
+  b?: Harmonics | undefined;
+
+  /**
+   * @generated from field: deps.model.net.v1.Harmonics c = 3;
+   */
+  c?: Harmonics | undefined;
+};
+
+/**
+ * Describes the message deps.model.net.v1.HarmonicsThreePhase.
+ * Use `create(HarmonicsThreePhaseSchema)` to create a new message.
+ */
+export declare const HarmonicsThreePhaseSchema: GenMessage<HarmonicsThreePhase>;
+
+/**
+ * @generated from message deps.model.net.v1.MeterThreePhase
+ */
+export declare type MeterThreePhase = Message<"deps.model.net.v1.MeterThreePhase"> & {
+  /**
+   * @generated from field: deps.model.net.v1.AcLineThreePhase main = 1;
+   */
+  main?: AcLineThreePhase | undefined;
+
+  /**
+   * @generated from field: deps.model.net.v1.HarmonicsThreePhase harmonics = 2;
+   */
+  harmonics?: HarmonicsThreePhase | undefined;
+};
+
+/**
+ * Describes the message deps.model.net.v1.MeterThreePhase.
+ * Use `create(MeterThreePhaseSchema)` to create a new message.
+ */
+export declare const MeterThreePhaseSchema: GenMessage<MeterThreePhase>;
+
+/**
+ * @generated from message deps.model.net.v1.Rpc
+ */
+export declare type Rpc = Message<"deps.model.net.v1.Rpc"> & {
+};
+
+/**
+ * Describes the message deps.model.net.v1.Rpc.
+ * Use `create(RpcSchema)` to create a new message.
+ */
+export declare const RpcSchema: GenMessage<Rpc>;
+
+/**
+ * @generated from message deps.model.net.v1.Rpc.MeterThreePhase
+ */
+export declare type Rpc_MeterThreePhase = Message<"deps.model.net.v1.Rpc.MeterThreePhase"> & {
+};
+
+/**
+ * Describes the message deps.model.net.v1.Rpc.MeterThreePhase.
+ * Use `create(Rpc_MeterThreePhaseSchema)` to create a new message.
+ */
+export declare const Rpc_MeterThreePhaseSchema: GenMessage<Rpc_MeterThreePhase>;
+
+/**
+ * @generated from message deps.model.net.v1.Rpc.MeterThreePhase.MeasureResponse
+ */
+export declare type Rpc_MeterThreePhase_MeasureResponse = Message<"deps.model.net.v1.Rpc.MeterThreePhase.MeasureResponse"> & {
+  /**
+   * @generated from field: google.protobuf.Timestamp timestamp = 1;
+   */
+  timestamp?: Timestamp | undefined;
+
+  /**
+   * @generated from field: deps.model.net.v1.MeterThreePhase payload = 2;
+   */
+  payload?: MeterThreePhase | undefined;
+};
+
+/**
+ * Describes the message deps.model.net.v1.Rpc.MeterThreePhase.MeasureResponse.
+ * Use `create(Rpc_MeterThreePhase_MeasureResponseSchema)` to create a new message.
+ */
+export declare const Rpc_MeterThreePhase_MeasureResponseSchema: GenMessage<Rpc_MeterThreePhase_MeasureResponse>;
 

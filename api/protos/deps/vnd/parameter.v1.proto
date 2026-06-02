@@ -2,9 +2,10 @@ syntax = "proto3";
 
 package deps.vnd.v1;
 
-option java_package = "io.github.grida_energy.deps.vnd.v1";
-
+import "google/protobuf/descriptor.proto";
 import "google/protobuf/struct.proto";
+
+option java_package = "io.github.grida_energy.deps.vnd.v1";
 // import "deps/rpc/reqresp.proto";
 
 // 제조사 고유 파라미터 메타 정보
@@ -24,7 +25,9 @@ message ParamInfo {
     bool exclusive_min = 3;
     bool exclusive_max = 4;
   }
-  message OneOfPick { map<string, double> options = 1; }
+  message OneOfPick {
+    map<string, double> options = 1;
+  }
 
   string param_name = 1;
   string description = 2;
@@ -32,11 +35,14 @@ message ParamInfo {
   oneof constraint {
     MinMax min_max = 4;
     OneOfPick pick = 5;
+    .google.protobuf.FileDescriptorSet schema = 6;
   }
   repeated ParamKind accepts = 10;
 }
 
-message ParamMeta { map<uint32, ParamInfo> param_infos = 1; }
+message ParamMeta {
+  map<uint32, ParamInfo> param_infos = 1;
+}
 
 message ParamIdRange {
   uint32 start = 1;

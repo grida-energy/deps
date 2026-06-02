@@ -1,6 +1,8 @@
 syntax = "proto3";
 
 package deps.model.net.v1;
+
+import "google/protobuf/timestamp.proto";
 // or deps.model.bus;
 
 option java_package = "io.github.grida_energy.deps.model.net.v1";
@@ -22,9 +24,9 @@ message AcLine {
   float pf = 7;
   Energy wh = 8;
 }
+// message AcLine
 
 message AcLineSum {
-
   float a = 2;
   float hz = 3;
   float w = 4;
@@ -37,4 +39,88 @@ message AcLineSum {
 message Energy {
   double exported = 1;
   double imported = 2;
+}
+
+// 3 phase
+
+// // 3상 선간 (전압) 값
+// message ThreePhaseLine {
+//   // ab phase
+//   float ph_ab = 1;
+//   // bc phase
+//   float ph_bc = 2;
+//   // ca phase
+//   float ph_ca = 3;
+// }
+
+// // 3상 상 (전압) 값
+// message ThreePhase {
+//   // a phase
+//   float ph_a = 1;
+//   // b phase
+//   float ph_b = 2;
+//   // c phase
+//   float ph_c = 3;
+// }
+
+// // 3상 상 (전압) 값 및 합
+// message ThreePhaseNSum {
+//   float ph_a = 1;
+//   float ph_b = 2;
+//   float ph_c = 3;
+//   float sum = 4;
+// }
+
+message LineToLine {
+  float ab = 1;
+  float bc = 2;
+  float ca = 3;
+}
+message AcLineThreePhase {
+  // 3상 합
+  AcLineSum sum = 1;
+  // A 상
+  AcLine a = 2;
+  // B 상
+  AcLine b = 3;
+  // C 상
+  AcLine c = 4;
+  LineToLine pp_v = 5;
+}
+
+message Phasor {
+  float x = 1;
+  float y = 2;
+}
+
+message Harmonics {
+  // 0 = DC, 1 = fundamental, 2 = 2nd harmonic, ...
+  repeated float v_series = 1;
+  repeated float a_series = 2;
+  float thd_v = 3;
+  float thd_a = 4;
+  float tdd_a = 6;
+  // Fundamental 페이저
+  Phasor phs_v = 7;
+  Phasor phs_a = 8;
+}
+
+message HarmonicsThreePhase {
+  Harmonics a = 1;
+  Harmonics b = 2;
+  Harmonics c = 3;
+}
+
+message MeterThreePhase {
+  AcLineThreePhase main = 1;
+  HarmonicsThreePhase harmonics = 2;
+}
+
+message Rpc {
+  message MeterThreePhase {
+    message MeasureResponse {
+      .google.protobuf.Timestamp timestamp = 1;
+      .deps.model.net.v1.MeterThreePhase payload = 2;
+    }
+  }
 }

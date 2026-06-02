@@ -1,3 +1,4 @@
+from google.protobuf import descriptor_pb2 as _descriptor_pb2
 from google.protobuf import struct_pb2 as _struct_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
@@ -9,7 +10,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class ParamInfo(_message.Message):
-    __slots__ = ("param_name", "description", "unit", "min_max", "pick", "accepts")
+    __slots__ = ("param_name", "description", "unit", "min_max", "pick", "schema", "accepts")
     class ParamKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         PARAM_KIND_NA: _ClassVar[ParamInfo.ParamKind]
@@ -54,14 +55,16 @@ class ParamInfo(_message.Message):
     UNIT_FIELD_NUMBER: _ClassVar[int]
     MIN_MAX_FIELD_NUMBER: _ClassVar[int]
     PICK_FIELD_NUMBER: _ClassVar[int]
+    SCHEMA_FIELD_NUMBER: _ClassVar[int]
     ACCEPTS_FIELD_NUMBER: _ClassVar[int]
     param_name: str
     description: str
     unit: str
     min_max: ParamInfo.MinMax
     pick: ParamInfo.OneOfPick
+    schema: _descriptor_pb2.FileDescriptorSet
     accepts: _containers.RepeatedScalarFieldContainer[ParamInfo.ParamKind]
-    def __init__(self, param_name: _Optional[str] = ..., description: _Optional[str] = ..., unit: _Optional[str] = ..., min_max: _Optional[_Union[ParamInfo.MinMax, _Mapping]] = ..., pick: _Optional[_Union[ParamInfo.OneOfPick, _Mapping]] = ..., accepts: _Optional[_Iterable[_Union[ParamInfo.ParamKind, str]]] = ...) -> None: ...
+    def __init__(self, param_name: _Optional[str] = ..., description: _Optional[str] = ..., unit: _Optional[str] = ..., min_max: _Optional[_Union[ParamInfo.MinMax, _Mapping]] = ..., pick: _Optional[_Union[ParamInfo.OneOfPick, _Mapping]] = ..., schema: _Optional[_Union[_descriptor_pb2.FileDescriptorSet, _Mapping]] = ..., accepts: _Optional[_Iterable[_Union[ParamInfo.ParamKind, str]]] = ...) -> None: ...
 
 class ParamMeta(_message.Message):
     __slots__ = ("param_infos",)
