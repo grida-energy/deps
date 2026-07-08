@@ -1,15 +1,15 @@
 [package]
 name = "deps"
-version = "1.0.6"
+version = "1.0.7"
 edition = "2024"
 license = "MIT"
 
 [dependencies]
-prost = { version = "0.14.3", default-features = false, features = ["derive"] }
+prost = { version = "0.14.4", default-features = false, features = ["derive"] }
 pbs = { git = "https://github.com/mark-ahn/pbs", version = "0.1.2", features = [
     "pub-deps",
 ] }
-anyhow = { version = "1.0.100", default-features = false }
+anyhow = { version = "1.0.103", default-features = false }
 tracing = { version = "0.1.44", default-features = false }
 
 pbjson = { version = "0.9.0", optional = true }
@@ -17,16 +17,18 @@ pbjson = { version = "0.9.0", optional = true }
 serde = { version = "1.0.228", default-features = false, features = [
     "derive",
 ], optional = true }
+derive_more = { version = "2.1.1", default-features = false, features = ["from"] }
+uuid = { version = "1.23.4", default-features = false, features = ["v4"] }
 
 
 [build-dependencies]
-prost-build = "0.14.3"
+prost-build = "0.14.4"
 pbjson-build = "0.9.0"
 glob = "0.3.3"
 
 [dev-dependencies]
-serde_json = "1.0.149"
-test-log = { version = "0.2.19", default-features = false, features = [
+serde_json = "1.0.150"
+test-log = { version = "0.2.21", default-features = false, features = [
     "color",
     "trace",
 ] }
@@ -36,6 +38,7 @@ tracing = { version = "0.1.44", default-features = false }
 [features]
 std = []
 
+serde = ["dep:serde"]
 serde-json = ["dep:pbjson", "dep:serde", "std", "pbs/serde-json"]
 tracing-log = []
 pub-deps = []

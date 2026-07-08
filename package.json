@@ -1,6 +1,6 @@
 {
   "name": "@gridaenergy/deps",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "DEPS (Distributed Energy Protocol System) protobuf types",
   "private": true,
   "type": "module",

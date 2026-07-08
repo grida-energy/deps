@@ -2,15 +2,61 @@ syntax = "proto3";
 
 package deps.preset.dbserver.v1;
 
-option java_package = "io.github.grida_energy.deps.preset.dbserver.v1";
-
-import "deps/rpc/header.v1.proto";
+import "deps/model/nameplate/v2/nameplate.proto";
 import "deps/model/tsdb/model.v1.proto";
+import "deps/rpc/header.v1.proto";
 // import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
 
-message rpc {
-  // topic: .../pull-event
+option java_package = "io.github.grida_energy.deps.preset.dbserver.v1";
+
+message Query {
+  message MeasureInfo {}
+
+  oneof kind {
+    // .deps.model.nameplate.v2.NameplateFilter nameplate = 1;
+    MeasureInfo measure_info = 8;
+    .deps.model.tsdb.v1.MeasureConstraint measure = 9;
+    .deps.model.tsdb.v1.LogConstraint log = 10;
+  }
+}
+
+message Answer {
+  message MeasureMeta {
+    string name = 1;
+    .deps.model.nameplate.v2.Wknt nodetype = 2;
+    string extra_kind = 3;
+  }
+  message MeasureInfo {
+    repeated MeasureMeta values = 1;
+  }
+  message Measure {
+    repeated .google.protobuf.ListValue values = 1;
+  }
+  message Log {
+    repeated .deps.model.tsdb.v1.LogItem values = 1;
+  }
+
+  oneof kind {
+    // .deps.model.nameplate.v2.Nameplate nameplate = 1;
+    MeasureInfo measure_info = 8;
+    Measure measure = 9;
+    Log log = 10;
+  }
+}
+
+message Rpc {
+  // topic: rpc/query
+  message QueryRequest {
+    .deps.rpc.v1.Request header = 1;
+    repeated Query payload = 2;
+  }
+  message QueryResponse {
+    .deps.rpc.v1.Response header = 1;
+    repeated Answer payload = 2;
+  }
+
+  // topic: rpc/tsdb/log
   message PullLogRequest {
     .deps.rpc.v1.Request header = 1;
     .deps.model.tsdb.v1.LogConstraint payload = 2;
@@ -20,7 +66,7 @@ message rpc {
     repeated .deps.model.tsdb.v1.LogItem payload = 2;
   }
 
-  // topic: .../pull-measure
+  // topic: rpc/tsdb/measure
   message PullMeasureRequest {
     .deps.rpc.v1.Request header = 1;
     .deps.model.tsdb.v1.MeasureConstraint payload = 2;

@@ -102,6 +102,7 @@ pub fn build_protos(packages: &[Package]) -> Result<(), Box<dyn core::error::Err
 
         let mut prost_conf = prost_build::Config::new();
         prost_conf.btree_map(&["."]);
+        // prost_conf.enum_attribute(".", "#[derive(derive_more::From)]");
         // .type_attribute(
         //     ".",
         //     "#[cfg_attr(feature = \"serde\", derive(serde::Serialize,serde::Deserialize))]",

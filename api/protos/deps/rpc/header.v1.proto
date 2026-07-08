@@ -8,8 +8,6 @@ option java_package = "io.github.grida_energy.deps.rpc.v1";
 // extend google.protobuf.FieldOptions { repeated string rust_attributes =
 // 50000; }
 
-// import "google/protobuf/struct.proto";
-
 // 요청 헤더
 // 함수 콜 형태의 모든 요청은 Request 메시지를 포함하여 전송한다.
 message Request {

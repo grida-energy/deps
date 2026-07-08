@@ -4,9 +4,10 @@
 
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
-import type { Request, Response } from "../../rpc/header.v1_pb.js";
 import type { LogConstraint, LogItem, MeasureConstraint } from "../../model/tsdb/model.v1_pb.js";
+import type { Wknt } from "../../model/nameplate/v2/nameplate_pb.js";
 import type { ListValue } from "@bufbuild/protobuf/wkt";
+import type { Request, Response } from "../../rpc/header.v1_pb.js";
 
 /**
  * Describes the file deps/preset/dbserver/model.v1.proto.
@@ -14,23 +15,225 @@ import type { ListValue } from "@bufbuild/protobuf/wkt";
 export declare const file_deps_preset_dbserver_model_v1: GenFile;
 
 /**
- * @generated from message deps.preset.dbserver.v1.rpc
+ * @generated from message deps.preset.dbserver.v1.Query
  */
-export declare type rpc = Message<"deps.preset.dbserver.v1.rpc"> & {
+export declare type Query = Message<"deps.preset.dbserver.v1.Query"> & {
+  /**
+   * @generated from oneof deps.preset.dbserver.v1.Query.kind
+   */
+  kind: {
+    /**
+     * .deps.model.nameplate.v2.NameplateFilter nameplate = 1;
+     *
+     * @generated from field: deps.preset.dbserver.v1.Query.MeasureInfo measure_info = 8;
+     */
+    value: Query_MeasureInfo;
+    case: "measureInfo";
+  } | {
+    /**
+     * @generated from field: deps.model.tsdb.v1.MeasureConstraint measure = 9;
+     */
+    value: MeasureConstraint;
+    case: "measure";
+  } | {
+    /**
+     * @generated from field: deps.model.tsdb.v1.LogConstraint log = 10;
+     */
+    value: LogConstraint;
+    case: "log";
+  } | { case: undefined; value?: undefined };
 };
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.
- * Use `create(rpcSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Query.
+ * Use `create(QuerySchema)` to create a new message.
  */
-export declare const rpcSchema: GenMessage<rpc>;
+export declare const QuerySchema: GenMessage<Query>;
 
 /**
- * topic: .../pull-event
- *
- * @generated from message deps.preset.dbserver.v1.rpc.PullLogRequest
+ * @generated from message deps.preset.dbserver.v1.Query.MeasureInfo
  */
-export declare type rpc_PullLogRequest = Message<"deps.preset.dbserver.v1.rpc.PullLogRequest"> & {
+export declare type Query_MeasureInfo = Message<"deps.preset.dbserver.v1.Query.MeasureInfo"> & {
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Query.MeasureInfo.
+ * Use `create(Query_MeasureInfoSchema)` to create a new message.
+ */
+export declare const Query_MeasureInfoSchema: GenMessage<Query_MeasureInfo>;
+
+/**
+ * @generated from message deps.preset.dbserver.v1.Answer
+ */
+export declare type Answer = Message<"deps.preset.dbserver.v1.Answer"> & {
+  /**
+   * @generated from oneof deps.preset.dbserver.v1.Answer.kind
+   */
+  kind: {
+    /**
+     * .deps.model.nameplate.v2.Nameplate nameplate = 1;
+     *
+     * @generated from field: deps.preset.dbserver.v1.Answer.MeasureInfo measure_info = 8;
+     */
+    value: Answer_MeasureInfo;
+    case: "measureInfo";
+  } | {
+    /**
+     * @generated from field: deps.preset.dbserver.v1.Answer.Measure measure = 9;
+     */
+    value: Answer_Measure;
+    case: "measure";
+  } | {
+    /**
+     * @generated from field: deps.preset.dbserver.v1.Answer.Log log = 10;
+     */
+    value: Answer_Log;
+    case: "log";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Answer.
+ * Use `create(AnswerSchema)` to create a new message.
+ */
+export declare const AnswerSchema: GenMessage<Answer>;
+
+/**
+ * @generated from message deps.preset.dbserver.v1.Answer.MeasureMeta
+ */
+export declare type Answer_MeasureMeta = Message<"deps.preset.dbserver.v1.Answer.MeasureMeta"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: deps.model.nameplate.v2.Wknt nodetype = 2;
+   */
+  nodetype: Wknt;
+
+  /**
+   * @generated from field: string extra_kind = 3;
+   */
+  extraKind: string;
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Answer.MeasureMeta.
+ * Use `create(Answer_MeasureMetaSchema)` to create a new message.
+ */
+export declare const Answer_MeasureMetaSchema: GenMessage<Answer_MeasureMeta>;
+
+/**
+ * @generated from message deps.preset.dbserver.v1.Answer.MeasureInfo
+ */
+export declare type Answer_MeasureInfo = Message<"deps.preset.dbserver.v1.Answer.MeasureInfo"> & {
+  /**
+   * @generated from field: repeated deps.preset.dbserver.v1.Answer.MeasureMeta values = 1;
+   */
+  values: Answer_MeasureMeta[];
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Answer.MeasureInfo.
+ * Use `create(Answer_MeasureInfoSchema)` to create a new message.
+ */
+export declare const Answer_MeasureInfoSchema: GenMessage<Answer_MeasureInfo>;
+
+/**
+ * @generated from message deps.preset.dbserver.v1.Answer.Measure
+ */
+export declare type Answer_Measure = Message<"deps.preset.dbserver.v1.Answer.Measure"> & {
+  /**
+   * @generated from field: repeated google.protobuf.ListValue values = 1;
+   */
+  values: ListValue[];
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Answer.Measure.
+ * Use `create(Answer_MeasureSchema)` to create a new message.
+ */
+export declare const Answer_MeasureSchema: GenMessage<Answer_Measure>;
+
+/**
+ * @generated from message deps.preset.dbserver.v1.Answer.Log
+ */
+export declare type Answer_Log = Message<"deps.preset.dbserver.v1.Answer.Log"> & {
+  /**
+   * @generated from field: repeated deps.model.tsdb.v1.LogItem values = 1;
+   */
+  values: LogItem[];
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Answer.Log.
+ * Use `create(Answer_LogSchema)` to create a new message.
+ */
+export declare const Answer_LogSchema: GenMessage<Answer_Log>;
+
+/**
+ * @generated from message deps.preset.dbserver.v1.Rpc
+ */
+export declare type Rpc = Message<"deps.preset.dbserver.v1.Rpc"> & {
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.
+ * Use `create(RpcSchema)` to create a new message.
+ */
+export declare const RpcSchema: GenMessage<Rpc>;
+
+/**
+ * topic: rpc/query
+ *
+ * @generated from message deps.preset.dbserver.v1.Rpc.QueryRequest
+ */
+export declare type Rpc_QueryRequest = Message<"deps.preset.dbserver.v1.Rpc.QueryRequest"> & {
+  /**
+   * @generated from field: deps.rpc.v1.Request header = 1;
+   */
+  header?: Request | undefined;
+
+  /**
+   * @generated from field: repeated deps.preset.dbserver.v1.Query payload = 2;
+   */
+  payload: Query[];
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.QueryRequest.
+ * Use `create(Rpc_QueryRequestSchema)` to create a new message.
+ */
+export declare const Rpc_QueryRequestSchema: GenMessage<Rpc_QueryRequest>;
+
+/**
+ * @generated from message deps.preset.dbserver.v1.Rpc.QueryResponse
+ */
+export declare type Rpc_QueryResponse = Message<"deps.preset.dbserver.v1.Rpc.QueryResponse"> & {
+  /**
+   * @generated from field: deps.rpc.v1.Response header = 1;
+   */
+  header?: Response | undefined;
+
+  /**
+   * @generated from field: repeated deps.preset.dbserver.v1.Answer payload = 2;
+   */
+  payload: Answer[];
+};
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.QueryResponse.
+ * Use `create(Rpc_QueryResponseSchema)` to create a new message.
+ */
+export declare const Rpc_QueryResponseSchema: GenMessage<Rpc_QueryResponse>;
+
+/**
+ * topic: rpc/tsdb/log
+ *
+ * @generated from message deps.preset.dbserver.v1.Rpc.PullLogRequest
+ */
+export declare type Rpc_PullLogRequest = Message<"deps.preset.dbserver.v1.Rpc.PullLogRequest"> & {
   /**
    * @generated from field: deps.rpc.v1.Request header = 1;
    */
@@ -43,15 +246,15 @@ export declare type rpc_PullLogRequest = Message<"deps.preset.dbserver.v1.rpc.Pu
 };
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.PullLogRequest.
- * Use `create(rpc_PullLogRequestSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Rpc.PullLogRequest.
+ * Use `create(Rpc_PullLogRequestSchema)` to create a new message.
  */
-export declare const rpc_PullLogRequestSchema: GenMessage<rpc_PullLogRequest>;
+export declare const Rpc_PullLogRequestSchema: GenMessage<Rpc_PullLogRequest>;
 
 /**
- * @generated from message deps.preset.dbserver.v1.rpc.PullLogResponse
+ * @generated from message deps.preset.dbserver.v1.Rpc.PullLogResponse
  */
-export declare type rpc_PullLogResponse = Message<"deps.preset.dbserver.v1.rpc.PullLogResponse"> & {
+export declare type Rpc_PullLogResponse = Message<"deps.preset.dbserver.v1.Rpc.PullLogResponse"> & {
   /**
    * @generated from field: deps.rpc.v1.Response header = 1;
    */
@@ -64,17 +267,17 @@ export declare type rpc_PullLogResponse = Message<"deps.preset.dbserver.v1.rpc.P
 };
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.PullLogResponse.
- * Use `create(rpc_PullLogResponseSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Rpc.PullLogResponse.
+ * Use `create(Rpc_PullLogResponseSchema)` to create a new message.
  */
-export declare const rpc_PullLogResponseSchema: GenMessage<rpc_PullLogResponse>;
+export declare const Rpc_PullLogResponseSchema: GenMessage<Rpc_PullLogResponse>;
 
 /**
- * topic: .../pull-measure
+ * topic: rpc/tsdb/measure
  *
- * @generated from message deps.preset.dbserver.v1.rpc.PullMeasureRequest
+ * @generated from message deps.preset.dbserver.v1.Rpc.PullMeasureRequest
  */
-export declare type rpc_PullMeasureRequest = Message<"deps.preset.dbserver.v1.rpc.PullMeasureRequest"> & {
+export declare type Rpc_PullMeasureRequest = Message<"deps.preset.dbserver.v1.Rpc.PullMeasureRequest"> & {
   /**
    * @generated from field: deps.rpc.v1.Request header = 1;
    */
@@ -87,15 +290,15 @@ export declare type rpc_PullMeasureRequest = Message<"deps.preset.dbserver.v1.rp
 };
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.PullMeasureRequest.
- * Use `create(rpc_PullMeasureRequestSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Rpc.PullMeasureRequest.
+ * Use `create(Rpc_PullMeasureRequestSchema)` to create a new message.
  */
-export declare const rpc_PullMeasureRequestSchema: GenMessage<rpc_PullMeasureRequest>;
+export declare const Rpc_PullMeasureRequestSchema: GenMessage<Rpc_PullMeasureRequest>;
 
 /**
- * @generated from message deps.preset.dbserver.v1.rpc.PullMeasureResponse
+ * @generated from message deps.preset.dbserver.v1.Rpc.PullMeasureResponse
  */
-export declare type rpc_PullMeasureResponse = Message<"deps.preset.dbserver.v1.rpc.PullMeasureResponse"> & {
+export declare type Rpc_PullMeasureResponse = Message<"deps.preset.dbserver.v1.Rpc.PullMeasureResponse"> & {
   /**
    * @generated from field: deps.rpc.v1.Response header = 1;
    */
@@ -108,8 +311,8 @@ export declare type rpc_PullMeasureResponse = Message<"deps.preset.dbserver.v1.r
 };
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.PullMeasureResponse.
- * Use `create(rpc_PullMeasureResponseSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Rpc.PullMeasureResponse.
+ * Use `create(Rpc_PullMeasureResponseSchema)` to create a new message.
  */
-export declare const rpc_PullMeasureResponseSchema: GenMessage<rpc_PullMeasureResponse>;
+export declare const Rpc_PullMeasureResponseSchema: GenMessage<Rpc_PullMeasureResponse>;
 

@@ -9,7 +9,7 @@ mod payloads;
 pub mod deps;
 
 mod voca {
-    use alloc::{format, string::String};
+    use alloc::string::String;
 
     #[macro_export]
     macro_rules! include_proto_package {
@@ -81,6 +81,7 @@ mod voca {
     pub use include_proto_package;
 
     #[derive(Debug, Clone, PartialEq, Eq, Hash)]
+    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum TopicKind {
         Measure,
         Command,
@@ -88,6 +89,8 @@ mod voca {
         VndParamMeta,
         VndAlarm,
         VndAlarmMeta,
+        RpcResp,
+        RpcQuery,
         RpcNameplate,
     }
     const _: () = {
@@ -100,14 +103,21 @@ mod voca {
                     TopicKind::VndParamMeta => "vnd/param-meta",
                     TopicKind::VndAlarm => "vnd/alarm",
                     TopicKind::VndAlarmMeta => "vnd/alarm-meta",
+                    TopicKind::RpcResp => "rpc/resp",
+                    TopicKind::RpcQuery => "rpc/query",
                     TopicKind::RpcNameplate => "rpc/nameplate",
+                    // TopicKind::RpcCommand => "rpc/command",
+                    // TopicKind::RpcTsdbMeasure => "rpc/tsdb/measure",
+                    // TopicKind::RpcTsdbLog => "rpc/tsdb/log",
                 }
             }
         }
     };
 
     #[derive(Debug, Clone)]
+    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct PresetTopics<T>(pub T);
+    pub type NodeTopic<T> = PresetTopics<T>;
     impl<T> PresetTopics<T> {
         pub const MEASURE: &str = TopicKind::Measure.as_str();
         pub const COMMAND: &str = TopicKind::Command.as_str();
@@ -115,12 +125,18 @@ mod voca {
         pub const VND_PARAM_META: &str = TopicKind::VndParamMeta.as_str();
         pub const VND_ALARM: &str = TopicKind::VndAlarm.as_str();
         pub const VND_ALARM_META: &str = TopicKind::VndAlarmMeta.as_str();
+        pub const RPC_RESP: &str = TopicKind::RpcResp.as_str();
+        pub const RPC_QUERY: &str = TopicKind::RpcQuery.as_str();
         pub const RPC_NAMEPLATE: &str = TopicKind::RpcNameplate.as_str();
     }
-    impl<T: core::ops::Deref<Target = str>> PresetTopics<T> {
+    impl<T> PresetTopics<T>
+    where
+        T: core::ops::Deref,
+        T::Target: AsRef<str>,
+    {
         pub fn subtopic_of<'t>(&self, topic: &'t str) -> Option<&'t str> {
             topic
-                .strip_prefix(&*self.0)
+                .strip_prefix(self.0.as_ref())
                 .map(|s| s.strip_prefix('/').unwrap_or(s))
         }
         pub fn subtopic_kind_of<'t>(&self, topic: &'t str) -> Option<TopicKind> {
@@ -132,36 +148,49 @@ mod voca {
                     Self::VND_PARAM_META => Some(TopicKind::VndParamMeta),
                     Self::VND_ALARM => Some(TopicKind::VndAlarm),
                     Self::VND_ALARM_META => Some(TopicKind::VndAlarmMeta),
+                    Self::RPC_RESP => Some(TopicKind::RpcResp),
+                    Self::RPC_QUERY => Some(TopicKind::RpcQuery),
                     Self::RPC_NAMEPLATE => Some(TopicKind::RpcNameplate),
                     _ => None,
                 })
         }
 
         pub fn any(&self) -> String {
-            format!("{}/{}", &*self.0, "#")
+            alloc::format!("{}/{}", self.0.as_ref(), "#")
         }
         pub fn measure(&self) -> String {
-            format!("{}/{}", &*self.0, Self::MEASURE)
+            alloc::format!("{}/{}", self.0.as_ref(), Self::MEASURE)
         }
         pub fn command(&self) -> String {
-            format!("{}/{}", &*self.0, Self::COMMAND)
+            alloc::format!("{}/{}", self.0.as_ref(), Self::COMMAND)
         }
         pub fn vnd_param(&self) -> String {
-            format!("{}/{}", &*self.0, Self::VND_PARAM)
+            alloc::format!("{}/{}", self.0.as_ref(), Self::VND_PARAM)
         }
         pub fn vnd_alarm(&self) -> String {
-            format!("{}/{}", &*self.0, Self::VND_ALARM)
+            alloc::format!("{}/{}", self.0.as_ref(), Self::VND_ALARM)
+        }
+        pub fn alloc_rpc_resp(&self) -> String {
+            alloc::format!(
+                "{}/{}/{}",
+                self.0.as_ref(),
+                Self::RPC_RESP,
+                uuid::Uuid::new_v4()
+            )
+        }
+        pub fn rpc_query(&self) -> String {
+            alloc::format!("{}/{}", self.0.as_ref(), Self::RPC_QUERY)
         }
         pub fn rpc_nameplate(&self) -> String {
-            format!("{}/{}", &*self.0, Self::RPC_NAMEPLATE)
+            alloc::format!("{}/{}", self.0.as_ref(), Self::RPC_NAMEPLATE)
         }
 
         // ---- will be deprecated ---- (use rpc_nameplate instead)
         pub fn vnd_alarm_meta(&self) -> String {
-            format!("{}/{}", &*self.0, Self::VND_ALARM_META)
+            alloc::format!("{}/{}", self.0.as_ref(), Self::VND_ALARM_META)
         }
         pub fn vnd_param_meta(&self) -> String {
-            format!("{}/{}", &*self.0, Self::VND_PARAM_META)
+            alloc::format!("{}/{}", self.0.as_ref(), Self::VND_PARAM_META)
         }
     }
     #[cfg(test)]
@@ -171,23 +200,79 @@ mod voca {
         fn test_topic() -> anyhow::Result<()> {
             let dev_id = "test_device";
             let topics = PresetTopics(dev_id);
-            assert_eq!(topics.measure(), format!("{}/measure", dev_id));
-            assert_eq!(topics.command(), format!("{}/command", dev_id));
-            assert_eq!(topics.vnd_param(), format!("{}/vnd/param", dev_id));
+            assert_eq!(topics.measure(), alloc::format!("{}/measure", dev_id));
+            assert_eq!(topics.command(), alloc::format!("{}/command", dev_id));
+            assert_eq!(topics.vnd_param(), alloc::format!("{}/vnd/param", dev_id));
             assert_eq!(
                 topics.vnd_param_meta(),
-                format!("{}/vnd/param-meta", dev_id)
+                alloc::format!("{}/vnd/param-meta", dev_id)
             );
-            assert_eq!(topics.vnd_alarm(), format!("{}/vnd/alarm", dev_id));
+            assert_eq!(topics.vnd_alarm(), alloc::format!("{}/vnd/alarm", dev_id));
             assert_eq!(
                 topics.vnd_alarm_meta(),
-                format!("{}/vnd/alarm-meta", dev_id)
+                alloc::format!("{}/vnd/alarm-meta", dev_id)
+            );
+            Ok(())
+        }
+        #[test]
+        fn test_topic_string() -> anyhow::Result<()> {
+            use alloc::string::ToString;
+            let dev_id = "test_device".to_string();
+            let topics = PresetTopics(dev_id.clone());
+            assert_eq!(topics.measure(), alloc::format!("{}/measure", dev_id));
+            assert_eq!(topics.command(), alloc::format!("{}/command", dev_id));
+            assert_eq!(topics.vnd_param(), alloc::format!("{}/vnd/param", dev_id));
+            assert_eq!(
+                topics.vnd_param_meta(),
+                alloc::format!("{}/vnd/param-meta", dev_id)
+            );
+            assert_eq!(topics.vnd_alarm(), alloc::format!("{}/vnd/alarm", dev_id));
+            assert_eq!(
+                topics.vnd_alarm_meta(),
+                alloc::format!("{}/vnd/alarm-meta", dev_id)
+            );
+            Ok(())
+        }
+        #[test]
+        fn test_topic_arc_string() -> anyhow::Result<()> {
+            use alloc::string::ToString;
+            let dev_id = alloc::sync::Arc::new("test_device".to_string());
+            let topics = PresetTopics(dev_id.clone());
+            assert_eq!(topics.measure(), alloc::format!("{}/measure", dev_id));
+            assert_eq!(topics.command(), alloc::format!("{}/command", dev_id));
+            assert_eq!(topics.vnd_param(), alloc::format!("{}/vnd/param", dev_id));
+            assert_eq!(
+                topics.vnd_param_meta(),
+                alloc::format!("{}/vnd/param-meta", dev_id)
+            );
+            assert_eq!(topics.vnd_alarm(), alloc::format!("{}/vnd/alarm", dev_id));
+            assert_eq!(
+                topics.vnd_alarm_meta(),
+                alloc::format!("{}/vnd/alarm-meta", dev_id)
+            );
+            Ok(())
+        }
+        #[test]
+        fn test_topic_arc_str() -> anyhow::Result<()> {
+            let dev_id: alloc::sync::Arc<str> = alloc::sync::Arc::from("test_device");
+            let topics = PresetTopics(dev_id.clone());
+            assert_eq!(topics.measure(), alloc::format!("{}/measure", dev_id));
+            assert_eq!(topics.command(), alloc::format!("{}/command", dev_id));
+            assert_eq!(topics.vnd_param(), alloc::format!("{}/vnd/param", dev_id));
+            assert_eq!(
+                topics.vnd_param_meta(),
+                alloc::format!("{}/vnd/param-meta", dev_id)
+            );
+            assert_eq!(topics.vnd_alarm(), alloc::format!("{}/vnd/alarm", dev_id));
+            assert_eq!(
+                topics.vnd_alarm_meta(),
+                alloc::format!("{}/vnd/alarm-meta", dev_id)
             );
             Ok(())
         }
     }
 }
-pub use voca::{PresetTopics, TopicKind};
+pub use voca::{NodeTopic, PresetTopics, TopicKind};
 
 pub mod rpc {
     pub mod v1 {
@@ -330,6 +415,7 @@ pub mod model {
         }
         pub mod v1 {
             crate::voca::include_proto_package!("deps/model/net/v1", "deps.model.net.v1");
+            crate::voca::impl_packet!(@measure, rpc::meter_three_phase::MeasureResponse);
         }
     }
     pub mod nameplate {
@@ -494,6 +580,9 @@ pub mod preset {
                 "deps/preset/dbserver/v1",
                 "deps.preset.dbserver.v1"
             );
+            crate::voca::impl_packet!(@request, rpc::QueryRequest, alloc::vec::Vec<Query>);
+            crate::voca::impl_packet!(@response, rpc::QueryResponse, alloc::vec::Vec<Answer>);
+
             crate::voca::impl_packet!(@request, rpc::PullLogRequest, Option<crate::model::tsdb::v1::LogConstraint>);
             crate::voca::impl_packet!(@response, rpc::PullLogResponse, alloc::vec::Vec<crate::model::tsdb::v1::LogItem>);
             crate::voca::impl_packet!(@request, rpc::PullMeasureRequest, Option<crate::model::tsdb::v1::MeasureConstraint>);

@@ -3,48 +3,112 @@
 /* eslint-disable */
 
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
-import { file_deps_rpc_header_v1 } from "../../rpc/header.v1_pb.js";
+import { file_deps_model_nameplate_v2_nameplate } from "../../model/nameplate/v2/nameplate_pb.js";
 import { file_deps_model_tsdb_model_v1 } from "../../model/tsdb/model.v1_pb.js";
+import { file_deps_rpc_header_v1 } from "../../rpc/header.v1_pb.js";
 import { file_google_protobuf_struct } from "@bufbuild/protobuf/wkt";
 
 /**
  * Describes the file deps/preset/dbserver/model.v1.proto.
  */
 export const file_deps_preset_dbserver_model_v1 = /*@__PURE__*/
-  fileDesc("CiNkZXBzL3ByZXNldC9kYnNlcnZlci9tb2RlbC52MS5wcm90bxIXZGVwcy5wcmVzZXQuZGJzZXJ2ZXIudjEiuAMKA3JwYxpqCg5QdWxsTG9nUmVxdWVzdBIkCgZoZWFkZXIYASABKAsyFC5kZXBzLnJwYy52MS5SZXF1ZXN0EjIKB3BheWxvYWQYAiABKAsyIS5kZXBzLm1vZGVsLnRzZGIudjEuTG9nQ29uc3RyYWludBpmCg9QdWxsTG9nUmVzcG9uc2USJQoGaGVhZGVyGAEgASgLMhUuZGVwcy5ycGMudjEuUmVzcG9uc2USLAoHcGF5bG9hZBgCIAMoCzIbLmRlcHMubW9kZWwudHNkYi52MS5Mb2dJdGVtGnIKElB1bGxNZWFzdXJlUmVxdWVzdBIkCgZoZWFkZXIYASABKAsyFC5kZXBzLnJwYy52MS5SZXF1ZXN0EjYKB3BheWxvYWQYAiABKAsyJS5kZXBzLm1vZGVsLnRzZGIudjEuTWVhc3VyZUNvbnN0cmFpbnQaaQoTUHVsbE1lYXN1cmVSZXNwb25zZRIlCgZoZWFkZXIYASABKAsyFS5kZXBzLnJwYy52MS5SZXNwb25zZRIrCgdwYXlsb2FkGAIgAygLMhouZ29vZ2xlLnByb3RvYnVmLkxpc3RWYWx1ZUIwCi5pby5naXRodWIuZ3JpZGFfZW5lcmd5LmRlcHMucHJlc2V0LmRic2VydmVyLnYxYgZwcm90bzM", [file_deps_rpc_header_v1, file_deps_model_tsdb_model_v1, file_google_protobuf_struct]);
+  fileDesc("CiNkZXBzL3ByZXNldC9kYnNlcnZlci9tb2RlbC52MS5wcm90bxIXZGVwcy5wcmVzZXQuZGJzZXJ2ZXIudjEizgEKBVF1ZXJ5EkIKDG1lYXN1cmVfaW5mbxgIIAEoCzIqLmRlcHMucHJlc2V0LmRic2VydmVyLnYxLlF1ZXJ5Lk1lYXN1cmVJbmZvSAASOAoHbWVhc3VyZRgJIAEoCzIlLmRlcHMubW9kZWwudHNkYi52MS5NZWFzdXJlQ29uc3RyYWludEgAEjAKA2xvZxgKIAEoCzIhLmRlcHMubW9kZWwudHNkYi52MS5Mb2dDb25zdHJhaW50SAAaDQoLTWVhc3VyZUluZm9CBgoEa2luZCLeAwoGQW5zd2VyEkMKDG1lYXN1cmVfaW5mbxgIIAEoCzIrLmRlcHMucHJlc2V0LmRic2VydmVyLnYxLkFuc3dlci5NZWFzdXJlSW5mb0gAEjoKB21lYXN1cmUYCSABKAsyJy5kZXBzLnByZXNldC5kYnNlcnZlci52MS5BbnN3ZXIuTWVhc3VyZUgAEjIKA2xvZxgKIAEoCzIjLmRlcHMucHJlc2V0LmRic2VydmVyLnYxLkFuc3dlci5Mb2dIABpgCgtNZWFzdXJlTWV0YRIMCgRuYW1lGAEgASgJEi8KCG5vZGV0eXBlGAIgASgOMh0uZGVwcy5tb2RlbC5uYW1lcGxhdGUudjIuV2tudBISCgpleHRyYV9raW5kGAMgASgJGkoKC01lYXN1cmVJbmZvEjsKBnZhbHVlcxgBIAMoCzIrLmRlcHMucHJlc2V0LmRic2VydmVyLnYxLkFuc3dlci5NZWFzdXJlTWV0YRo1CgdNZWFzdXJlEioKBnZhbHVlcxgBIAMoCzIaLmdvb2dsZS5wcm90b2J1Zi5MaXN0VmFsdWUaMgoDTG9nEisKBnZhbHVlcxgBIAMoCzIbLmRlcHMubW9kZWwudHNkYi52MS5Mb2dJdGVtQgYKBGtpbmQiiQUKA1JwYxplCgxRdWVyeVJlcXVlc3QSJAoGaGVhZGVyGAEgASgLMhQuZGVwcy5ycGMudjEuUmVxdWVzdBIvCgdwYXlsb2FkGAIgAygLMh4uZGVwcy5wcmVzZXQuZGJzZXJ2ZXIudjEuUXVlcnkaaAoNUXVlcnlSZXNwb25zZRIlCgZoZWFkZXIYASABKAsyFS5kZXBzLnJwYy52MS5SZXNwb25zZRIwCgdwYXlsb2FkGAIgAygLMh8uZGVwcy5wcmVzZXQuZGJzZXJ2ZXIudjEuQW5zd2VyGmoKDlB1bGxMb2dSZXF1ZXN0EiQKBmhlYWRlchgBIAEoCzIULmRlcHMucnBjLnYxLlJlcXVlc3QSMgoHcGF5bG9hZBgCIAEoCzIhLmRlcHMubW9kZWwudHNkYi52MS5Mb2dDb25zdHJhaW50GmYKD1B1bGxMb2dSZXNwb25zZRIlCgZoZWFkZXIYASABKAsyFS5kZXBzLnJwYy52MS5SZXNwb25zZRIsCgdwYXlsb2FkGAIgAygLMhsuZGVwcy5tb2RlbC50c2RiLnYxLkxvZ0l0ZW0acgoSUHVsbE1lYXN1cmVSZXF1ZXN0EiQKBmhlYWRlchgBIAEoCzIULmRlcHMucnBjLnYxLlJlcXVlc3QSNgoHcGF5bG9hZBgCIAEoCzIlLmRlcHMubW9kZWwudHNkYi52MS5NZWFzdXJlQ29uc3RyYWludBppChNQdWxsTWVhc3VyZVJlc3BvbnNlEiUKBmhlYWRlchgBIAEoCzIVLmRlcHMucnBjLnYxLlJlc3BvbnNlEisKB3BheWxvYWQYAiADKAsyGi5nb29nbGUucHJvdG9idWYuTGlzdFZhbHVlQjAKLmlvLmdpdGh1Yi5ncmlkYV9lbmVyZ3kuZGVwcy5wcmVzZXQuZGJzZXJ2ZXIudjFiBnByb3RvMw", [file_deps_model_nameplate_v2_nameplate, file_deps_model_tsdb_model_v1, file_deps_rpc_header_v1, file_google_protobuf_struct]);
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.
- * Use `create(rpcSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Query.
+ * Use `create(QuerySchema)` to create a new message.
  */
-export const rpcSchema = /*@__PURE__*/
+export const QuerySchema = /*@__PURE__*/
   messageDesc(file_deps_preset_dbserver_model_v1, 0);
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.PullLogRequest.
- * Use `create(rpc_PullLogRequestSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Query.MeasureInfo.
+ * Use `create(Query_MeasureInfoSchema)` to create a new message.
  */
-export const rpc_PullLogRequestSchema = /*@__PURE__*/
+export const Query_MeasureInfoSchema = /*@__PURE__*/
   messageDesc(file_deps_preset_dbserver_model_v1, 0, 0);
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.PullLogResponse.
- * Use `create(rpc_PullLogResponseSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Answer.
+ * Use `create(AnswerSchema)` to create a new message.
  */
-export const rpc_PullLogResponseSchema = /*@__PURE__*/
-  messageDesc(file_deps_preset_dbserver_model_v1, 0, 1);
+export const AnswerSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 1);
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.PullMeasureRequest.
- * Use `create(rpc_PullMeasureRequestSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Answer.MeasureMeta.
+ * Use `create(Answer_MeasureMetaSchema)` to create a new message.
  */
-export const rpc_PullMeasureRequestSchema = /*@__PURE__*/
-  messageDesc(file_deps_preset_dbserver_model_v1, 0, 2);
+export const Answer_MeasureMetaSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 1, 0);
 
 /**
- * Describes the message deps.preset.dbserver.v1.rpc.PullMeasureResponse.
- * Use `create(rpc_PullMeasureResponseSchema)` to create a new message.
+ * Describes the message deps.preset.dbserver.v1.Answer.MeasureInfo.
+ * Use `create(Answer_MeasureInfoSchema)` to create a new message.
  */
-export const rpc_PullMeasureResponseSchema = /*@__PURE__*/
-  messageDesc(file_deps_preset_dbserver_model_v1, 0, 3);
+export const Answer_MeasureInfoSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 1, 1);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Answer.Measure.
+ * Use `create(Answer_MeasureSchema)` to create a new message.
+ */
+export const Answer_MeasureSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 1, 2);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Answer.Log.
+ * Use `create(Answer_LogSchema)` to create a new message.
+ */
+export const Answer_LogSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 1, 3);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.
+ * Use `create(RpcSchema)` to create a new message.
+ */
+export const RpcSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 2);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.QueryRequest.
+ * Use `create(Rpc_QueryRequestSchema)` to create a new message.
+ */
+export const Rpc_QueryRequestSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 2, 0);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.QueryResponse.
+ * Use `create(Rpc_QueryResponseSchema)` to create a new message.
+ */
+export const Rpc_QueryResponseSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 2, 1);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.PullLogRequest.
+ * Use `create(Rpc_PullLogRequestSchema)` to create a new message.
+ */
+export const Rpc_PullLogRequestSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 2, 2);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.PullLogResponse.
+ * Use `create(Rpc_PullLogResponseSchema)` to create a new message.
+ */
+export const Rpc_PullLogResponseSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 2, 3);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.PullMeasureRequest.
+ * Use `create(Rpc_PullMeasureRequestSchema)` to create a new message.
+ */
+export const Rpc_PullMeasureRequestSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 2, 4);
+
+/**
+ * Describes the message deps.preset.dbserver.v1.Rpc.PullMeasureResponse.
+ * Use `create(Rpc_PullMeasureResponseSchema)` to create a new message.
+ */
+export const Rpc_PullMeasureResponseSchema = /*@__PURE__*/
+  messageDesc(file_deps_preset_dbserver_model_v1, 2, 5);
 

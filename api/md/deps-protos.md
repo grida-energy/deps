@@ -19,11 +19,20 @@
     - [StationCastPreset.GroupEntry](#deps-preset-station_cast-v1-StationCastPreset-GroupEntry)
   
 - [deps/preset/dbserver/model.v1.proto](#deps_preset_dbserver_model-v1-proto)
-    - [rpc](#deps-preset-dbserver-v1-rpc)
-    - [rpc.PullLogRequest](#deps-preset-dbserver-v1-rpc-PullLogRequest)
-    - [rpc.PullLogResponse](#deps-preset-dbserver-v1-rpc-PullLogResponse)
-    - [rpc.PullMeasureRequest](#deps-preset-dbserver-v1-rpc-PullMeasureRequest)
-    - [rpc.PullMeasureResponse](#deps-preset-dbserver-v1-rpc-PullMeasureResponse)
+    - [Answer](#deps-preset-dbserver-v1-Answer)
+    - [Answer.Log](#deps-preset-dbserver-v1-Answer-Log)
+    - [Answer.Measure](#deps-preset-dbserver-v1-Answer-Measure)
+    - [Answer.MeasureInfo](#deps-preset-dbserver-v1-Answer-MeasureInfo)
+    - [Answer.MeasureMeta](#deps-preset-dbserver-v1-Answer-MeasureMeta)
+    - [Query](#deps-preset-dbserver-v1-Query)
+    - [Query.MeasureInfo](#deps-preset-dbserver-v1-Query-MeasureInfo)
+    - [Rpc](#deps-preset-dbserver-v1-Rpc)
+    - [Rpc.PullLogRequest](#deps-preset-dbserver-v1-Rpc-PullLogRequest)
+    - [Rpc.PullLogResponse](#deps-preset-dbserver-v1-Rpc-PullLogResponse)
+    - [Rpc.PullMeasureRequest](#deps-preset-dbserver-v1-Rpc-PullMeasureRequest)
+    - [Rpc.PullMeasureResponse](#deps-preset-dbserver-v1-Rpc-PullMeasureResponse)
+    - [Rpc.QueryRequest](#deps-preset-dbserver-v1-Rpc-QueryRequest)
+    - [Rpc.QueryResponse](#deps-preset-dbserver-v1-Rpc-QueryResponse)
   
 - [deps/preset/upms/model.v1.proto](#deps_preset_upms_model-v1-proto)
     - [PmsCommand](#deps-preset-upms-v1-PmsCommand)
@@ -450,20 +459,126 @@ BESS 계측 정보
 
 
 
-<a name="deps-preset-dbserver-v1-rpc"></a>
+<a name="deps-preset-dbserver-v1-Answer"></a>
 
-### rpc
-
-
+### Answer
 
 
 
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| measure_info | [Answer.MeasureInfo](#deps-preset-dbserver-v1-Answer-MeasureInfo) |  | .deps.model.nameplate.v2.Nameplate nameplate = 1; |
+| measure | [Answer.Measure](#deps-preset-dbserver-v1-Answer-Measure) |  |  |
+| log | [Answer.Log](#deps-preset-dbserver-v1-Answer-Log) |  |  |
 
 
-<a name="deps-preset-dbserver-v1-rpc-PullLogRequest"></a>
 
-### rpc.PullLogRequest
-topic: .../pull-event
+
+
+
+<a name="deps-preset-dbserver-v1-Answer-Log"></a>
+
+### Answer.Log
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| values | [deps.model.tsdb.v1.LogItem](#deps-model-tsdb-v1-LogItem) | repeated |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Answer-Measure"></a>
+
+### Answer.Measure
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| values | [google.protobuf.ListValue](#google-protobuf-ListValue) | repeated |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Answer-MeasureInfo"></a>
+
+### Answer.MeasureInfo
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| values | [Answer.MeasureMeta](#deps-preset-dbserver-v1-Answer-MeasureMeta) | repeated |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Answer-MeasureMeta"></a>
+
+### Answer.MeasureMeta
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  |  |
+| nodetype | [deps.model.nameplate.v2.Wknt](#deps-model-nameplate-v2-Wknt) |  |  |
+| extra_kind | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Query"></a>
+
+### Query
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| measure_info | [Query.MeasureInfo](#deps-preset-dbserver-v1-Query-MeasureInfo) |  | .deps.model.nameplate.v2.NameplateFilter nameplate = 1; |
+| measure | [deps.model.tsdb.v1.MeasureConstraint](#deps-model-tsdb-v1-MeasureConstraint) |  |  |
+| log | [deps.model.tsdb.v1.LogConstraint](#deps-model-tsdb-v1-LogConstraint) |  |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Query-MeasureInfo"></a>
+
+### Query.MeasureInfo
+
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Rpc"></a>
+
+### Rpc
+
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Rpc-PullLogRequest"></a>
+
+### Rpc.PullLogRequest
+topic: rpc/tsdb/log
 
 
 | Field | Type | Label | Description |
@@ -476,9 +591,9 @@ topic: .../pull-event
 
 
 
-<a name="deps-preset-dbserver-v1-rpc-PullLogResponse"></a>
+<a name="deps-preset-dbserver-v1-Rpc-PullLogResponse"></a>
 
-### rpc.PullLogResponse
+### Rpc.PullLogResponse
 
 
 
@@ -492,10 +607,10 @@ topic: .../pull-event
 
 
 
-<a name="deps-preset-dbserver-v1-rpc-PullMeasureRequest"></a>
+<a name="deps-preset-dbserver-v1-Rpc-PullMeasureRequest"></a>
 
-### rpc.PullMeasureRequest
-topic: .../pull-measure
+### Rpc.PullMeasureRequest
+topic: rpc/tsdb/measure
 
 
 | Field | Type | Label | Description |
@@ -508,9 +623,9 @@ topic: .../pull-measure
 
 
 
-<a name="deps-preset-dbserver-v1-rpc-PullMeasureResponse"></a>
+<a name="deps-preset-dbserver-v1-Rpc-PullMeasureResponse"></a>
 
-### rpc.PullMeasureResponse
+### Rpc.PullMeasureResponse
 
 
 
@@ -518,6 +633,38 @@ topic: .../pull-measure
 | ----- | ---- | ----- | ----------- |
 | header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
 | payload | [google.protobuf.ListValue](#google-protobuf-ListValue) | repeated |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Rpc-QueryRequest"></a>
+
+### Rpc.QueryRequest
+topic: rpc/query
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Request](#deps-rpc-v1-Request) |  |  |
+| payload | [Query](#deps-preset-dbserver-v1-Query) | repeated |  |
+
+
+
+
+
+
+<a name="deps-preset-dbserver-v1-Rpc-QueryResponse"></a>
+
+### Rpc.QueryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| header | [deps.rpc.v1.Response](#deps-rpc-v1-Response) |  |  |
+| payload | [Answer](#deps-preset-dbserver-v1-Answer) | repeated |  |
 
 
 

@@ -7,6 +7,23 @@ import "deps/vnd/parameter.v1.proto";
 
 option java_package = "io.github.grida_energy.deps.model.nameplate.v2";
 
+// WellKnownNodeType
+enum Wknt {
+  WKNT_UNSPECIFIED = 0;
+  // preset
+  WKNT_BESS_V1 = 100;
+  WKNT_UPMS_V1 = 101;
+  WKNT_DBSERVER_V1 = 102;
+
+  // model/energy-device
+  WKNT_ESD_BANK_V1 = 1000;
+  WKNT_PCS_PH3_PCS_V1 = 1010;
+  WKNT_NET_METER_PH3_V1 = 1050;
+
+  // model/manager
+  WKNT_RMS_V1 = 10000;
+}
+
 message Quadrant {
   float q1 = 1;
   float q2 = 2;
@@ -18,6 +35,7 @@ message NameplateFilter {}
 message Nameplate {
   deps.vnd.v1.AlarmMeta alarm_meta = 1;
   deps.vnd.v1.ParamMeta param_meta = 2;
+  Wknt wknt = 3;
   EndPointRatings ratings = 5;
 }
 

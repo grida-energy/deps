@@ -2,7 +2,7 @@
 // @generated from file deps/model/nameplate/v2/nameplate.proto (package deps.model.nameplate.v2, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
 import type { AlarmMeta } from "../../../vnd/alarm.v1_pb.js";
 import type { ParamMeta } from "../../../vnd/parameter.v1_pb.js";
@@ -68,6 +68,11 @@ export declare type Nameplate = Message<"deps.model.nameplate.v2.Nameplate"> & {
    * @generated from field: deps.vnd.v1.ParamMeta param_meta = 2;
    */
   paramMeta?: ParamMeta | undefined;
+
+  /**
+   * @generated from field: deps.model.nameplate.v2.Wknt wknt = 3;
+   */
+  wknt: Wknt;
 
   /**
    * @generated from field: deps.model.nameplate.v2.EndPointRatings ratings = 5;
@@ -187,4 +192,62 @@ export declare type PcsRatings = Message<"deps.model.nameplate.v2.PcsRatings"> &
  * Use `create(PcsRatingsSchema)` to create a new message.
  */
 export declare const PcsRatingsSchema: GenMessage<PcsRatings>;
+
+/**
+ * WellKnownNodeType
+ *
+ * @generated from enum deps.model.nameplate.v2.Wknt
+ */
+export enum Wknt {
+  /**
+   * @generated from enum value: WKNT_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * preset
+   *
+   * @generated from enum value: WKNT_BESS_V1 = 100;
+   */
+  BESS_V1 = 100,
+
+  /**
+   * @generated from enum value: WKNT_UPMS_V1 = 101;
+   */
+  UPMS_V1 = 101,
+
+  /**
+   * @generated from enum value: WKNT_DBSERVER_V1 = 102;
+   */
+  DBSERVER_V1 = 102,
+
+  /**
+   * model/energy-device
+   *
+   * @generated from enum value: WKNT_ESD_BANK_V1 = 1000;
+   */
+  ESD_BANK_V1 = 1000,
+
+  /**
+   * @generated from enum value: WKNT_PCS_PH3_PCS_V1 = 1010;
+   */
+  PCS_PH3_PCS_V1 = 1010,
+
+  /**
+   * @generated from enum value: WKNT_NET_METER_PH3_V1 = 1050;
+   */
+  NET_METER_PH3_V1 = 1050,
+
+  /**
+   * model/manager
+   *
+   * @generated from enum value: WKNT_RMS_V1 = 10000;
+   */
+  RMS_V1 = 10000,
+}
+
+/**
+ * Describes the enum deps.model.nameplate.v2.Wknt.
+ */
+export declare const WkntSchema: GenEnum<Wknt>;
 
