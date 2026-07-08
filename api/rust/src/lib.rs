@@ -170,6 +170,7 @@ mod voca {
         pub fn vnd_alarm(&self) -> String {
             alloc::format!("{}/{}", self.0.as_ref(), Self::VND_ALARM)
         }
+        #[cfg(feature = "std")]
         pub fn alloc_rpc_resp(&self) -> String {
             alloc::format!(
                 "{}/{}/{}",
@@ -817,8 +818,8 @@ mod test {
 
         let req = PcsThreePhase {
             a: 1.,
-            pp_v_ph_ab: (230.).into(),
-            var: (10.).into(),
+            pp_v_ph_ab: (230_f32).into(),
+            var: (10_f32).into(),
             ..Default::default()
         };
 

@@ -306,6 +306,8 @@ mod tests {
                 tmp_ot: vec![f32::MAX, f32::MAX, f32::MAX],
             }
             .into(),
+            cmds: alloc::vec![],
+            wh: None,
         };
         pcs_part
     }

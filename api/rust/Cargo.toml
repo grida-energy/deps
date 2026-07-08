@@ -18,7 +18,7 @@ serde = { version = "1.0.228", default-features = false, features = [
     "derive",
 ], optional = true }
 derive_more = { version = "2.1.1", default-features = false, features = ["from"] }
-uuid = { version = "1.23.4", default-features = false, features = ["v4"] }
+uuid = { version = "1.23.4", default-features = false, features = ["v4"], optional = true }
 
 
 [build-dependencies]
@@ -36,7 +36,7 @@ tracing = { version = "0.1.44", default-features = false }
 
 
 [features]
-std = []
+std = ["dep:uuid"]
 
 serde = ["dep:serde"]
 serde-json = ["dep:pbjson", "dep:serde", "std", "pbs/serde-json"]
