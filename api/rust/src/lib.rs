@@ -8,7 +8,7 @@ mod payloads;
 #[cfg(feature = "pub-deps")]
 pub mod deps;
 
-mod voca {
+pub mod kits {
     use alloc::string::String;
 
     #[macro_export]
@@ -27,6 +27,14 @@ mod voca {
             // pub const DESCRIPTOR: &[u8] = tonic::include_file_descriptor_set!("api/proto_descriptor");
         };
     }
+
+    /// implements extra traits for request/response/measure packet
+    /// # Example:
+    /// ```ignore
+    /// impl_packet!(@request, rpc::bank::CommandRequest, alloc::vec::Vec<esd_bank::Command>);
+    /// impl_packet!(@response, rpc::bank::CommandResponse, u32);
+    /// impl_packet!(@measure, rpc::bank::MeasureResponse);
+    /// ```
 
     #[macro_export]
     macro_rules! impl_packet {
@@ -53,7 +61,7 @@ mod voca {
             }
         };
         (@request, $st:path, $pl:ty) => {
-            $crate::voca::impl_packet!(
+            $crate::kits::impl_packet!(
                 $st,
                 $crate::rpc::v1::Request,
                 $pl,
@@ -61,7 +69,7 @@ mod voca {
             );
         };
         (@response, $st:path, $pl:ty) => {
-            $crate::voca::impl_packet!(
+            $crate::kits::impl_packet!(
                 $st,
                 $crate::rpc::v1::Response,
                 $pl,
@@ -273,11 +281,11 @@ mod voca {
         }
     }
 }
-pub use voca::{NodeTopic, PresetTopics, TopicKind};
+pub use kits::{NodeTopic, PresetTopics, TopicKind};
 
 pub mod rpc {
     pub mod v1 {
-        crate::voca::include_proto_package!("deps/rpc/v1", "deps.rpc.v1");
+        crate::kits::include_proto_package!("deps/rpc/v1", "deps.rpc.v1");
         pub type Result<T> = core::result::Result<T, response::Error>;
         pub trait HasHeader {
             type Header;
@@ -372,7 +380,7 @@ pub mod rpc {
 }
 pub mod vnd {
     pub mod v1 {
-        crate::voca::include_proto_package!("deps/vnd/v1", "deps.vnd.v1");
+        crate::kits::include_proto_package!("deps/vnd/v1", "deps.vnd.v1");
         impl ParamIdRange {
             pub fn end(&self) -> u32 {
                 self.start + self.length
@@ -387,96 +395,96 @@ pub mod vnd {
             }
         }
         const _: () = {
-            crate::voca::impl_packet!(@request, rpc::ParamRequest, Option<rpc::ParamReadWriteRequest>);
-            crate::voca::impl_packet!(@response, rpc::ParamResponse, Option<rpc::ParamReadWriteResponse>);
-            crate::voca::impl_packet!(@measure, rpc::AlarmResponse);
+            crate::kits::impl_packet!(@request, rpc::ParamRequest, Option<rpc::ParamReadWriteRequest>);
+            crate::kits::impl_packet!(@response, rpc::ParamResponse, Option<rpc::ParamReadWriteResponse>);
+            crate::kits::impl_packet!(@measure, rpc::AlarmResponse);
         };
     }
 }
 pub mod model {
     pub mod cast {
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/model/cast/v1", "deps.model.cast.v1");
+            crate::kits::include_proto_package!("deps/model/cast/v1", "deps.model.cast.v1");
         }
     }
     pub mod esd {
         pub mod v0 {
-            crate::voca::include_proto_package!("deps/model/esd/v0", "deps.model.esd.v0");
+            crate::kits::include_proto_package!("deps/model/esd/v0", "deps.model.esd.v0");
         }
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/model/esd/v1", "deps.model.esd.v1");
-            crate::voca::impl_packet!(@request, rpc::bank::CommandRequest, alloc::vec::Vec<esd_bank::Command>);
-            crate::voca::impl_packet!(@response, rpc::bank::CommandResponse, u32);
-            crate::voca::impl_packet!(@measure, rpc::bank::MeasureResponse);
+            crate::kits::include_proto_package!("deps/model/esd/v1", "deps.model.esd.v1");
+            crate::kits::impl_packet!(@request, rpc::bank::CommandRequest, alloc::vec::Vec<esd_bank::Command>);
+            crate::kits::impl_packet!(@response, rpc::bank::CommandResponse, u32);
+            crate::kits::impl_packet!(@measure, rpc::bank::MeasureResponse);
         }
     }
     pub mod net {
         pub mod v0 {
-            crate::voca::include_proto_package!("deps/model/net/v0", "deps.model.net.v0");
+            crate::kits::include_proto_package!("deps/model/net/v0", "deps.model.net.v0");
         }
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/model/net/v1", "deps.model.net.v1");
-            crate::voca::impl_packet!(@measure, rpc::meter_three_phase::MeasureResponse);
+            crate::kits::include_proto_package!("deps/model/net/v1", "deps.model.net.v1");
+            crate::kits::impl_packet!(@measure, rpc::meter_three_phase::MeasureResponse);
         }
     }
     pub mod nameplate {
         pub mod v0 {
-            crate::voca::include_proto_package!(
+            crate::kits::include_proto_package!(
                 "deps/model/nameplate/v0",
                 "deps.model.nameplate.v0"
             );
         }
         pub mod v1 {
-            crate::voca::include_proto_package!(
+            crate::kits::include_proto_package!(
                 "deps/model/nameplate/v1",
                 "deps.model.nameplate.v1"
             );
         }
         pub mod v2 {
-            crate::voca::include_proto_package!(
+            crate::kits::include_proto_package!(
                 "deps/model/nameplate/v2",
                 "deps.model.nameplate.v2"
             );
         }
         pub mod rpc {
             pub mod v2 {
-                crate::voca::include_proto_package!(
+                crate::kits::include_proto_package!(
                     "deps/model/nameplate/rpc/v2",
                     "deps.model.nameplate.rpc.v2"
                 );
-                crate::voca::impl_packet!(@request, Request, Option<crate::model::nameplate::v2::NameplateFilter>);
-                crate::voca::impl_packet!(@response, Response, Option<crate::model::nameplate::v2::Nameplate>);
+                crate::kits::impl_packet!(@request, Request, Option<crate::model::nameplate::v2::NameplateFilter>);
+                crate::kits::impl_packet!(@response, Response, Option<crate::model::nameplate::v2::Nameplate>);
             }
         }
     }
     pub mod pcs {
         pub mod v0 {
-            crate::voca::include_proto_package!("deps/model/pcs/v0", "deps.model.pcs.v0");
+            crate::kits::include_proto_package!("deps/model/pcs/v0", "deps.model.pcs.v0");
         }
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/model/pcs/v1", "deps.model.pcs.v1");
-            crate::voca::impl_packet!(@request, rpc::pcs::CommandRequest, alloc::vec::Vec<three_phase_pcs_part::Command>);
-            crate::voca::impl_packet!(@response, rpc::pcs::CommandResponse, u32);
-            crate::voca::impl_packet!(@measure, rpc::pcs::MeasureResponse);
-            crate::voca::impl_packet!(@request, rpc::dc_dc::CommandRequest, alloc::vec::Vec<dc_dc_converter::Command>);
-            crate::voca::impl_packet!(@response, rpc::dc_dc::CommandResponse, u32);
-            crate::voca::impl_packet!(@measure, rpc::dc_dc::MeasureResponse);
-            crate::voca::impl_packet!(@measure, rpc::grid::MeasureResponse);
+            crate::kits::include_proto_package!("deps/model/pcs/v1", "deps.model.pcs.v1");
+            crate::kits::impl_packet!(@request, rpc::pcs::CommandRequest, alloc::vec::Vec<three_phase_pcs_part::Command>);
+            crate::kits::impl_packet!(@response, rpc::pcs::CommandResponse, u32);
+            crate::kits::impl_packet!(@measure, rpc::pcs::MeasureResponse);
+            crate::kits::impl_packet!(@request, rpc::dc_dc::CommandRequest, alloc::vec::Vec<dc_dc_converter::Command>);
+            crate::kits::impl_packet!(@response, rpc::dc_dc::CommandResponse, u32);
+            crate::kits::impl_packet!(@measure, rpc::dc_dc::MeasureResponse);
+            crate::kits::impl_packet!(@measure, rpc::grid::MeasureResponse);
         }
     }
     pub mod source {
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/model/source/v1", "deps.model.source.v1");
+            crate::kits::include_proto_package!("deps/model/source/v1", "deps.model.source.v1");
         }
     }
     pub mod tsdb {
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/model/tsdb/v1", "deps.model.tsdb.v1");
+            crate::kits::include_proto_package!("deps/model/tsdb/v1", "deps.model.tsdb.v1");
         }
     }
     pub mod pms {
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/model/pms/v1", "deps.model.pms.v1");
+            crate::kits::include_proto_package!("deps/model/pms/v1", "deps.model.pms.v1");
 
             const _: () = {
                 impl From<&(Option<f64>, Option<f64>)> for MinMax {
@@ -531,10 +539,10 @@ pub mod model {
     }
     pub mod rms {
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/model/rms/v1", "deps.model.rms.v1");
-            crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<local_rms::Command>);
-            crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
-            crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
+            crate::kits::include_proto_package!("deps/model/rms/v1", "deps.model.rms.v1");
+            crate::kits::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<local_rms::Command>);
+            crate::kits::impl_packet!(@response, rpc::CommandResponse, u32);
+            crate::kits::impl_packet!(@measure, rpc::MeasureResponse);
         }
     }
 }
@@ -546,17 +554,17 @@ pub mod preset {
 
     pub mod bess {
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
+            crate::kits::include_proto_package!("deps/preset/bess/v1", "deps.preset.bess.v1");
             const _: () = {
-                crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<BessCommand>);
-                crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
-                crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
+                crate::kits::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<BessCommand>);
+                crate::kits::impl_packet!(@response, rpc::CommandResponse, u32);
+                crate::kits::impl_packet!(@measure, rpc::MeasureResponse);
             };
         }
     }
     pub mod station_cast {
         pub mod v1 {
-            crate::voca::include_proto_package!(
+            crate::kits::include_proto_package!(
                 "deps/preset/station-cast/v1",
                 "deps.preset.station_cast.v1"
             );
@@ -564,30 +572,30 @@ pub mod preset {
     }
     pub mod upms {
         pub mod v1 {
-            crate::voca::include_proto_package!("deps/preset/upms/v1", "deps.preset.upms.v1");
+            crate::kits::include_proto_package!("deps/preset/upms/v1", "deps.preset.upms.v1");
             const _: () = {
                 extern crate alloc;
                 // use alloc::vec::Vec;
 
-                crate::voca::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<PmsCommand>);
-                crate::voca::impl_packet!(@response, rpc::CommandResponse, u32);
-                crate::voca::impl_packet!(@measure, rpc::MeasureResponse);
+                crate::kits::impl_packet!(@request, rpc::CommandRequest, alloc::vec::Vec<PmsCommand>);
+                crate::kits::impl_packet!(@response, rpc::CommandResponse, u32);
+                crate::kits::impl_packet!(@measure, rpc::MeasureResponse);
             };
         }
     }
     pub mod dbserver {
         pub mod v1 {
-            crate::voca::include_proto_package!(
+            crate::kits::include_proto_package!(
                 "deps/preset/dbserver/v1",
                 "deps.preset.dbserver.v1"
             );
-            crate::voca::impl_packet!(@request, rpc::QueryRequest, alloc::vec::Vec<Query>);
-            crate::voca::impl_packet!(@response, rpc::QueryResponse, alloc::vec::Vec<Answer>);
+            crate::kits::impl_packet!(@request, rpc::QueryRequest, alloc::vec::Vec<Query>);
+            crate::kits::impl_packet!(@response, rpc::QueryResponse, alloc::vec::Vec<Answer>);
 
-            crate::voca::impl_packet!(@request, rpc::PullLogRequest, Option<crate::model::tsdb::v1::LogConstraint>);
-            crate::voca::impl_packet!(@response, rpc::PullLogResponse, alloc::vec::Vec<crate::model::tsdb::v1::LogItem>);
-            crate::voca::impl_packet!(@request, rpc::PullMeasureRequest, Option<crate::model::tsdb::v1::MeasureConstraint>);
-            crate::voca::impl_packet!(@response, rpc::PullMeasureResponse, alloc::vec::Vec<pbs::wkt::ListValue>);
+            crate::kits::impl_packet!(@request, rpc::PullLogRequest, Option<crate::model::tsdb::v1::LogConstraint>);
+            crate::kits::impl_packet!(@response, rpc::PullLogResponse, alloc::vec::Vec<crate::model::tsdb::v1::LogItem>);
+            crate::kits::impl_packet!(@request, rpc::PullMeasureRequest, Option<crate::model::tsdb::v1::MeasureConstraint>);
+            crate::kits::impl_packet!(@response, rpc::PullMeasureResponse, alloc::vec::Vec<pbs::wkt::ListValue>);
         }
     }
 }
