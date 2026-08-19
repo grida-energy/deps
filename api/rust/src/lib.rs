@@ -419,9 +419,9 @@ pub mod model {
         }
     }
     pub mod net {
-        pub mod v0 {
-            crate::kits::include_proto_package!("deps/model/net/v0", "deps.model.net.v0");
-        }
+        // pub mod v0 {
+        //     crate::kits::include_proto_package!("deps/model/net/v0", "deps.model.net.v0");
+        // }
         pub mod v1 {
             crate::kits::include_proto_package!("deps/model/net/v1", "deps.model.net.v1");
             crate::kits::impl_packet!(@measure, rpc::meter_three_phase::MeasureResponse);
@@ -536,6 +536,9 @@ pub mod model {
                 }
             };
         }
+        pub mod v2 {
+            crate::kits::include_proto_package!("deps/model/pms/v2", "deps.model.pms.v2");
+        }
     }
     pub mod rms {
         pub mod v1 {
@@ -641,7 +644,7 @@ const _: () = {
                 voltage_imbalance: value.voltage_imbalance,
                 temperature_imbalance: value.temperature_imbalance,
                 current_imbalance: false,
-                configuration: false,
+                configuration: value.configuration,
             }
         }
     }
@@ -750,35 +753,33 @@ const _: () = {
 mod test {
     // use alloc::collections::BTreeMap;
 
-    use prost::Message;
+    // #[test]
+    // fn test_protobuf() -> anyhow::Result<()> {
+    //     extern crate alloc;
+    //     use alloc::vec;
 
-    #[test]
-    fn test_protobuf() -> anyhow::Result<()> {
-        extern crate alloc;
-        use alloc::vec;
+    //     let value = crate::model::net::v0::FlatMeterSinglePhase {
+    //         a: 0.,
+    //         v: 0.,
+    //         w: 0.,
+    //         va: 0.,
+    //         var: 0.,
+    //         pf: 0.,
+    //         hz: 0.,
+    //         tot_wh_imp: 1.,
+    //         tot_wh_exp: 0.,
+    //     };
 
-        let value = crate::model::net::v0::FlatMeterSinglePhase {
-            a: 0.,
-            v: 0.,
-            w: 0.,
-            va: 0.,
-            var: 0.,
-            pf: 0.,
-            hz: 0.,
-            tot_wh_imp: 1.,
-            tot_wh_exp: 0.,
-        };
-
-        let mut buf = vec![];
-        value
-            .encode(&mut buf)
-            .map_err(|e| anyhow::anyhow!("{e:?}"))?;
-        tracing::info!("Encoded value: {:?}", buf);
-        let decoded_value = crate::model::net::v0::FlatMeterSinglePhase::decode(&*buf)
-            .map_err(|e| anyhow::anyhow!("{e:?}"))?;
-        assert_eq!(value, decoded_value);
-        Ok(())
-    }
+    //     let mut buf = vec![];
+    //     value
+    //         .encode(&mut buf)
+    //         .map_err(|e| anyhow::anyhow!("{e:?}"))?;
+    //     tracing::info!("Encoded value: {:?}", buf);
+    //     let decoded_value = crate::model::net::v0::FlatMeterSinglePhase::decode(&*buf)
+    //         .map_err(|e| anyhow::anyhow!("{e:?}"))?;
+    //     assert_eq!(value, decoded_value);
+    //     Ok(())
+    // }
 
     #[cfg(feature = "serde-json")]
     #[cfg(feature = "std")]
@@ -841,6 +842,7 @@ mod test {
     #[cfg(feature = "std")]
     #[test_log::test]
     fn test_pcs_command() -> anyhow::Result<()> {
+        use prost::Message;
         let cmds = vec![
             vec![
                 10, 38, 18, 36, 102, 55, 52, 54, 51, 49, 48, 52, 45, 48, 54, 50, 51, 45, 52, 100,

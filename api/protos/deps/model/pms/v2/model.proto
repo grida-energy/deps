@@ -1,0 +1,259 @@
+syntax = "proto3";
+
+package deps.model.pms.v2;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+// import "google/protobuf/wrappers.proto";
+
+option java_package = "io.github.grida_energy.deps.model.pms.v2";
+
+message MinMax {
+  optional double min = 1;
+  optional double max = 2;
+}
+message Point2D {
+  double x = 1;
+  double y = 2;
+}
+
+enum NodeInputType {
+  NODE_INPUT_TYPE_UNSPECIFIED = 0;
+  NODE_INPUT_TYPE_TIME_SEC = 1;
+  NODE_INPUT_TYPE_TIME_MIN = 2;
+  NODE_INPUT_TYPE_TIME_HOUR = 3;
+  // NODE_INPUT_TYPE_TIME_SEC_SINCE_SEQUENCE = 4;
+  // NODE_INPUT_TYPE_TIME_SEC_SINCE_CHAIN = 5;
+  NODE_INPUT_TYPE_SOC = 6;
+  NODE_INPUT_TYPE_SOC_PU = 7;
+  NODE_INPUT_TYPE_TMP = 8;
+  NODE_INPUT_TYPE_PRICE = 9;
+  NODE_INPUT_TYPE_W_SRC = 10;
+  NODE_INPUT_TYPE_W_CUT = 11;
+}
+enum NodeOutputType {
+  NODE_OUTPUT_TYPE_UNSPECIFIED = 0;
+  NODE_OUTPUT_TYPE_W_CMD = 1;
+  NODE_OUTPUT_TYPE_W_ABS = 2;
+  NODE_OUTPUT_TYPE_W_MAX_POS = 3;
+  NODE_OUTPUT_TYPE_W_MAX_NEG = 4;
+  NODE_OUTPUT_TYPE_VA_CMD = 5;
+}
+enum NodeOutputBlendMode {
+  NODE_OUTPUT_BLEND_MODE_UNSPECIFIED = 0;
+  NODE_OUTPUT_BLEND_MODE_OVERRIDE = 1;
+  NODE_OUTPUT_BLEND_MODE_CLAMP_ZERO = 2;
+  NODE_OUTPUT_BLEND_MODE_ADDITION = 3;
+  NODE_OUTPUT_BLEND_MODE_SUBTRACT = 4;
+  NODE_OUTPUT_BLEND_MODE_MULTIPLY = 5;
+  NODE_OUTPUT_BLEND_MODE_MUL_MASK_ZPOS = 6;
+  NODE_OUTPUT_BLEND_MODE_OVERRIDE_SOME = 7;
+  // value != 0: add value to output
+  // value == 0: output is cleared (None)
+  NODE_OUTPUT_BLEND_MODE_FILTER_NONZERO_ADDITION = 8;
+}
+
+message SystemInput {
+  .google.protobuf.Timestamp stamp = 1;
+  optional double soc = 2;
+  optional double tmp = 3;
+  optional double price = 4;
+  optional double w_src = 5;
+  optional double w_cut = 6;
+}
+message SystemOutput {
+  optional double w_cmd = 1;
+  optional double w_max_pos = 2;
+  optional double w_max_neg = 3;
+  optional double va_abs = 4;
+}
+
+// message InputNodeKind {
+//   oneof kind {
+//     NodeInputType builtin = 1;
+//     string custom_id = 2;
+//   }
+// }
+
+message InputId {
+  string node_id = 1;
+  uint32 value_index = 2;
+}
+
+message Kits {
+  enum InequalitySymbol {
+    // always return false
+    INEQUALITY_SYMBOL_UNSPECIFIED = 0;
+    INEQUALITY_SYMBOL_LT = 1;
+    INEQUALITY_SYMBOL_LE = 2;
+    INEQUALITY_SYMBOL_EQ = 3;
+    INEQUALITY_SYMBOL_GE = 4;
+    INEQUALITY_SYMBOL_GT = 5;
+  }
+  message Inequality {
+    Kits.InequalitySymbol symbol = 1;
+    double value = 2;
+  }
+  enum BooleanOperation {
+    BOOLEAN_OPERATION_UNSPECIFIED = 0;
+    BOOLEAN_OPERATION_AND = 1;
+    BOOLEAN_OPERATION_OR = 2;
+  }
+  enum ArithmeticSymbol {
+    ARITHMETIC_SYMBOL_UNSPECIFIED = 0;
+    ARITHMETIC_SYMBOL_ADD = 1;
+    ARITHMETIC_SYMBOL_SUBTRACT = 2;
+    ARITHMETIC_SYMBOL_MULTIPLY = 3;
+    ARITHMETIC_SYMBOL_DIVIDE = 4;
+  }
+  // message Conditions {
+  //   repeated Kits.Inequality conditions = 1;
+  // }
+  // message Threshold {
+  //   double lower = 2;
+  //   double upper = 3;
+  // }
+}
+
+message Nodes {
+  message InputNode {
+    message State {
+      .google.protobuf.Value value = 1;
+    }
+    NodeInputType builtin_input = 1;
+  }
+  message OutputNode {
+    message State {
+      .google.protobuf.Value value = 1;
+    }
+    InputId input_id = 1;
+    NodeOutputType output = 2;
+    NodeOutputBlendMode blend_mode = 3;
+  }
+  message ConstantNode {
+    message State {
+      .google.protobuf.Value value = 1;
+    }
+    .google.protobuf.Value value = 1;
+  }
+  message ParameterNode {
+    message State {
+      .google.protobuf.Value value = 1;
+    }
+    .google.protobuf.Value default_value = 1;
+    string parameter_name = 2;
+  }
+
+  message RuleNode {
+    string rule_id = 1;
+    InputId input_ena = 2;
+    repeated InputId input_parameters = 3;
+  }
+
+  message CompareNode {
+    message State {
+      repeated bool compares = 1;
+      bool sum = 2;
+    }
+    // should be double
+    InputId input_id = 1;
+    Kits.BooleanOperation reduce_operation = 2;
+    repeated Kits.Inequality conditions = 3;
+  }
+
+  message BooleanReducerNode {
+    message State {
+      repeated bool result = 1;
+    }
+    Kits.BooleanOperation operation = 2;
+    repeated InputId input_ids = 1;
+  }
+
+  message ArithmeticNode {
+    message State {
+      .google.protobuf.Value value = 1;
+    }
+    InputId first_id = 1;
+    InputId second_id = 2;
+    Kits.ArithmeticSymbol operation = 3;
+  }
+
+  // message DelayNode {
+  //   message State {
+  //     repeated .google.protobuf.Value values = 1;
+  //   }
+  //   InputId input_id = 1;
+  //   uint32 delay_count = 2;
+  // }
+
+  message HysteresisNode {
+    message State {
+      bool value = 1;
+    }
+    InputId input_id = 1;
+    double lower_threshold = 2;
+    double upper_threshold = 3;
+  }
+}
+
+message NodeItem {
+  oneof kind {
+    Nodes.InputNode input_node = 1;
+    Nodes.OutputNode output_node = 2;
+    Nodes.ConstantNode constant_node = 3;
+    Nodes.ParameterNode parameter_node = 4;
+    Nodes.RuleNode rule_node = 5;
+    Nodes.CompareNode compare_node = 6;
+    Nodes.BooleanReducerNode boolean_reducer_node = 7;
+    Nodes.ArithmeticNode arithmetic_node = 8;
+    // Nodes.DelayNode delay_node = 9;
+    Nodes.HysteresisNode hysteresis_node = 10;
+  }
+
+  string meta = 16;
+}
+message NodeState {
+  oneof kind {
+    Nodes.InputNode.State input_node_state = 1;
+    Nodes.OutputNode.State output_node_state = 2;
+    Nodes.ConstantNode.State constant_node_state = 3;
+    Nodes.ParameterNode.State parameter_node_state = 4;
+    Nodes.CompareNode.State compare_node_state = 6;
+    Nodes.BooleanReducerNode.State boolean_reducer_node_state = 7;
+    Nodes.ArithmeticNode.State arithmetic_node_state = 8;
+    // Nodes.DelayNode.State delay_node_state = 9;
+    Nodes.HysteresisNode.State hysteresis_node_state = 10;
+  }
+}
+
+// message NodeItem {
+//   message State {
+//     repeated .google.protobuf.Value values = 2;
+//   }
+//   repeated InputNodeKind inputs = 1;
+//   // repeated .google.protobuf.Value values = 2;
+// }
+
+message NodeRuleConfig {
+  string name = 1;
+  string description = 2;
+  bool ena = 3;
+  map<string, NodeItem> items = 4;
+}
+
+message NodeRuleState {
+  bool ena = 1;
+  map<string, NodeState> items = 2;
+  string error = 3;
+}
+
+message RootConfig {
+  bool ena_root = 1;
+  repeated NodeRuleConfig rules = 2;
+}
+
+message RootState {
+  bool ena_root = 1;
+  repeated NodeRuleState rules = 2;
+}

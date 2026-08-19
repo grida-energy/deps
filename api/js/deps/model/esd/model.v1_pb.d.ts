@@ -1145,6 +1145,13 @@ export declare type EsdString_Warning = Message<"deps.model.esd.v1.EsdString.War
    * @generated from field: bool TEMPERATURE_IMBALANCE = 11;
    */
   TEMPERATUREIMBALANCE: boolean;
+
+  /**
+   * 설정 오류
+   *
+   * @generated from field: bool CONFIGURATION = 13;
+   */
+  CONFIGURATION: boolean;
 };
 
 /**

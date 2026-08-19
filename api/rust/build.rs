@@ -30,7 +30,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ("deps/model/esd", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/nameplate", "v0".into(), "**/*.v0.proto", &[]),
         ("deps/model/nameplate", "v1".into(), "**/*.v1.proto", &[]),
-        ("deps/model/net", "v0".into(), "**/*.v0.proto", &[]),
+        // ("deps/model/net", "v0".into(), "**/*.v0.proto", &[]),
         ("deps/model/net", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/pcs", "v0".into(), "**/*.v0.proto", &[]),
         ("deps/model/pcs", "v1".into(), "**/*.v1.proto", &[]),
@@ -53,6 +53,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // ---- v2 ----
         ("deps/model/nameplate/v2", None, "*.proto", &[]),
         ("deps/model/nameplate/rpc/v2", None, "*.proto", &[]),
+        ("deps/model/pms/v2", None, "**/*.proto", &[]),
     ];
 
     build_protos(&packages)?;

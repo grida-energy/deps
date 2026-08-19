@@ -2398,6 +2398,7 @@ TODO: 필요 여부 재확인
 | OVER_SOC_MAX | [bool](#bool) |  | 과잉 SoC |
 | VOLTAGE_IMBALANCE | [bool](#bool) |  | 전압 불균형 |
 | TEMPERATURE_IMBALANCE | [bool](#bool) |  | 온도 불균형 |
+| CONFIGURATION | [bool](#bool) |  | 설정 오류 |
 
 
 

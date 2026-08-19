@@ -1,7 +1,7 @@
 import datetime
 
-from google.protobuf import timestamp_pb2 as _timestamp_pb2
 from deps.rpc.header import v1_pb2 as _v1_pb2
+from google.protobuf import timestamp_pb2 as _timestamp_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
@@ -293,7 +293,7 @@ class EsdString(_message.Message):
         CONTACTOR_STATUS: bool
         def __init__(self, OTHER: _Optional[bool] = ..., OPEN_DOOR: _Optional[bool] = ..., STRING_ENABLED: _Optional[bool] = ..., CONTACTOR_STATUS: _Optional[bool] = ...) -> None: ...
     class Warning(_message.Message):
-        __slots__ = ("OTHER", "OVER_TEMP", "UNDER_TEMP", "OVER_CHARGE_CURRENT", "OVER_DISCHARGE_CURRENT", "OVER_VOLT", "UNDER_VOLT", "UNDER_SOC_MIN", "OVER_SOC_MAX", "VOLTAGE_IMBALANCE", "TEMPERATURE_IMBALANCE")
+        __slots__ = ("OTHER", "OVER_TEMP", "UNDER_TEMP", "OVER_CHARGE_CURRENT", "OVER_DISCHARGE_CURRENT", "OVER_VOLT", "UNDER_VOLT", "UNDER_SOC_MIN", "OVER_SOC_MAX", "VOLTAGE_IMBALANCE", "TEMPERATURE_IMBALANCE", "CONFIGURATION")
         OTHER_FIELD_NUMBER: _ClassVar[int]
         OVER_TEMP_FIELD_NUMBER: _ClassVar[int]
         UNDER_TEMP_FIELD_NUMBER: _ClassVar[int]
@@ -305,6 +305,7 @@ class EsdString(_message.Message):
         OVER_SOC_MAX_FIELD_NUMBER: _ClassVar[int]
         VOLTAGE_IMBALANCE_FIELD_NUMBER: _ClassVar[int]
         TEMPERATURE_IMBALANCE_FIELD_NUMBER: _ClassVar[int]
+        CONFIGURATION_FIELD_NUMBER: _ClassVar[int]
         OTHER: bool
         OVER_TEMP: bool
         UNDER_TEMP: bool
@@ -316,7 +317,8 @@ class EsdString(_message.Message):
         OVER_SOC_MAX: bool
         VOLTAGE_IMBALANCE: bool
         TEMPERATURE_IMBALANCE: bool
-        def __init__(self, OTHER: _Optional[bool] = ..., OVER_TEMP: _Optional[bool] = ..., UNDER_TEMP: _Optional[bool] = ..., OVER_CHARGE_CURRENT: _Optional[bool] = ..., OVER_DISCHARGE_CURRENT: _Optional[bool] = ..., OVER_VOLT: _Optional[bool] = ..., UNDER_VOLT: _Optional[bool] = ..., UNDER_SOC_MIN: _Optional[bool] = ..., OVER_SOC_MAX: _Optional[bool] = ..., VOLTAGE_IMBALANCE: _Optional[bool] = ..., TEMPERATURE_IMBALANCE: _Optional[bool] = ...) -> None: ...
+        CONFIGURATION: bool
+        def __init__(self, OTHER: _Optional[bool] = ..., OVER_TEMP: _Optional[bool] = ..., UNDER_TEMP: _Optional[bool] = ..., OVER_CHARGE_CURRENT: _Optional[bool] = ..., OVER_DISCHARGE_CURRENT: _Optional[bool] = ..., OVER_VOLT: _Optional[bool] = ..., UNDER_VOLT: _Optional[bool] = ..., UNDER_SOC_MIN: _Optional[bool] = ..., OVER_SOC_MAX: _Optional[bool] = ..., VOLTAGE_IMBALANCE: _Optional[bool] = ..., TEMPERATURE_IMBALANCE: _Optional[bool] = ..., CONFIGURATION: _Optional[bool] = ...) -> None: ...
     class Fault(_message.Message):
         __slots__ = ("OTHER", "OVER_TEMP", "UNDER_TEMP", "OVER_CHARGE_CURRENT", "OVER_DISCHARGE_CURRENT", "OVER_VOLT", "UNDER_VOLT", "UNDER_SOC_MIN", "OVER_SOC_MAX", "VOLTAGE_IMBALANCE", "TEMPERATURE_IMBALANCE", "COMMUNICATION_ERROR", "CONFIGURATION", "CONTACTOR_ERROR", "FAN_ERROR", "GROUND_FAULT")
         OTHER_FIELD_NUMBER: _ClassVar[int]

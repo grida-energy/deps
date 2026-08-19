@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package deps.model.esd.v1;
 
-option java_package = "io.github.grida_energy.deps.model.esd.v1";
-
-import "google/protobuf/timestamp.proto";
 import "deps/rpc/header.v1.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.github.grida_energy.deps.model.esd.v1";
 
 // message EsdStateIndicator {
 //   float soc = 1;
@@ -26,7 +26,7 @@ message Rpc {
     }
     message CommandResponse {
       .deps.rpc.v1.Response header = 1;
-      uint32 payload = 2; 
+      uint32 payload = 2;
     }
   }
 }
@@ -342,6 +342,9 @@ message EsdString {
     bool VOLTAGE_IMBALANCE = 10;
     // 온도 불균형
     bool TEMPERATURE_IMBALANCE = 11;
+
+    // 설정 오류
+    bool CONFIGURATION = 13;
   }
   // TODO: CURRENT_IMBALANCE 필요할지 체크
   // 고장 알람

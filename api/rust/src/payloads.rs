@@ -151,6 +151,7 @@ mod tests {
                 over_soc_max: true,
                 voltage_imbalance: true,
                 temperature_imbalance: true,
+                configuration: true,
             }
             .into(),
             fault: esd_string::Fault {
