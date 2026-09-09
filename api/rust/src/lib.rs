@@ -457,6 +457,20 @@ pub mod model {
             }
         }
     }
+    pub mod hvac {
+        pub mod v1 {
+            crate::kits::include_proto_package!("deps/model/hvac/v1", "deps.model.hvac.v1");
+        }
+        pub mod rpc {
+            pub mod v1 {
+                crate::kits::include_proto_package!(
+                    "deps/model/hvac/rpc/v1",
+                    "deps.model.hvac.rpc.v1"
+                );
+                crate::kits::impl_packet!(@measure, MeasureResponse);
+            }
+        }
+    }
     pub mod pcs {
         pub mod v0 {
             crate::kits::include_proto_package!("deps/model/pcs/v0", "deps.model.pcs.v0");

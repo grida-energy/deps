@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package deps.model.hvac.v1;
+
+option java_package = "io.github.grida_energy.deps.model.hvac.v1";
+
+message Heating {
+  enum St {
+    ST_UNSPECIFIED = 0;
+  }
+  message Status {
+    bool other = 1;
+  }
+  message Fault {
+    bool other = 1;
+  }
+  message Warning {
+    bool other = 1;
+  }
+
+  St st = 1;
+  Status status = 2;
+  Fault fault = 3;
+  Warning warning = 4;
+}
+message Ventilation {
+  enum St {
+    ST_UNSPECIFIED = 0;
+  }
+  message Status {
+    bool other = 1;
+  }
+  message Fault {
+    bool other = 1;
+  }
+  message Warning {
+    bool other = 1;
+  }
+
+  St st = 1;
+  Status status = 2;
+  Fault fault = 3;
+  Warning warning = 4;
+}
+message AirConditioning {
+  enum St {
+    ST_UNSPECIFIED = 0;
+    ST_STOP = 1;
+    ST_OPERATION = 2;
+  }
+  message Status {
+    bool other = 1;
+    bool cool = 2; // 냉방
+    bool heat = 3; // 난방
+    bool dry = 4; // 제습
+    bool fan = 5; // 송풍
+    bool auto = 6; // 자동
+  }
+  message Fault {
+    bool other = 1;
+  }
+  message Warning {
+    bool other = 1;
+  }
+
+  St st = 1;
+  Status status = 2;
+  Fault fault = 3;
+  Warning warning = 4;
+
+  // 실내온도
+  float tmp = 5;
+  // 상대습도
+  float rh = 6;
+  // 외기온도
+  optional float tmp_ex = 7;
+
+  // 지령치
+  optional float tmp_set = 10;
+  optional float rh_set = 11;
+
+  // 소모 전력
+  optional float w_import = 15;
+}
+
+message Hvac {
+  Heating heating = 1;
+  Ventilation ventilation = 2;
+  AirConditioning air_conditioning = 3;
+}
+// message Hvac {
+//   map<uint32, Heating> heatings = 1;
+//   map<uint32, Ventilation> ventilations = 2;
+//   map<uint32, AirConditioning> air_conditionings = 3;
+// }

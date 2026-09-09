@@ -1,6 +1,6 @@
 .PHONY: proto
 
-PROTO_FILES := $(shell find ../protos -name "*.v1.proto")
+PROTO_FILES := $(shell find ../protos -name "*.proto")
 
 proto:
 	protoc --python_out=src --pyi_out=src ${PROTO_FILES} -I ../protos
