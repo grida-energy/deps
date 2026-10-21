@@ -57,6 +57,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ("deps/model/nameplate/v2", None, "*.proto", &[]),
         ("deps/model/nameplate/rpc/v2", None, "*.proto", &[]),
         ("deps/model/pms/v2", None, "**/*.proto", &[]),
+        ("deps/model/cast/v2", None, "*.proto", &[]),
+        ("deps/model/cast/rpc/v2", None, "*.proto", &[]),
     ];
 
     build_protos(&packages)?;

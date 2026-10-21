@@ -91,7 +91,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.grida-energy",
         artifactId = "deps",
-        version = "1.0.8"
+        version = "1.0.9"
     )
 
     configure(KotlinJvm(

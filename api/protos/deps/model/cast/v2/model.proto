@@ -1,0 +1,247 @@
+syntax = "proto3";
+
+package deps.model.cast.v2;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.github.grida_energy.deps.model.cast.v2";
+
+// 예측 생산 구분
+enum CastKind {
+  CAST_KIND_UNSPECIFIED = 0;
+  // 중기 (~48H)
+  CAST_KIND_MIDTERM = 3;
+  // 장기 (~169H)
+  CAST_KIND_LONGTERM = 4;
+}
+// 예측 정보 헤더
+message CastHeader {
+  // 예측 시간 (예측 생성 시간)
+  .google.protobuf.Timestamp stamp_cast = 1;
+  // 예측 기준 시점 (예측 대상 시점)
+  .google.protobuf.Timestamp stamp_point = 2;
+  // 예측 선행 시간
+  .google.protobuf.Duration du_lead = 3;
+  // 예측 생산 구분
+  optional CastKind kind = 4;
+}
+// 전력거래구분
+enum TradeCode {
+  TRADE_CODE_UNSPECIFIED = 0;
+  // 전력시장
+  TRADE_CODE_POWER_MARGET = 9;
+}
+// 연료원 구분
+enum EnergySource {
+  ENERGY_SOURCE_UNSPECIFIED = 0;
+  // 태양광
+  ENERGY_SOURCE_PV = 13;
+  // 풍력
+  ENERGY_SOURCE_WIND = 16;
+}
+message KindTag {
+  // 전력거래구분
+  TradeCode trade = 1;
+  // 연료원 구분
+  EnergySource source = 2;
+}
+
+message StatisticsWh {
+  // 설비 용량
+  optional uint64 w_cap = 1;
+  // 최종 수요/발전 예측량
+  double wh_tot = 2;
+  // 수요/발전 예측 최소값
+  double wh_min = 5;
+  // 수요/발전 예측 최대값
+  double wh_max = 6;
+}
+
+message StatisticsWhEss {
+  // ESS 용량
+  uint64 w_cap = 1;
+  // ESS 충전
+  double wh_cha = 2;
+  // ESS 방전
+  double wh_discha = 3;
+}
+
+// 수요/발전 예측 데이터
+// 대응: 일간 수요 예측량 자료, 일간 신재생 예측 발전량 자료, 주간 신재생 예측 발전량 자료, 일간 연료원별 신재생 예측 발전량 자료, 주간 연료원별 신재생 예측 발전량 자료, 주간 수요 예측량 자료
+message EnergyCast {
+  // 예측 정보 헤더
+  CastHeader header = 1;
+  // 전력거래 및 연료원 구분
+  KindTag tag = 2;
+
+  // 수요/발전 예측량 (배열)
+  repeated double wh = 5;
+  // 수요/발전 예측량 요약 (최대,최소 등)
+  StatisticsWh stats_wh = 6;
+
+  // ESS 예측량
+  repeated double wh_ess = 10;
+  // ESS 예측량 요약 (충전/방전 등)
+  StatisticsWhEss stats_wh_ess = 11;
+}
+
+// 계통 운영 데이터
+message GridOperation {
+  // 기준일시
+  .google.protobuf.Timestamp stamp = 1;
+
+  // 현재 수요
+  double w_dmnd = 2;
+  // 태양광 합계
+  double w_pv = 3;
+  // 풍력 합계
+  double w_wind = 4;
+  // 신재생 합계
+  double w_tot_re = 5;
+  // 공급 능력
+  uint64 w_cap_sup = 6;
+}
+
+// 예측 출력 제어 데이터
+message GridOutputControl {
+  // 예측 정보 헤더
+  CastHeader header = 1;
+
+  // 출력 제어량 (w/m2)
+  double w_ctl = 2;
+  // 최소 출력량 (w/m2)
+  double w_min = 3;
+}
+
+enum AreaCode {
+  AREA_CODE_UNSPECIFIED = 0;
+  AREA_CODE_LAND = 1;
+  AREA_CODE_ISLAND = 9;
+}
+// 전력거래소 수요 예측 정보
+message KpxCast {
+  .google.protobuf.Timestamp stamp_trade = 1;
+  AreaCode area = 2;
+  repeated double demands = 5;
+}
+// 전력거래소 SMP 가격 정보
+message KpxSmp {
+  .google.protobuf.Timestamp stamp_trade = 1;
+  AreaCode area = 2;
+  double smp = 5;
+}
+
+// 수소 생산 시뮬레이션 운영 정보
+message HgSystemInformation {
+  // 시스템 ID
+  string id = 1;
+  // 최초 가동일시
+  .google.protobuf.Timestamp stamp_start = 2;
+  // 다음 계산 시작일시
+  .google.protobuf.Timestamp stamp_cursor = 3;
+  // 바이오가스 저장량(Nm3)
+  double nm3_bg_stored = 4;
+  // 탱크 수소 저장량(kg)
+  double kg_hg_stored = 5;
+  // 일반 운전 일일 수소 생산량(kg)
+  double kg_hg_gen_day = 6;
+  // 수소 1kg당 바이오가스 소비량(Nm3/kg)
+  double nm3_per_kg = 7;
+  // 수소 1kg당 전력 소비량 Nm3/kg)
+  double kwh_per_kg = 8;
+  // 시간당 최대 수소 생산량(kg/h)
+  double kg_per_h_max = 9;
+  // 바이오가스 보충 기준 잔량(Nm3)
+  double nm3_refill_threshold = 10;
+  // 바이오가스 보충 목표 하한(Nm3)
+  double nm3_refill_target = 11;
+  // 수소 탱크 용량(kg)
+  double kg_hg_cap = 12;
+}
+
+enum HgControlKind {
+  HG_CONTROL_KIND_UNSPECIFIED = 0;
+  // 일반 운전 복귀
+  HG_CONTROL_KIND_NORMAL = 1;
+  // 수소 생산 정지
+  HG_CONTROL_KIND_STOP = 2;
+  // 일반 생산에서 최대 생산량까지 지령률에 따라 증가
+  HG_CONTROL_KIND_PLUS_DR = 3;
+  // 일반 생산량에서 지정 비율만큼 감소
+  HG_CONTROL_KIND_REDUCE = 4;
+}
+message HgControl {
+  // 지령 ID
+  string id = 1;
+  // 지령 종류
+  HgControlKind kind = 2;
+  // 지령 비율(%)
+  optional double pct = 3;
+  // 지령 적용일시
+  .google.protobuf.Timestamp stamp_eff = 5;
+}
+// 수소 생산 운전 지령정보
+message HgControlFeedback {
+  HgControl control = 1;
+  // 지령 수신순번
+  uint64 seq_cmd = 5;
+  // 송신측 지정 적용 일시
+  .google.protobuf.Timestamp stamp_req = 6;
+  // 지령 수신일시
+  .google.protobuf.Timestamp stamp_rcv = 7;
+}
+// 운전 시간
+message DurationOperation {
+  // 부하 증가 운전 시간
+  .google.protobuf.Duration dr = 1;
+  // 정지 시간
+  .google.protobuf.Duration stop = 2;
+  // 부하 감소 운전 시간
+  .google.protobuf.Duration reduced = 3;
+}
+
+// 수소 생산 및 저장 시뮬레이션 자료
+message HgMeasure {
+  // 계산 구간 기준시각
+  .google.protobuf.Timestamp stamp_calc = 1;
+  // 계산 구간 시작일시
+  .google.protobuf.Timestamp stamp_start = 2;
+  // 계산 구간 종료일시
+  .google.protobuf.Timestamp stamp_end = 3;
+  // 계산 구간 시간
+  .google.protobuf.Duration du = 4;
+
+  // 일반 운전 수소 생산량(kg)
+  double kg_prod_norm = 5;
+  // 부하 증가 운전 수소 생산량(kg)
+  double kg_prod_dr = 6;
+  // 부하 감소 운전 수소 생산량(kg)
+  double kg_prod_reduced = 7;
+  // 총 수소 생산량(kg)
+  double kg_prod_tot = 8;
+
+  // 소비전력량(kg)
+  double kwh = 9;
+
+  // 구간 시작 바이오가스 저장량(Nm3)
+  double nm3_open = 10;
+  // 바이오가스 보충량(Nm3)
+  double nm3_refilled = 11;
+  // 바이오가스 소비량(Nm3)
+  double nm3_used = 12;
+  // 구간 종료 바이오가스 저장량(Nm3)
+  double nm3_stored = 13;
+
+  // 구간 시작 탱크 수소량(kg)
+  double kg_open = 14;
+  // 구간 종료 탱크 수소량(kg)
+  double kg_stored = 15;
+  // 탱크 교체 수소 반출량(kg)
+  double kg_shipped = 16;
+  // 수소 탱크 교체 횟수
+  uint64 n_shipped = 17;
+
+  // 운전 시간
+  DurationOperation du_op = 18;
+}

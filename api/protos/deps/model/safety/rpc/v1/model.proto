@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package deps.model.safety.rpc.v1;
+
+option java_package = "io.github.grida_energy.deps.model.safety.rpc.v1";

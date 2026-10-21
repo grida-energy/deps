@@ -406,6 +406,26 @@ pub mod model {
         pub mod v1 {
             crate::kits::include_proto_package!("deps/model/cast/v1", "deps.model.cast.v1");
         }
+        pub mod v2 {
+            crate::kits::include_proto_package!("deps/model/cast/v2", "deps.model.cast.v2");
+        }
+        pub mod rpc {
+            pub mod v2 {
+                crate::kits::include_proto_package!(
+                    "deps/model/cast/rpc/v2",
+                    "deps.model.cast.rpc.v2"
+                );
+                crate::kits::impl_packet!(@measure, DailyDemandCastResponse);
+                crate::kits::impl_packet!(@measure, DailyReGenerationCastResponse);
+                crate::kits::impl_packet!(@measure, TodayGridOperationResponse);
+                crate::kits::impl_packet!(@measure, DailyGridOutputControlCastResponse);
+                crate::kits::impl_packet!(@measure, HgSystemResponse);
+                crate::kits::impl_packet!(@measure, HgControlResponse);
+                crate::kits::impl_packet!(@measure, HgMeasureResponse);
+                crate::kits::impl_packet!(@request, HgCommandRequest, alloc::vec::Vec<crate::model::cast::v2::HgControl>);
+                crate::kits::impl_packet!(@response, HgCommandResponse, u32);
+            }
+        }
     }
     pub mod esd {
         pub mod v0 {

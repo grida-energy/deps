@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package deps.model.cast.rpc.v2;
+
+import "deps/model/cast/v2/model.proto";
+import "deps/rpc/header.v1.proto";
+import "google/protobuf/timestamp.proto";
+
+option java_package = "io.github.grida_energy.deps.model.cast.rpc.v2";
+
+// 일간 수요 예측량 자료
+message DailyDemandCastResponse {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.EnergyCast payload = 2;
+}
+// 일간 신재생 예측 발전량 자료
+message DailyReGenerationCastResponse {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.EnergyCast payload = 2;
+}
+// 오늘 제주 계통 운영 정보
+message TodayGridOperationResponse {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.GridOperation payload = 2;
+}
+// 제주전체 예측 출력제어량(일간)
+message DailyGridOutputControlCastResponse {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.GridOutputControl payload = 2;
+}
+// 수소 생산 시뮬레이션 운영 정보
+message HgSystemResponse {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.HgSystemInformation payload = 2;
+}
+// 수소 생산 운전 지령정보
+message HgControlResponse {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.HgControlFeedback payload = 2;
+}
+
+// 운전 지령 요청
+message HgCommandRequest {
+  .deps.rpc.v1.Request header = 1;
+  repeated .deps.model.cast.v2.HgControl payload = 2;
+}
+// 운전 지령 응답
+message HgCommandResponse {
+  .deps.rpc.v1.Response header = 1;
+  uint32 payload = 2;
+}
+
+// 수소 생산 및 저장 시뮬레이션 자료
+message HgMeasureResponse {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.HgMeasure payload = 2;
+}
+
+// -------
+
+// 주간 신재생 예측 발전량 자료
+message WeekilyReGenerationCast {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.EnergyCast payload = 2;
+}
+// 주간 연료원별 신재생 예측 발전량 자료
+message DailyReGenerationCastPerFuel {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.EnergyCast payload = 2;
+}
+// 주간 수요 예측량 자료
+message WeeklyDemandCast {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.EnergyCast payload = 2;
+}
+// 전력거래소 수요 예측 정보
+message KpxCast {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.v2.KpxCast payload = 2;
+}
+// 전력거래소 SMP 가격 정보
+message KpxSmp {
+  .google.protobuf.Timestamp timestamp = 1;
+  .deps.model.cast.rpc.v2.KpxSmp payload = 2;
+}
