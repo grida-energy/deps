@@ -163,43 +163,67 @@ pub mod kits {
                 })
         }
 
+        pub fn with_suffix<'a>(&'a self, suffixes: impl IntoIterator<Item = &'a str>) -> String {
+            use itertools::Itertools;
+            // alloc::format!("{}/{}", self.0.as_ref(), suffix)
+            [self.0.as_ref()]
+                .into_iter()
+                .chain(suffixes.into_iter())
+                .join("/")
+        }
+
         pub fn any(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), "#")
+            // alloc::format!("{}/{}", self.0.as_ref(), "#")
+            self.with_suffix(["#"])
         }
         pub fn measure(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), Self::MEASURE)
+            // alloc::format!("{}/{}", self.0.as_ref(), Self::MEASURE)
+            self.with_suffix([Self::MEASURE])
         }
         pub fn command(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), Self::COMMAND)
+            // alloc::format!("{}/{}", self.0.as_ref(), Self::COMMAND)
+            self.with_suffix([Self::COMMAND])
         }
         pub fn vnd_param(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), Self::VND_PARAM)
+            // alloc::format!("{}/{}", self.0.as_ref(), Self::VND_PARAM)
+            self.with_suffix([Self::VND_PARAM])
         }
         pub fn vnd_alarm(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), Self::VND_ALARM)
+            // alloc::format!("{}/{}", self.0.as_ref(), Self::VND_ALARM)
+            self.with_suffix([Self::VND_ALARM])
         }
         #[cfg(feature = "std")]
         pub fn alloc_rpc_resp(&self) -> String {
-            alloc::format!(
-                "{}/{}/{}",
-                self.0.as_ref(),
-                Self::RPC_RESP,
-                uuid::Uuid::new_v4()
-            )
+            // alloc::format!(
+            //     "{}/{}/{}",
+            //     self.0.as_ref(),
+            //     Self::RPC_RESP,
+            //     uuid::Uuid::new_v4()
+            // )
+            self.rpc_response(&uuid::Uuid::new_v4().to_string())
         }
+        pub fn rpc_response(&self, id: &str) -> String {
+            // alloc::format!("{}/{}/{}", self.0.as_ref(), Self::RPC_RESP, id)
+            self.with_suffix([Self::RPC_RESP, id])
+        }
+
         pub fn rpc_query(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), Self::RPC_QUERY)
+            // alloc::format!("{}/{}", self.0.as_ref(), Self::RPC_QUERY)
+            self.with_suffix([Self::RPC_QUERY])
         }
         pub fn rpc_nameplate(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), Self::RPC_NAMEPLATE)
+            // alloc::format!("{}/{}", self.0.as_ref(), Self::RPC_NAMEPLATE)
+            self.with_suffix([Self::RPC_NAMEPLATE])
         }
 
         // ---- will be deprecated ---- (use rpc_nameplate instead)
         pub fn vnd_alarm_meta(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), Self::VND_ALARM_META)
+            // alloc::format!("{}/{}", self.0.as_ref(), Self::VND_ALARM_META)
+            self.with_suffix([Self::VND_ALARM_META])
         }
         pub fn vnd_param_meta(&self) -> String {
-            alloc::format!("{}/{}", self.0.as_ref(), Self::VND_PARAM_META)
+            // alloc::format!("{}/{}", self.0.as_ref(), Self::VND_PARAM_META)
+            self.with_suffix([Self::VND_PARAM_META])
         }
     }
     #[cfg(test)]
