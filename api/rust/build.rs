@@ -30,7 +30,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ("deps/model/esd", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/nameplate", "v0".into(), "**/*.v0.proto", &[]),
         ("deps/model/nameplate", "v1".into(), "**/*.v1.proto", &[]),
-        // ("deps/model/net", "v0".into(), "**/*.v0.proto", &[]),
         ("deps/model/net", "v1".into(), "**/*.v1.proto", &[]),
         ("deps/model/pcs", "v0".into(), "**/*.v0.proto", &[]),
         ("deps/model/pcs", "v1".into(), "**/*.v1.proto", &[]),
@@ -78,6 +77,16 @@ pub fn build_protos(packages: &[Package]) -> Result<(), Box<dyn core::error::Err
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
     let well_known_types_path = "::pbs::wkt";
 
+    let descriptor_path = out_dir.join("proto_descriptor.bin");
+    let mut proto_files: Vec<String> = vec![];
+
+    let mut prost_conf = prost_build::Config::new();
+    prost_conf.btree_map(&["."]);
+    prost_conf
+        .out_dir(&*out_dir)
+        .compile_well_known_types()
+        .extern_path(".google.protobuf", well_known_types_path);
+
     for &packgage_item in packages.into_iter() {
         let (pivot_dir, sub_package, glob_pattern, deps) = packgage_item;
 
@@ -90,63 +99,73 @@ pub fn build_protos(packages: &[Package]) -> Result<(), Box<dyn core::error::Err
         };
         let package_out_dir = out_dir.join(package_sub_dir);
         std::fs::create_dir_all(&*package_out_dir).unwrap();
-        let descriptor_path = package_out_dir.join("proto_descriptor.bin");
+        // let descriptor_path = package_out_dir.join("proto_descriptor.bin");
 
-        let proto_files: Vec<_> =
+        proto_files.extend(
             glob::glob(&format!("{}/{}", proto_file_path.display(), glob_pattern))
                 .expect("fail to read glob pattern")
                 .filter_map(Result::ok)
-                .map(|path| path.to_string_lossy().to_string())
-                .collect();
-        if proto_files.is_empty() {
-            continue;
-        }
-
-        for proto_file in &proto_files {
-            println!("cargo:rerun-if-changed={}", proto_file);
-        }
-
-        let mut prost_conf = prost_build::Config::new();
-        prost_conf.btree_map(&["."]);
-        // prost_conf.enum_attribute(".", "#[derive(derive_more::From)]");
-        // .type_attribute(
-        //     ".",
-        //     "#[cfg_attr(feature = \"serde\", derive(serde::Serialize,serde::Deserialize))]",
-        // );
-        prost_conf
-            .out_dir(&*package_out_dir)
-            .file_descriptor_set_path(&descriptor_path)
-            .compile_well_known_types()
-            .extern_path(".google.protobuf", well_known_types_path);
+                .map(|path| path.to_string_lossy().to_string()),
+        );
         for dep in deps {
             let ext_path = format!(".{}", dep);
             let rust_path = format!("crate::{}", dep);
             prost_conf.extern_path(&*ext_path, &*rust_path);
-            // pbjson_conf.extern_path(&*ext_path, &*rust_path);
         }
-        prost_conf.compile_protos(&proto_files, &[&*root])?;
+        if proto_files.is_empty() {
+            continue;
+        }
+    }
 
-        #[cfg(feature = "serde-json")]
-        {
-            // let package_ext = format!(".eps.{}", package_dir.replace("/", "."));
+    for proto_file in &proto_files {
+        println!("cargo:rerun-if-changed={}", proto_file);
+    }
+
+    #[cfg(not(feature = "reflect-pb"))]
+    prost_conf.file_descriptor_set_path(&descriptor_path);
+
+    #[cfg(feature = "reflect-pb")]
+    {
+        prost_reflect_build::Builder::new()
+            .file_descriptor_set_path(&descriptor_path)
+            .descriptor_pool("crate::DESCRIPTOR_POOL")
+            .configure(&mut prost_conf, &proto_files, &[&*root])?;
+    }
+
+    prost_conf.compile_protos(&proto_files, &[&*root])?;
+
+    // for &packgage_item in packages.into_iter() {
+    //     let (pivot_dir, _sub_package, _glob_pattern, deps) = packgage_item;
+    #[cfg(feature = "serde-json")]
+    {
+        let descriptor_set = std::fs::read(&descriptor_path).map_err(|_e| {
+            Box::new(std::io::Error::other("fail to read descriptor_path"))
+                as Box<dyn std::error::Error>
+        })?;
+        // let package_ext = format!(".eps.{}", package_dir.replace("/", "."));
+        let mut pbjson_conf = pbjson_build::Builder::new();
+        let mut package_paths: Vec<String> = vec![];
+
+        for &packgage_item in packages.into_iter() {
+            let (pivot_dir, _sub_package, _glob_pattern, deps) = packgage_item;
             let pb_package = pivot_dir.replace("/", ".").replace("-", "_");
             let package_ext = format!(".{}", pb_package);
-            let descriptor_set = std::fs::read(descriptor_path)?;
-            let mut pbjson_conf = pbjson_build::Builder::new();
-            pbjson_conf
-                .btree_map(["."])
-                .register_descriptors(&descriptor_set)?
-                .ignore_unknown_fields()
-                .out_dir(&*package_out_dir);
+            package_paths.push(package_ext);
+
             for dep in deps {
                 let ext_path = format!(".{}", dep);
                 let rust_path = format!("crate::{}", dep);
-                // prost_conf.extern_path(&*ext_path, &*rust_path);
                 pbjson_conf.extern_path(&*ext_path, &*rust_path);
             }
-            pbjson_conf.build(&[&*package_ext])?;
         }
+        pbjson_conf
+            .btree_map(["."])
+            .register_descriptors(&descriptor_set)?
+            .ignore_unknown_fields();
+        // .out_dir(&*out_dir);
+        pbjson_conf.build(package_paths.as_slice())?;
     }
+    // }
 
     // prost_build::compile_protos(&["protos/meter/compact.proto"], &["protos/"])?;
     Ok(())

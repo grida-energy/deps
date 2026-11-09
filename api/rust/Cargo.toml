@@ -1,6 +1,6 @@
 [package]
 name = "deps"
-version = "1.0.9"
+version = "1.0.10"
 edition = "2024"
 license = "MIT"
 
@@ -20,17 +20,20 @@ serde = { version = "1.0.229", default-features = false, features = [
 derive_more = { version = "2.1.1", default-features = false, features = [
 	"from",
 ] }
-uuid = { version = "1.29.0", default-features = false, features = [
+uuid = { version = "1.29.2", default-features = false, features = [
 	"v4",
 ], optional = true }
 itertools = { version = "0.15.0", default-features = false, features = [
 	"use_alloc",
 ] }
+once_cell = { version = "1.21.4", optional = true }
+prost-reflect = { version = "0.16.5", optional = true }
 
 
 [build-dependencies]
 prost-build = "0.14.4"
 pbjson-build = "0.9.0"
+prost-reflect-build = "0.16.1"
 glob = "0.3.4"
 
 [dev-dependencies]
@@ -49,3 +52,4 @@ serde = ["dep:serde"]
 serde-json = ["dep:pbjson", "dep:serde", "std", "pbs/serde-json"]
 tracing-log = []
 pub-deps = []
+reflect-pb = ["dep:once_cell", "prost-reflect/derive"]
